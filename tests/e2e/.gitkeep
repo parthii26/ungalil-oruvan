@@ -1,0 +1,1 @@
+# Playwright journeys belong here in CI. Stage 1 unit tests cover pricing, coupons, authz, idempotency.

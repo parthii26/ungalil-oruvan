@@ -1,0 +1,67 @@
+import type { StoryKind, StoryMatchRule } from "./types";
+
+/** Homepage signature is a field crop, never honey. Honey uses FLOWER_TO_HONEY later. */
+export const HOMEPAGE_STORY_KIND: StoryKind = "CROP_GROWTH";
+
+export const STORY_RULES: Record<StoryKind, StoryMatchRule> = {
+  CROP_GROWTH: {
+    kind: "CROP_GROWTH",
+    cropName: "Rice",
+    categorySlugs: ["organic-grains", "millets"],
+    include: ["rice", "paddy", "ponni", "nel", "millet", "ragi", "foxtail", "grain"],
+    exclude: ["honey", "hive", "bee", "oil", "tea", "cashew", "almond", "jaggery"],
+    preferSlugs: ["organic-ponni-rice", "organic-foxtail-millet", "organic-little-millet", "organic-finger-millet-ragi"],
+    grainImage: "/images/growth/rice-08-grain.webp",
+    fallbackHref: "/category/organic-grains",
+    fallbackLabel: "Explore our organic harvest",
+    tagline: "From the same paddy.",
+  },
+  FLOWER_TO_HONEY: {
+    kind: "FLOWER_TO_HONEY",
+    cropName: "Honey",
+    categorySlugs: ["organic-honey"],
+    include: ["honey"],
+    exclude: [],
+    preferSlugs: ["organic-raw-forest-honey"],
+    grainImage: "/images/honey.jpg",
+    fallbackHref: "/category/organic-honey",
+    fallbackLabel: "Explore honey",
+    tagline: "Flower to hive. A later editorial sequence.",
+  },
+  SEED_TO_OIL: {
+    kind: "SEED_TO_OIL",
+    cropName: "Groundnut",
+    categorySlugs: ["cold-pressed-oils"],
+    include: ["oil", "groundnut", "sesame"],
+    exclude: ["honey"],
+    preferSlugs: ["cold-pressed-groundnut-oil", "cold-pressed-sesame-oil"],
+    grainImage: "/images/oil.jpg",
+    fallbackHref: "/category/cold-pressed-oils",
+    fallbackLabel: "Explore oils",
+    tagline: "Seed pressed, not blended.",
+  },
+  ROOT_TO_SPICE: {
+    kind: "ROOT_TO_SPICE",
+    cropName: "Turmeric",
+    categorySlugs: ["spices"],
+    include: ["turmeric", "pepper", "spice"],
+    exclude: ["honey"],
+    preferSlugs: ["organic-turmeric-powder"],
+    grainImage: "/images/turmeric.jpg",
+    fallbackHref: "/category/spices",
+    fallbackLabel: "Explore spices",
+    tagline: "Rhizome to powder.",
+  },
+  HERB_TO_PRODUCT: {
+    kind: "HERB_TO_PRODUCT",
+    cropName: "Herb",
+    categorySlugs: ["herbal-products"],
+    include: ["tea", "herb"],
+    exclude: ["honey"],
+    preferSlugs: ["organic-herbal-evening-tea"],
+    grainImage: "/images/tea.jpg",
+    fallbackHref: "/category/herbal-products",
+    fallbackLabel: "Explore herbs",
+    tagline: "Leaf to cup.",
+  },
+};
