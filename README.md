@@ -24,6 +24,16 @@ npm install
 npm run dev -- --hostname 0.0.0.0 --port 3000
 ```
 
+## Netlify
+
+Connect the GitHub repo to Netlify (Next.js is auto-detected). Set:
+
+- `AUTH_SECRET` — long random string
+- `NEXT_PUBLIC_SITE_URL` — `https://your-site.netlify.app`
+- `NODE_VERSION` — `20` (already in `netlify.toml`)
+
+The catalog is seeded in memory on first request. Cart and admin writes on the free serverless filesystem are ephemeral until Supabase is connected.
+
 ## Production build
 
 ```bash

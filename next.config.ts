@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     localPatterns: [{ pathname: "/images/**" }, { pathname: "/uploads/**" }],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;

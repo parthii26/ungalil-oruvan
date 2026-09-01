@@ -3,7 +3,16 @@ import path from "path";
 import { createSeed } from "./seed";
 import type { Database } from "./types";
 
-const DATA_DIR = path.join(process.cwd(), "data");
+function isServerless(): boolean {
+  return Boolean(
+    process.env.NETLIFY ||
+      process.env.AWS_LAMBDA_FUNCTION_NAME ||
+      process.env.LAMBDA_TASK_ROOT ||
+      process.env.VERCEL,
+  );
+}
+
+const DATA_DIR = isServerless() ? path.join("/tmp", "ungalil-oruvan") : path.join(process.cwd(), "data");
 const DB_PATH = path.join(DATA_DIR, "db.json");
 
 let cache: Database | null = null;
@@ -31,9 +40,13 @@ export function loadDb(): Database {
 }
 
 export function persist(db: Database) {
-  ensureDir();
   cache = db;
-  writeFileSync(DB_PATH, JSON.stringify(db, null, 2), "utf8");
+  try {
+    ensureDir();
+    writeFileSync(DB_PATH, JSON.stringify(db, null, 2), "utf8");
+  } catch {
+    // Serverless filesystems may be read-only outside /tmp; keep the in-memory copy.
+  }
 }
 
 export function mutate<T>(fn: (db: Database) => T): T {

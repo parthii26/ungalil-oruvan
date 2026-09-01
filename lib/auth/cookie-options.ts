@@ -33,7 +33,7 @@ export function requestIsHttps(headersList: Headers): boolean {
   const proto = headersList.get("x-forwarded-proto")?.split(",")[0].trim();
   if (proto === "https") return true;
   const host = forwardedHost(headersList);
-  return host.includes("e2b.app") || host.includes("e2b.dev");
+  return host.includes("e2b.app") || host.includes("e2b.dev") || host.includes("netlify.app");
 }
 
 export function safeInternalPath(value: string | null | undefined, fallback: string): string {
