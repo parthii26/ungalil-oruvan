@@ -18,22 +18,31 @@ export function CheckoutForm({
   const key = useMemo(() => crypto.randomUUID(), []);
 
   return (
-    <form action={action} className="mt-10 space-y-8">
+    <form action={action} className="mt-8 md:mt-10 space-y-8">
       <input type="hidden" name="idempotency_key" value={key} />
       <section>
-        <h2 className="font-serif text-2xl">1 · Customer</h2>
+        <h2 className="font-serif text-xl md:text-2xl">1 · Customer</h2>
         <label className="label mt-4" htmlFor="email">
           Email
         </label>
-        <input id="email" name="email" type="email" required defaultValue={email} className="input" />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          defaultValue={email}
+          className="input"
+          autoComplete="email"
+          inputMode="email"
+        />
       </section>
 
       <section>
-        <h2 className="font-serif text-2xl">2 · Address</h2>
+        <h2 className="font-serif text-xl md:text-2xl">2 · Address</h2>
         {addresses.length > 0 && (
           <div className="mt-4 space-y-2">
             {addresses.map((a) => (
-              <label key={a.id} className="flex gap-3 border border-line p-3">
+              <label key={a.id} className="flex min-h-12 items-center gap-3 border border-line bg-warmwhite p-3 text-sm">
                 <input type="radio" name="address_id" value={a.id} defaultChecked={a.is_default} />
                 <span>
                   {a.name}, {a.line1}, {a.city} {a.postal_code}
@@ -43,30 +52,30 @@ export function CheckoutForm({
             <p className="text-xs text-ink-soft">Or enter a new address below (used if no saved address is selected).</p>
           </div>
         )}
-        <div className="mt-4 grid md:grid-cols-2 gap-3">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <div>
             <label className="label" htmlFor="name">
               Name
             </label>
-            <input id="name" name="name" className="input" />
+            <input id="name" name="name" className="input" autoComplete="name" />
           </div>
           <div>
             <label className="label" htmlFor="phone">
               Phone
             </label>
-            <input id="phone" name="phone" className="input" />
+            <input id="phone" name="phone" className="input" autoComplete="tel" inputMode="tel" maxLength={15} />
           </div>
-          <div className="md:col-span-2">
+          <div className="sm:col-span-2">
             <label className="label" htmlFor="line1">
               Address line 1
             </label>
-            <input id="line1" name="line1" className="input" />
+            <input id="line1" name="line1" className="input" autoComplete="address-line1" />
           </div>
           <div>
             <label className="label" htmlFor="line2">
               Line 2
             </label>
-            <input id="line2" name="line2" className="input" />
+            <input id="line2" name="line2" className="input" autoComplete="address-line2" />
           </div>
           <div>
             <label className="label" htmlFor="landmark">
@@ -78,46 +87,65 @@ export function CheckoutForm({
             <label className="label" htmlFor="city">
               City
             </label>
-            <input id="city" name="city" className="input" />
+            <input id="city" name="city" className="input" autoComplete="address-level2" />
           </div>
           <div>
             <label className="label" htmlFor="state">
               State
             </label>
-            <input id="state" name="state" className="input" />
+            <input id="state" name="state" className="input" autoComplete="address-level1" />
           </div>
-          <div>
+          <div className="sm:col-span-2 sm:max-w-48">
             <label className="label" htmlFor="postal_code">
               PIN
             </label>
-            <input id="postal_code" name="postal_code" className="input" />
+            <input
+              id="postal_code"
+              name="postal_code"
+              className="input"
+              autoComplete="postal-code"
+              inputMode="numeric"
+              maxLength={6}
+            />
           </div>
         </div>
       </section>
 
       <section>
-        <h2 className="font-serif text-2xl">3 · Notes</h2>
+        <h2 className="font-serif text-xl md:text-2xl">3 · Notes</h2>
         <label className="label mt-4" htmlFor="coupon_code">
           Coupon
         </label>
-        <input id="coupon_code" name="coupon_code" className="input" placeholder="WELCOME10" />
+        <input
+          id="coupon_code"
+          name="coupon_code"
+          className="input uppercase"
+          placeholder="WELCOME10"
+          autoComplete="off"
+          autoCapitalize="characters"
+          enterKeyHint="next"
+        />
         <label className="label mt-4" htmlFor="notes">
           Order notes
         </label>
-        <textarea id="notes" name="notes" className="input min-h-24" />
+        <textarea id="notes" name="notes" className="input" enterKeyHint="done" />
       </section>
 
       <section className="border border-dashed border-line p-5">
-        <h2 className="font-serif text-2xl">4 · Payment</h2>
+        <h2 className="font-serif text-xl md:text-2xl">4 · Payment</h2>
         <p className="mt-2 text-sm text-ink-soft">
           Razorpay is not configured. Placing the order will <strong>not</strong> charge a card and will leave the order in{" "}
           <em>payment pending</em>.
         </p>
       </section>
 
-      {state?.error && <p className="text-danger text-sm">{state.error}</p>}
+      {state?.error && (
+        <p className="text-danger text-sm" role="alert">
+          {state.error}
+        </p>
+      )}
 
-      <button className="btn btn-primary" disabled={pending}>
+      <button className="btn btn-primary w-full md:w-auto" disabled={pending}>
         {pending ? "Creating order…" : "Place pending order"}
       </button>
     </form>

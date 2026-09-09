@@ -4,15 +4,15 @@ import * as productsRepo from "@/lib/repositories/products";
 import { HOMEPAGE_STORY_KIND, STORY_RULES } from "@/lib/story/config";
 import type { GrowthStoryView, StoryKind, StoryMatchRule } from "@/lib/story/types";
 
-function haystack(name: string, slug: string, origin: string | null): string {
-  return `${name} ${slug} ${origin ?? ""}`.toLowerCase();
+function haystack(name: string, slug: string): string {
+  return `${name} ${slug}`.toLowerCase();
 }
 
 export function productFitsStory(
   rule: StoryMatchRule,
-  input: { name: string; slug: string; origin: string | null; categorySlug: string | null },
+  input: { name: string; slug: string; categorySlug: string | null },
 ): boolean {
-  const text = haystack(input.name, input.slug, input.origin);
+  const text = haystack(input.name, input.slug);
   if (rule.exclude.some((w) => text.includes(w))) return false;
   const inCategory = Boolean(input.categorySlug && rule.categorySlugs.includes(input.categorySlug));
   const inName = rule.include.some((w) => text.includes(w));
@@ -34,7 +34,6 @@ export function resolveGrowthStory(kind: StoryKind = HOMEPAGE_STORY_KIND): Growt
         !productFitsStory(rule, {
           name: product.name,
           slug: product.slug,
-          origin: product.origin,
           categorySlug,
         })
       ) {
@@ -79,7 +78,6 @@ export function resolveGrowthStory(kind: StoryKind = HOMEPAGE_STORY_KIND): Growt
       slug: match.product.slug,
       image: match.image ?? rule.grainImage,
       price: formatPrice(match.variant.price_paise),
-      origin: match.product.origin,
     },
   };
 }

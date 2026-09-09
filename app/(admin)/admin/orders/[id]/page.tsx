@@ -16,17 +16,17 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
   const { order, items, events } = data;
   return (
     <div>
-      <h1 className="font-serif text-4xl">{order.order_number}</h1>
+      <h1 className="font-serif text-3xl md:text-4xl">{order.order_number}</h1>
       <p className="mt-2">
         {order.status.replaceAll("_", " ")} · {order.email}
       </p>
-      <ul className="mt-8 divide-y divide-line">
+      <ul className="mt-6 md:mt-8 divide-y divide-line border-b border-line">
         {items.map((i) => (
-          <li key={i.id} className="py-3 flex justify-between text-sm">
-            <span>
+          <li key={i.id} className="py-3 flex justify-between gap-3 text-sm">
+            <span className="min-w-0">
               {i.product_name} · {i.variant_title} × {i.quantity}
             </span>
-            <span>{formatPrice(i.line_total_paise)}</span>
+            <span className="whitespace-nowrap">{formatPrice(i.line_total_paise)}</span>
           </li>
         ))}
       </ul>

@@ -20,8 +20,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <AdminNav />
       </aside>
       <div className="min-w-0">
-        <header className="h-14 border-b border-black/10 bg-white flex items-center justify-between px-4 md:px-6">
-          <div className="flex items-center gap-3">
+        <header className="min-h-14 border-b border-black/10 bg-white flex items-center justify-between gap-2 px-4 md:px-6 py-1">
+          <div className="flex min-w-0 items-center gap-2 md:gap-3">
             <AdminNav mobile />
             <input
               className="hidden sm:block w-56 border border-black/10 px-3 py-1.5 text-sm"
@@ -29,14 +29,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               disabled
             />
           </div>
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-ink-soft hidden sm:inline">Notifications — not configured</span>
-            <span className="font-medium">{session.name}</span>
-            <Link href="/" className="text-ink-soft">
+          <div className="flex items-center gap-3 md:gap-4 text-sm">
+            <span className="text-ink-soft hidden lg:inline">Notifications — not configured</span>
+            <span className="font-medium hidden sm:inline truncate max-w-32 md:max-w-none">{session.name}</span>
+            <Link href="/" className="text-ink-soft px-1">
               Store
             </Link>
             <form action="/api/auth/logout?admin=1" method="post">
-              <button type="submit" className="text-[0.7rem] tracking-widest uppercase">
+              <button type="submit" className="text-[0.7rem] tracking-widest uppercase px-1">
                 Sign out
               </button>
             </form>

@@ -26,64 +26,62 @@ export async function StorefrontFooter() {
           );
         })}
       </svg>
-      <div className="container-page relative py-20 grid gap-10 md:grid-cols-4">
+      <div className="container-page relative py-12 md:py-20 grid gap-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <p className="font-serif text-3xl">{settings.brand_name}</p>
           <p className="mt-3 font-tamil text-turmeric">{settings.tamil_tagline}</p>
           <p className="mt-1 text-[0.7rem] tracking-[0.16em] uppercase text-cream/60">{settings.english_tagline}</p>
           <p className="mt-4 text-sm text-cream/70 leading-relaxed">{settings.footer_text}</p>
         </div>
-        <div>
+        <nav aria-label="Footer shop">
           <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50 mb-3">Shop</p>
-          <ul className="space-y-2 text-sm">
+          <ul className="text-sm">
             {cats.map((c) => (
               <li key={c.id}>
-                <Link href={`/category/${c.slug}`} className="hover:text-turmeric">
+                <Link href={`/category/${c.slug}`} className="flex min-h-11 items-center hover:text-turmeric">
                   {c.name}
                 </Link>
               </li>
             ))}
           </ul>
-        </div>
-        <div>
+        </nav>
+        <nav aria-label="Footer visit">
           <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50 mb-3">Visit</p>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link href="/about">About</Link>
-            </li>
-            <li>
-              <Link href="/blog">Journal</Link>
-            </li>
-            <li>
-              <Link href="/faq">FAQ</Link>
-            </li>
-            <li>
-              <Link href="/contact">Contact</Link>
-            </li>
-            <li>
-              <Link href="/policies/shipping">Shipping</Link>
-            </li>
-            <li>
-              <Link href="/policies/privacy">Privacy</Link>
-            </li>
-            <li>
-              <Link href="/policies/terms">Terms</Link>
-            </li>
+          <ul className="text-sm">
+            {[
+              ["/about", "About"],
+              ["/blog", "Journal"],
+              ["/faq", "FAQ"],
+              ["/contact", "Contact"],
+              ["/policies/shipping", "Shipping"],
+              ["/policies/privacy", "Privacy"],
+              ["/policies/terms", "Terms"],
+            ].map(([href, label]) => (
+              <li key={href}>
+                <Link href={href} className="flex min-h-11 items-center hover:text-turmeric">
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
-        </div>
+        </nav>
         <div>
           <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50 mb-3">Studio</p>
-          <p className="text-sm text-cream/70 leading-relaxed">
-            {settings.address}
-            <br />
+          {settings.address && (
+            <p className="text-sm text-cream/70 leading-relaxed">{settings.address}</p>
+          )}
+          <a href={`mailto:${settings.contact_email}`} className="mt-1 flex min-h-11 items-center text-sm text-cream/70 hover:text-turmeric">
             {settings.contact_email}
-            <br />
+          </a>
+          <a href={`tel:${settings.contact_phone.replace(/\s+/g, "")}`} className="flex min-h-11 items-center text-sm text-cream/70 hover:text-turmeric">
             {settings.contact_phone}
-          </p>
-          <p className="mt-6 text-xs text-cream/45">Newsletter is a Stage 2 integration (Resend).</p>
+          </a>
+          <p className="mt-4 text-xs text-cream/45">Newsletter is a Stage 2 integration (Resend).</p>
         </div>
       </div>
-      <div className="container-page relative py-6 border-t border-cream/10 text-xs text-cream/45 flex flex-wrap justify-between gap-2">
+      <div
+        className="container-page relative pt-6 border-t border-cream/10 text-xs text-cream/45 flex flex-wrap justify-between gap-2 pb-[calc(var(--bnav-h)+env(safe-area-inset-bottom,0px)+1.5rem)] md:pb-6"
+      >
         <p>
           © {new Date().getFullYear()} {settings.brand_name}. Stage 1 development store.
         </p>

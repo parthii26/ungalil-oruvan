@@ -13,15 +13,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const post = loadDb().blog_posts.find((p) => p.slug === slug && p.published);
   if (!post) notFound();
   return (
-    <article className="container-page py-16 max-w-2xl">
+    <article className="container-page py-10 md:py-16 max-w-2xl">
       <p className="label">Journal</p>
-      <h1 className="font-serif text-5xl mt-2">{post.title}</h1>
+      <h1 className="font-serif text-3xl md:text-5xl mt-2 text-balance">{post.title}</h1>
       <p className="mt-4 text-ink-soft">{post.excerpt}</p>
       {post.cover_path && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={post.cover_path} alt="" className="mt-8 w-full" />
+        <img src={post.cover_path} alt="" loading="lazy" decoding="async" className="mt-6 md:mt-8 aspect-[16/9] w-full bg-paper-deep object-cover" />
       )}
-      <p className="mt-8 leading-relaxed">{post.body}</p>
+      <p className="mt-6 md:mt-8 leading-relaxed">{post.body}</p>
     </article>
   );
 }

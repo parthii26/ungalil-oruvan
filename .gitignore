@@ -36,6 +36,7 @@ yarn-error.log*
 
 # local file store — regenerated from lib/db/seed.ts
 /data/db.json
+/public/uploads/
 
 # vercel
 .vercel

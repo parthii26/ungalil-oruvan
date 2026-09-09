@@ -8,9 +8,9 @@ export function WishlistButtons({ variantId }: { variantId: string }) {
   const [pending, start] = useTransition();
   const router = useRouter();
   return (
-    <div className="flex gap-2">
+    <div className="grid gap-2 sm:flex sm:shrink-0">
       <button
-        className="btn btn-primary !py-2"
+        className="btn btn-primary w-full sm:w-auto"
         disabled={pending}
         onClick={() =>
           start(async () => {
@@ -22,7 +22,7 @@ export function WishlistButtons({ variantId }: { variantId: string }) {
         Move to cart
       </button>
       <button
-        className="btn btn-ghost !py-2"
+        className="btn btn-ghost w-full sm:w-auto"
         disabled={pending}
         onClick={() =>
           start(async () => {

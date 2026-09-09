@@ -11,25 +11,33 @@ export function RegisterForm() {
         <label className="label" htmlFor="full_name">
           Name
         </label>
-        <input id="full_name" name="full_name" required className="input" />
+        <input id="full_name" name="full_name" required className="input" autoComplete="name" />
       </div>
       <div>
         <label className="label" htmlFor="email">
           Email
         </label>
-        <input id="email" name="email" type="email" required className="input" />
+        <input id="email" name="email" type="email" required className="input" autoComplete="email" inputMode="email" />
       </div>
       <div>
         <label className="label" htmlFor="phone">
           Phone
         </label>
-        <input id="phone" name="phone" className="input" />
+        <input id="phone" name="phone" className="input" autoComplete="tel" inputMode="tel" maxLength={15} />
       </div>
       <div>
         <label className="label" htmlFor="password">
           Password
         </label>
-        <input id="password" name="password" type="password" required minLength={8} className="input" />
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          minLength={8}
+          className="input"
+          autoComplete="new-password"
+        />
       </div>
       {state?.error && <p className="text-sm text-danger">{state.error}</p>}
       <button className="btn btn-primary w-full" disabled={pending}>

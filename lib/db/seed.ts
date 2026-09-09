@@ -23,7 +23,7 @@ export function createSeed(): Database {
     { id: "cat-oils", name: "Cold Pressed Oils", slug: "cold-pressed-oils", description: "Slow-pressed oils that keep their character.", image_path: "/images/oil.jpg", position: 2 },
     { id: "cat-millets", name: "Millets", slug: "millets", description: "Climate-wise grains for everyday cooking.", image_path: "/images/millet-foxtail.jpg", position: 3 },
     { id: "cat-grains", name: "Organic Grains", slug: "organic-grains", description: "Whole grains grown without synthetic inputs.", image_path: "/images/millet-little.jpg", position: 4 },
-    { id: "cat-spices", name: "Spices", slug: "spices", description: "Single-origin spices, stone-ground when needed.", image_path: "/images/turmeric.jpg", position: 5 },
+    { id: "cat-spices", name: "Spices", slug: "spices", description: "Single-farm spices, stone-ground when needed.", image_path: "/images/turmeric.jpg", position: 5 },
     { id: "cat-dry", name: "Dry Fruits", slug: "dry-fruits", description: "Naturally dried nuts and fruits.", image_path: "/images/almonds.jpg", position: 6 },
     { id: "cat-snacks", name: "Healthy Snacks", slug: "healthy-snacks", description: "Simple snacks with short ingredient lists.", image_path: "/images/cashews.jpg", position: 7 },
     { id: "cat-herbal", name: "Herbal Products", slug: "herbal-products", description: "Teas and botanicals for daily rituals.", image_path: "/images/tea.jpg", position: 8 },
@@ -50,7 +50,6 @@ export function createSeed(): Database {
     short: string;
     description: string;
     ingredients: string;
-    origin: string;
     storage: string;
     shelf: string;
     featured?: boolean;
@@ -74,7 +73,6 @@ export function createSeed(): Database {
       description:
         "Collected from mixed forest forage and packed without heating. The texture is naturally thick; crystals may form over time — a sign it has not been ultra-filtered. Stir gently and use as you would any raw honey.",
       ingredients: "Organic raw honey.",
-      origin: "Western Ghats apiaries, Karnataka",
       storage: "Store at room temperature, away from direct sun. Do not refrigerate.",
       shelf: "18 months",
       featured: true,
@@ -99,7 +97,6 @@ export function createSeed(): Database {
       description:
         "Single-ingredient oil pressed in small batches. No hexane, no blending with refined oils. Suitable for everyday tempering and shallow frying.",
       ingredients: "Organic groundnuts (peanuts).",
-      origin: "Saurashtra, Gujarat",
       storage: "Keep sealed, away from heat. Use within 90 days of opening.",
       shelf: "9 months",
       featured: true,
@@ -119,11 +116,10 @@ export function createSeed(): Database {
       name: "Organic Turmeric Powder",
       tamil: "மஞ்சள் தூள்",
       slug: "organic-turmeric-powder",
-      short: "High-curcumin Lakadong-style grind. Warm, earthy, slightly bitter.",
+      short: "High-curcumin grind. Warm, earthy, slightly bitter.",
       description:
         "Rhizomes are solar-dried and stone-ground. Colour is naturally deep; no added colour. Use in dals, milk, and marinades.",
       ingredients: "Organic turmeric rhizome.",
-      origin: "Meghalaya hills",
       storage: "Airtight, away from moisture and light.",
       shelf: "12 months",
       featured: true,
@@ -142,11 +138,10 @@ export function createSeed(): Database {
       name: "Organic Black Pepper",
       tamil: "கருமிளகு",
       slug: "organic-black-pepper",
-      short: "Tellicherry-grade peppercorns with a slow, citrus heat.",
+      short: "Bold peppercorns with a slow, citrus heat.",
       description:
         "Sun-dried on the vine-side estates. Sold whole so you can crack fresh. The aroma is pine and orange peel rather than dusty heat.",
       ingredients: "Organic black peppercorns.",
-      origin: "Wayanad, Kerala",
       storage: "Airtight glass, away from steam.",
       shelf: "24 months",
       bestseller: true,
@@ -168,7 +163,6 @@ export function createSeed(): Database {
       description:
         "Dehulled foxtail millet with a mild, nutty flavour. Rinse twice. Cooks in about 12 minutes. A everyday grain, not a novelty.",
       ingredients: "Organic foxtail millet (Setaria italica).",
-      origin: "Anantapur, Andhra Pradesh",
       storage: "Cool, dry cupboard. Refrigerate in humid months.",
       shelf: "10 months",
       featured: true,
@@ -190,7 +184,6 @@ export function createSeed(): Database {
       description:
         "Smaller grain, gentler bite. Works in lemon rice, khichdi, and porridge. Grown in rain-fed plots without synthetic pesticides.",
       ingredients: "Organic little millet (Panicum sumatrense).",
-      origin: "Dharmapuri, Tamil Nadu",
       storage: "Airtight tin, away from moisture.",
       shelf: "10 months",
       image: "/images/millet-little.jpg",
@@ -211,7 +204,6 @@ export function createSeed(): Database {
       description:
         "Steam-opened kernels, graded by hand. No added oil or salt. Use as they are, or soak for milks and gravies.",
       ingredients: "Organic cashew kernels.",
-      origin: "Coastal Karnataka",
       storage: "Refrigerate after opening. Use within 60 days.",
       shelf: "8 months",
       featured: true,
@@ -230,11 +222,10 @@ export function createSeed(): Database {
       name: "Organic Almonds",
       tamil: "பாதாம்",
       slug: "organic-almonds",
-      short: "California-style long almonds, raw and unblanched.",
+      short: "Long almonds, raw and unblanched.",
       description:
         "Whole natural almonds with skin on. Crunchy, clean finish. No roasting oil. A daily handful, or soak overnight.",
       ingredients: "Organic raw almonds.",
-      origin: "Kashmir orchards",
       storage: "Cool and dry. Refrigerate in summer.",
       shelf: "8 months",
       image: "/images/almonds.jpg",
@@ -255,7 +246,6 @@ export function createSeed(): Database {
       description:
         "A quiet evening blend. Leaves are shade-dried and cut, not powdered into dust. Steep 4 minutes covered.",
       ingredients: "Organic tulsi, lemongrass, dried ginger, mint.",
-      origin: "Nilgiris, Tamil Nadu",
       storage: "Airtight, away from spices.",
       shelf: "14 months",
       featured: true,
@@ -277,7 +267,6 @@ export function createSeed(): Database {
       description:
         "Clarified over a wood fire and poured into blocks. Colour varies by harvest — that is expected. Grate into dals, or eat a sliver after meals.",
       ingredients: "Organic sugarcane juice.",
-      origin: "Kolhapur, Maharashtra",
       storage: "Wrap tightly. Softens in humidity — refrigerate if needed.",
       shelf: "12 months",
       bestseller: true,
@@ -295,16 +284,15 @@ export function createSeed(): Database {
       name: "Organic Ponni Rice",
       tamil: "பொன்னி அரிசி",
       slug: "organic-ponni-rice",
-      short: "Single-estate Ponni from the Cauvery delta. Soft, everyday rice.",
+      short: "Single-estate Ponni. Soft, everyday rice.",
       description:
-        "Boiled and raw lots from named Thanjavur plots. No blending with broken grain from elsewhere. Rinse twice; cook at 1:2. The grain stays separate, with a mild, clean aroma.",
+        "Boiled and raw lots from named farm lots. No blending with broken grain from elsewhere. Rinse twice; cook at 1:2. The grain stays separate, with a mild, clean aroma.",
       ingredients: "Organic Ponni rice (Oryza sativa).",
-      origin: "Cauvery delta, Thanjavur, Tamil Nadu",
       storage: "Airtight tin, away from moisture. Check in monsoon.",
       shelf: "12 months",
       featured: true,
       bestseller: true,
-      image: "/images/harvest-grain.jpg",
+      image: "/images/products/organic-ponni-rice.jpg",
       tags: ["tag-vegan", "tag-gf", "tag-organic", "tag-trad", "tag-farmer"],
       variants: [
         { title: "1 kg", sku: "VZ-RIC-1000", grams: 1000, price: 18900 },
@@ -323,7 +311,6 @@ export function createSeed(): Database {
       description:
         "Unpolished finger millet with bran intact. Earthy flavour, good for everyday breakfast porridge. Wash and soak if grinding at home.",
       ingredients: "Organic finger millet (Eleusine coracana).",
-      origin: "Hassan, Karnataka",
       storage: "Airtight jar. Check for moisture in monsoon.",
       shelf: "10 months",
       image: "/images/millet-little.jpg",
@@ -343,7 +330,6 @@ export function createSeed(): Database {
       description:
         "Pressed from unroasted white sesame. The flavour is round rather than bitter. A finishing oil as much as a cooking oil.",
       ingredients: "Organic sesame seeds.",
-      origin: "Salem, Tamil Nadu",
       storage: "Dark bottle, cool shelf. Sediment is natural.",
       shelf: "8 months",
       image: "/images/oil.jpg",
@@ -364,7 +350,7 @@ export function createSeed(): Database {
   const pdt: Database["product_dietary_tags"] = [];
 
   for (const p of productSeeds) {
-    const search = [p.name, p.short, p.ingredients, p.origin].join(" ").toLowerCase();
+    const search = [p.name, p.short, p.ingredients].join(" ").toLowerCase();
     products.push({
       id: p.id,
       category_id: p.category_id,
@@ -373,7 +359,6 @@ export function createSeed(): Database {
       short_description: p.short,
       description: p.description,
       ingredients: p.ingredients,
-      origin: p.origin,
       storage_instructions: p.storage,
       shelf_life: p.shelf,
       status: "published",

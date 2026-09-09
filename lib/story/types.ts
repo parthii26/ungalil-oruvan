@@ -20,7 +20,6 @@ export type GrowthStoryProduct = {
   slug: string;
   image: string;
   price: string;
-  origin: string | null;
 };
 
 /** Serializable payload for the client animation. Product fields come from the catalog. */

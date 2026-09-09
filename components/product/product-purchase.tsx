@@ -26,9 +26,10 @@ export function ProductPurchase({
 
   const disc = discountPercent(selected.price_paise, selected.compare_at_paise);
   const available = selected.status === "active";
+  const clampQty = (n: number) => setQty(Math.min(20, Math.max(1, Number.isFinite(n) ? Math.floor(n) : 1)));
 
   return (
-    <div>
+    <div id="buy-box" className="scroll-mt-24">
       <p className="text-3xl transition-opacity duration-200" key={selected.id}>
         {formatPrice(selected.price_paise)}
         {selected.compare_at_paise && selected.compare_at_paise > selected.price_paise && (
@@ -48,7 +49,10 @@ export function ProductPurchase({
               key={v.id}
               type="button"
               onClick={() => setId(v.id)}
-              className={`px-4 py-2 border text-sm ${v.id === id ? "border-ink bg-ink text-paper" : "border-line"}`}
+              aria-pressed={v.id === id}
+              className={`inline-flex min-h-11 items-center border px-4 text-sm ${
+                v.id === id ? "border-ink bg-ink text-paper" : "border-line bg-warmwhite"
+              }`}
             >
               {v.title}
             </button>
@@ -57,23 +61,45 @@ export function ProductPurchase({
       </fieldset>
 
       <div className="mt-6 flex items-center gap-3">
-        <label className="label mb-0" htmlFor="qty">
+        <span className="label mb-0" id="qty-label">
           Qty
-        </label>
-        <input
-          id="qty"
-          type="number"
-          min={1}
-          max={20}
-          value={qty}
-          onChange={(e) => setQty(Number(e.target.value))}
-          className="input w-20"
-        />
+        </span>
+        <div className="flex items-center gap-2" role="group" aria-labelledby="qty-label">
+          <button
+            type="button"
+            aria-label="Decrease quantity"
+            onClick={() => clampQty(qty - 1)}
+            disabled={qty <= 1}
+            className="grid size-11 place-items-center border border-line bg-warmwhite text-lg leading-none active:bg-paper-deep disabled:opacity-50"
+          >
+            −
+          </button>
+          <input
+            id="qty"
+            type="number"
+            min={1}
+            max={20}
+            inputMode="numeric"
+            value={qty}
+            onChange={(e) => clampQty(Number(e.target.value))}
+            className="input !w-16 text-center tabular-nums"
+            aria-label="Quantity"
+          />
+          <button
+            type="button"
+            aria-label="Increase quantity"
+            onClick={() => clampQty(qty + 1)}
+            disabled={qty >= 20}
+            className="grid size-11 place-items-center border border-line bg-warmwhite text-lg leading-none active:bg-paper-deep disabled:opacity-50"
+          >
+            +
+          </button>
+        </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary w-full sm:w-auto sm:flex-1"
           disabled={!available || pending}
           onClick={() =>
             start(async () => {
@@ -87,7 +113,7 @@ export function ProductPurchase({
           Add to cart
         </button>
         <button
-          className="btn btn-accent"
+          className="btn btn-accent w-full sm:w-auto sm:flex-1"
           disabled={!available || pending}
           onClick={() =>
             start(async () => {
@@ -100,7 +126,7 @@ export function ProductPurchase({
           Buy now
         </button>
         <button
-          className="btn btn-ghost"
+          className="btn btn-ghost w-full sm:w-auto"
           onClick={() =>
             start(async () => {
               const res = await toggleWishlistAction(selected.id);
@@ -112,7 +138,11 @@ export function ProductPurchase({
           {wished ? "Saved" : "Wishlist"}
         </button>
       </div>
-      {msg && <p className="mt-3 text-sm">{msg}</p>}
+      {msg && (
+        <p className="mt-3 text-sm" role="status">
+          {msg}
+        </p>
+      )}
     </div>
   );
 }

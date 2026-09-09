@@ -15,17 +15,25 @@ export function ProfileForm({ name, phone, email }: { name: string; phone: strin
         <label className="label" htmlFor="full_name">
           Name
         </label>
-        <input id="full_name" name="full_name" defaultValue={name} className="input" />
+        <input id="full_name" name="full_name" defaultValue={name} className="input" autoComplete="name" />
       </div>
       <div>
         <label className="label" htmlFor="phone">
           Phone
         </label>
-        <input id="phone" name="phone" defaultValue={phone} className="input" />
+        <input
+          id="phone"
+          name="phone"
+          defaultValue={phone}
+          className="input"
+          autoComplete="tel"
+          inputMode="tel"
+          maxLength={15}
+        />
       </div>
       {state && "error" in state && state.error && <p className="text-sm text-danger">{state.error}</p>}
       {state && "ok" in state && state.ok && <p className="text-sm">Saved.</p>}
-      <button className="btn btn-primary" disabled={pending}>
+      <button className="btn btn-primary w-full md:w-auto" disabled={pending}>
         Save
       </button>
     </form>

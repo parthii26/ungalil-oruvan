@@ -6,7 +6,6 @@ export const productSchema = z.object({
   short_description: z.string().min(8).max(240),
   description: z.string().min(8).max(8000),
   ingredients: z.string().optional().or(z.literal("")),
-  origin: z.string().optional().or(z.literal("")),
   storage_instructions: z.string().optional().or(z.literal("")),
   shelf_life: z.string().optional().or(z.literal("")),
   category_id: z.string().min(1),

@@ -1,3 +1,6 @@
+"use client";
+
+import { useActionState } from "react";
 import {
   deleteImageAction,
   moveImageAction,
@@ -7,7 +10,13 @@ import {
 } from "@/lib/actions/admin";
 import type { ProductImage } from "@/lib/db/types";
 
+type ActionState = { error?: string; ok?: boolean } | null;
+
 export function ImagePanel({ productId, images }: { productId: string; images: ProductImage[] }) {
+  const [uploadState, uploadAction, uploadPending] = useActionState(
+    async (_prev: ActionState, fd: FormData): Promise<ActionState> => uploadProductImageAction(productId, fd),
+    null as ActionState,
+  );
   return (
     <section className="mt-16">
       <h2 className="text-lg font-semibold">Images</h2>
@@ -42,7 +51,7 @@ export function ImagePanel({ productId, images }: { productId: string; images: P
           </div>
         ))}
       </div>
-      <form action={uploadProductImageAction.bind(null, productId)} className="mt-6 flex flex-wrap gap-3 items-end">
+      <form action={uploadAction} className="mt-6 flex flex-wrap gap-3 items-end">
         <div>
           <label className="label">File</label>
           <input type="file" name="file" accept="image/*" className="input" />
@@ -51,8 +60,11 @@ export function ImagePanel({ productId, images }: { productId: string; images: P
           <label className="label">Alt text</label>
           <input name="alt" className="input" />
         </div>
-        <button className="btn btn-primary">Upload</button>
+        <button className="btn btn-primary" disabled={uploadPending}>
+          Upload
+        </button>
       </form>
+      {uploadState?.error && <p className="mt-2 text-xs text-danger">{uploadState.error}</p>}
     </section>
   );
 }

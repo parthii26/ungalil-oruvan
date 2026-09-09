@@ -13,8 +13,8 @@ export default async function PolicyPage({ params }: { params: Promise<{ slug: s
   const page = loadDb().pages.find((p) => p.slug === slug && p.published);
   if (!page) notFound();
   return (
-    <div className="container-page py-16 max-w-2xl">
-      <h1 className="font-serif text-5xl">{page.title}</h1>
+    <div className="container-page py-10 md:py-16 max-w-2xl">
+      <h1 className="font-serif text-4xl md:text-5xl">{page.title}</h1>
       <p className="mt-8 leading-relaxed">{page.body}</p>
     </div>
   );

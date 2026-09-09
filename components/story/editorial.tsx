@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { easeOut } from "@/lib/motion";
@@ -25,7 +26,7 @@ export function StoryHeading({
       )}
       {tamil && <p className={`font-tamil mt-2 ${light ? "text-turmeric" : "text-terracotta"}`}>{tamil}</p>}
       <motion.h2
-        className={`font-serif text-4xl md:text-5xl leading-[1.05] ${light ? "text-cream" : "text-forest"}`}
+        className={`font-serif text-[1.75rem] md:text-5xl leading-[1.08] ${light ? "text-cream" : "text-forest"}`}
         initial={reduce ? false : { clipPath: "inset(0 0 100% 0)", opacity: 0.2 }}
         whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -58,9 +59,8 @@ export function MaskImage({
 
   return (
     <div ref={ref} className={`overflow-hidden bg-paper-deep ${className}`}>
-      <motion.div className="h-full w-full" style={{ clipPath, scale }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} data-hint={hint} className="h-full w-full object-cover" />
+      <motion.div className="relative h-full w-full" style={{ clipPath, scale }}>
+        <Image src={src} alt={alt} data-hint={hint} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
       </motion.div>
     </div>
   );
@@ -80,13 +80,14 @@ export function EditorialImage({
 }) {
   const reduce = useReducedMotion();
   return (
-    <div className={`overflow-hidden bg-paper-deep ${className}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+    <div className={`relative overflow-hidden bg-paper-deep ${className}`}>
+      <Image
         src={src}
         alt={alt}
         data-hint={hint}
-        className="h-full w-full object-cover will-change-transform transition-transform duration-500 ease-out"
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="object-cover will-change-transform transition-transform duration-500 ease-out"
         onPointerMove={(e) => {
           if (reduce || window.matchMedia("(pointer: coarse)").matches) return;
           const r = e.currentTarget.getBoundingClientRect();
@@ -170,7 +171,7 @@ export function CountUp({ value, label }: { value: number; label: string }) {
   return (
     <div>
       <motion.p
-        className="font-serif text-5xl text-forest tabular-nums"
+        className="font-serif text-3xl md:text-5xl text-forest tabular-nums"
         initial={reduce ? false : { opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}

@@ -1,3 +1,6 @@
+"use client";
+
+import { useActionState } from "react";
 import {
   deleteVariantAction,
   moveVariantAction,
@@ -8,7 +11,41 @@ import type { ProductVariant } from "@/lib/db/types";
 import { formatPrice } from "@/lib/formatters";
 import { ConfirmSubmit } from "@/components/admin/confirm-submit";
 
+type ActionState = { error?: string; ok?: boolean } | null;
+
+function useVariantAction(productId: string) {
+  return useActionState(
+    async (_prev: ActionState, fd: FormData): Promise<ActionState> => saveVariantAction(productId, fd),
+    null as ActionState,
+  );
+}
+
+function VariantEditForm({ productId, v }: { productId: string; v: ProductVariant }) {
+  const [state, action, pending] = useVariantAction(productId);
+  return (
+    <form action={action} className="mt-2 grid md:grid-cols-4 gap-2">
+      <input type="hidden" name="id" value={v.id} />
+      <input name="title" className="input" defaultValue={v.title} />
+      <input name="sku" className="input" defaultValue={v.sku} />
+      <input name="weight_grams" className="input" defaultValue={v.weight_grams} />
+      <input name="price_paise" className="input" defaultValue={v.price_paise} />
+      <input name="compare_at_paise" className="input" defaultValue={v.compare_at_paise ?? ""} placeholder="Compare paise" />
+      <input name="cost_paise" className="input" defaultValue={v.cost_paise ?? ""} placeholder="Cost paise" />
+      <input name="barcode" className="input" defaultValue={v.barcode ?? ""} placeholder="Barcode" />
+      <select name="status" className="input" defaultValue={v.status}>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+      <button className="btn btn-ghost ink" disabled={pending}>
+        Save variant
+      </button>
+      {state?.error && <p className="text-xs text-danger md:col-span-4">{state.error}</p>}
+    </form>
+  );
+}
+
 export function VariantPanel({ productId, variants }: { productId: string; variants: ProductVariant[] }) {
+  const [addState, addAction, addPending] = useVariantAction(productId);
   return (
     <section className="mt-16">
       <h2 className="text-lg font-semibold">Variants</h2>
@@ -40,25 +77,11 @@ export function VariantPanel({ productId, variants }: { productId: string; varia
                 />
               </div>
             </div>
-            <form action={saveVariantAction.bind(null, productId)} className="mt-2 grid md:grid-cols-4 gap-2">
-              <input type="hidden" name="id" value={v.id} />
-              <input name="title" className="input" defaultValue={v.title} />
-              <input name="sku" className="input" defaultValue={v.sku} />
-              <input name="weight_grams" className="input" defaultValue={v.weight_grams} />
-              <input name="price_paise" className="input" defaultValue={v.price_paise} />
-              <input name="compare_at_paise" className="input" defaultValue={v.compare_at_paise ?? ""} placeholder="Compare paise" />
-              <input name="cost_paise" className="input" defaultValue={v.cost_paise ?? ""} placeholder="Cost paise" />
-              <input name="barcode" className="input" defaultValue={v.barcode ?? ""} placeholder="Barcode" />
-              <select name="status" className="input" defaultValue={v.status}>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-              <button className="btn btn-ghost ink !py-2">Save variant</button>
-            </form>
+            <VariantEditForm productId={productId} v={v} />
           </li>
         ))}
       </ul>
-      <form action={saveVariantAction.bind(null, productId)} className="mt-6 grid md:grid-cols-3 gap-3 max-w-3xl">
+      <form action={addAction} className="mt-6 grid md:grid-cols-3 gap-3 max-w-3xl">
         <input name="title" className="input" placeholder="Title (e.g. 250 g)" required />
         <input name="sku" className="input" placeholder="SKU" required />
         <input name="weight_grams" className="input" placeholder="Weight grams" required />
@@ -70,7 +93,10 @@ export function VariantPanel({ productId, variants }: { productId: string; varia
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
         </select>
-        <button className="btn btn-primary">Add variant</button>
+        <button className="btn btn-primary" disabled={addPending}>
+          Add variant
+        </button>
+        {addState?.error && <p className="text-xs text-danger md:col-span-3">{addState.error}</p>}
       </form>
     </section>
   );

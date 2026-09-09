@@ -10,7 +10,6 @@ describe("growth story matching", () => {
       productFitsStory(crop, {
         name: "Organic Ponni Rice",
         slug: "organic-ponni-rice",
-        origin: "Cauvery delta, Thanjavur, Tamil Nadu",
         categorySlug: "organic-grains",
       }),
     ).toBe(true);
@@ -21,7 +20,6 @@ describe("growth story matching", () => {
       productFitsStory(crop, {
         name: "Organic Foxtail Millet",
         slug: "organic-foxtail-millet",
-        origin: "Anantapur, Andhra Pradesh",
         categorySlug: "millets",
       }),
     ).toBe(true);
@@ -32,7 +30,6 @@ describe("growth story matching", () => {
       productFitsStory(crop, {
         name: "Organic Raw Forest Honey",
         slug: "organic-raw-forest-honey",
-        origin: "Western Ghats apiaries, Karnataka",
         categorySlug: "organic-honey",
       }),
     ).toBe(false);
@@ -43,7 +40,6 @@ describe("growth story matching", () => {
       productFitsStory(crop, {
         name: "Cold Pressed Groundnut Oil",
         slug: "cold-pressed-groundnut-oil",
-        origin: "Saurashtra, Gujarat",
         categorySlug: "cold-pressed-oils",
       }),
     ).toBe(false);

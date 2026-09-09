@@ -35,7 +35,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
         </div>
       ))}
       {state && "ok" in state && state.ok && <p className="text-sm">Saved.</p>}
-      <button className="btn btn-primary" disabled={pending}>
+      <button className="btn btn-primary w-full md:w-auto" disabled={pending}>
         Save
       </button>
     </form>

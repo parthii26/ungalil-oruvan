@@ -8,33 +8,35 @@ export default function AdminOrdersPage() {
   const orders = listAllOrders();
   return (
     <div>
-      <h1 className="font-serif text-4xl">Orders</h1>
-      <table className="mt-8 w-full text-sm text-left">
-        <thead className="text-[0.65rem] tracking-widest uppercase text-ink-soft">
-          <tr>
-            <th className="py-2">Order</th>
-            <th>Customer</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((o) => (
-            <tr key={o.id} className="border-t border-line">
-              <td className="py-3">
-                <Link href={`/admin/orders/${o.id}`} className="underline">
-                  {o.order_number}
-                </Link>
-              </td>
-              <td>{o.email}</td>
-              <td>{formatPrice(o.grand_total_paise)}</td>
-              <td>{o.status.replaceAll("_", " ")}</td>
-              <td>{formatDate(o.created_at)}</td>
+      <h1 className="font-serif text-3xl md:text-4xl">Orders</h1>
+      <div className="admin-table-scroll mt-6 md:mt-8">
+        <table className="w-full text-sm text-left">
+          <thead className="text-[0.65rem] tracking-widest uppercase text-ink-soft">
+            <tr>
+              <th className="py-2 whitespace-nowrap">Order</th>
+              <th className="whitespace-nowrap">Customer</th>
+              <th className="whitespace-nowrap">Amount</th>
+              <th className="whitespace-nowrap">Status</th>
+              <th className="whitespace-nowrap">Created</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((o) => (
+              <tr key={o.id} className="border-t border-line">
+                <td className="py-2">
+                  <Link href={`/admin/orders/${o.id}`} className="underline underline-offset-4">
+                    {o.order_number}
+                  </Link>
+                </td>
+                <td className="py-2">{o.email}</td>
+                <td className="py-2 whitespace-nowrap">{formatPrice(o.grand_total_paise)}</td>
+                <td className="py-2 whitespace-nowrap">{o.status.replaceAll("_", " ")}</td>
+                <td className="py-2 whitespace-nowrap">{formatDate(o.created_at)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

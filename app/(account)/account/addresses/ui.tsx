@@ -27,7 +27,7 @@ export function AddressManager({ addresses }: { addresses: Address[] }) {
               {a.phone}
             </p>
             <button
-              className="mt-3 text-xs uppercase tracking-widest"
+              className="mt-2 inline-flex min-h-11 items-center text-xs uppercase tracking-widest underline underline-offset-4"
               onClick={() =>
                 start(async () => {
                   await deleteAddressAction(a.id);
@@ -42,28 +42,38 @@ export function AddressManager({ addresses }: { addresses: Address[] }) {
       </ul>
       <form action={action} className="space-y-3">
         <h2 className="font-serif text-2xl">Add address</h2>
-        {[
-          ["name", "Name"],
-          ["phone", "Phone"],
-          ["line1", "Line 1"],
-          ["line2", "Line 2"],
-          ["landmark", "Landmark"],
-          ["city", "City"],
-          ["state", "State"],
-          ["postal_code", "PIN"],
-        ].map(([name, label]) => (
+        {(
+          [
+            ["name", "Name", "name", undefined],
+            ["phone", "Phone", "tel", "tel"],
+            ["line1", "Line 1", "address-line1", undefined],
+            ["line2", "Line 2", "address-line2", undefined],
+            ["landmark", "Landmark", undefined, undefined],
+            ["city", "City", "address-level2", undefined],
+            ["state", "State", "address-level1", undefined],
+            ["postal_code", "PIN", "postal-code", "numeric"],
+          ] as const
+        ).map(([name, label, auto, mode]) => (
           <div key={name}>
             <label className="label" htmlFor={name}>
               {label}
             </label>
-            <input id={name} name={name} className="input" required={["name", "phone", "line1", "city", "state", "postal_code"].includes(name)} />
+            <input
+              id={name}
+              name={name}
+              className="input"
+              autoComplete={auto}
+              inputMode={mode}
+              maxLength={name === "postal_code" ? 6 : name === "phone" ? 15 : undefined}
+              required={["name", "phone", "line1", "city", "state", "postal_code"].includes(name)}
+            />
           </div>
         ))}
-        <label className="flex gap-2 text-sm">
+        <label className="flex min-h-11 items-center gap-3 text-sm">
           <input type="checkbox" name="is_default" /> Default
         </label>
         {state && "error" in state && state.error && <p className="text-sm text-danger">{state.error}</p>}
-        <button className="btn btn-primary" disabled={pending}>
+        <button className="btn btn-primary w-full md:w-auto" disabled={pending}>
           Save
         </button>
       </form>
