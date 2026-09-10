@@ -131,7 +131,7 @@ export function CropGrowthTimeline({ story, hero }: { story: GrowthStoryView; he
   return (
     <>
       {hero && <CompactGrowthHero story={story} hero={hero} />}
-      <section ref={sectionRef} id="seed-stage" data-hero-tone="light" className="relative hidden h-[300vh] bg-[#F5F0E5] md:block">
+      <section ref={sectionRef} id="seed-stage" data-hero-tone="light" className="relative hidden h-[300vh] bg-basil-deep md:block">
         <div ref={rootRef} className="crop-root sticky top-0 flex min-h-[100svh] flex-col justify-center py-14" data-active="0">
           <div className="container-page mb-5">
             <p className="text-[0.62rem] tracking-[0.28em] uppercase text-earth">From seed</p>
@@ -245,7 +245,7 @@ function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: Comp
   const product = story.product;
   return (
     <div className="md:hidden">
-      <section className="relative overflow-hidden bg-forest text-cream">
+      <section className="relative overflow-hidden bg-basil-deep text-cream">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={hero.image}
@@ -261,7 +261,7 @@ function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: Comp
           <p className="mt-2 font-tamil text-lg text-turmeric/90">{hero.tamil}</p>
           <p className="mt-3 max-w-md text-[0.95rem] leading-relaxed text-cream/85">{hero.subhead}</p>
           <div className="mt-6 flex gap-3">
-            <Link href="/shop" className="btn flex-1 bg-cream text-forest">
+            <Link href="/shop" className="btn flex-1 bg-cream text-basil-ink">
               Shop the pantry
             </Link>
             <Link href="/about#story" className="btn btn-ghost on-dark flex-1">
@@ -300,7 +300,7 @@ function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: Comp
           ))}
           <Link
             href={product ? `/product/${product.slug}` : story.href}
-            className="block w-[68%] shrink-0 snap-start border border-forest bg-forest p-5 text-cream"
+            className="block w-[68%] shrink-0 snap-start border border-forest bg-basil-deep p-5 text-cream"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

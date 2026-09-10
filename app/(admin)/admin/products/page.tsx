@@ -132,7 +132,7 @@ export default async function AdminProductsPage({
                 key={n}
                 href={href}
                 aria-current={n === result.page ? "page" : undefined}
-                className={`inline-flex min-h-11 min-w-11 items-center justify-center border border-line px-3 ${n === result.page ? "bg-forest text-cream" : "bg-white"}`}
+                className={`inline-flex min-h-11 min-w-11 items-center justify-center border border-line px-3 ${n === result.page ? "bg-basil-deep text-cream" : "bg-white"}`}
               >
                 {n}
               </Link>

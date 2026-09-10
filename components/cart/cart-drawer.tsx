@@ -30,7 +30,7 @@ export function CartDrawer({
             exit={{ opacity: 0 }}
           />
           <motion.aside
-            className="absolute right-0 top-0 flex h-full w-[min(400px,100%)] flex-col bg-cream border-l border-line"
+            className="absolute right-0 top-0 flex h-full w-[min(400px,100%)] flex-col bg-basil-deep border-l border-line"
             role="dialog"
             aria-modal="true"
             aria-label="Basket"
@@ -78,7 +78,7 @@ export function CartDrawer({
               )}
             </div>
             <div
-              className="border-t border-line bg-cream p-5 md:p-6 pt-4"
+              className="border-t border-line bg-basil-deep p-5 md:p-6 pt-4"
               style={{ paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))" }}
             >
               <p className="text-sm flex justify-between gap-2">

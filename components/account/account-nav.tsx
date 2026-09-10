@@ -31,7 +31,7 @@ export function AccountNav({ isAdmin }: { isAdmin: boolean }) {
             className={cn(
               "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap border px-4 text-sm md:border-0 md:px-0 md:min-h-0 md:py-1",
               active
-                ? "border-forest bg-forest text-cream md:bg-transparent md:text-forest md:font-semibold"
+                ? "border-forest bg-basil-deep text-cream md:bg-transparent md:text-forest md:font-semibold"
                 : "border-line bg-warmwhite md:bg-transparent md:text-ink-soft md:hover:text-accent",
             )}
           >
