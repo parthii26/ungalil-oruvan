@@ -74,7 +74,6 @@ export interface Product {
   short_description: string;
   description: string;
   ingredients: string | null;
-  origin: string | null;
   storage_instructions: string | null;
   shelf_life: string | null;
   status: ProductStatus;

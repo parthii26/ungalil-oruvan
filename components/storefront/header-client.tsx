@@ -44,6 +44,33 @@ export function HeaderClient({
   const [overHero, setOverHero] = useState(false);
   const [pulse, setPulse] = useState(false);
 
+  // Close overlays on navigation (render-phase adjustment, not an effect).
+  const [prevPath, setPrevPath] = useState(path);
+  if (prevPath !== path) {
+    setPrevPath(path);
+    setOpen(false);
+    setSearch(false);
+    setCartOpen(false);
+  }
+
+  useEffect(() => {
+    if (!open && !search && !cartOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setSearch(false);
+        setCartOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open, search, cartOpen]);
+
   useEffect(() => {
     const measure = () => {
       const hero = document.getElementById("seed-stage");
@@ -79,8 +106,13 @@ export function HeaderClient({
       >
         <div className="container-page">
           <div className="flex h-16 items-center justify-between gap-4 md:h-[4.5rem]">
-            <button className="md:hidden p-2 -ml-2" aria-label="Open menu" onClick={() => setOpen(true)}>
-              <Menu size={20} />
+            <button
+              className="md:hidden -ml-2 grid min-h-11 min-w-11 place-items-center"
+              aria-label="Open menu"
+              aria-expanded={open}
+              onClick={() => setOpen(true)}
+            >
+              <Menu size={22} />
             </button>
 
             <nav
@@ -128,26 +160,38 @@ export function HeaderClient({
               </span>
             </Link>
 
-            <div className="flex items-center gap-1 sm:gap-2">
-              <button className="p-2 hidden md:inline-flex" aria-label="Search" onClick={() => setSearch(true)}>
-                <Search size={18} />
+            <div className="flex items-center gap-0.5 sm:gap-1">
+              <button
+                className="hidden md:grid min-h-11 min-w-11 place-items-center"
+                aria-label="Search"
+                onClick={() => setSearch(true)}
+              >
+                <Search size={19} />
               </button>
-              <Link href={signedIn ? "/account" : "/login"} className="p-2 hidden sm:inline-flex" aria-label="Account">
-                <User size={18} />
+              <Link
+                href={signedIn ? "/account" : "/login"}
+                className="hidden sm:grid min-h-11 min-w-11 place-items-center"
+                aria-label="Account"
+              >
+                <User size={19} />
               </Link>
-              <Link href="/account/wishlist" className="p-2 hidden sm:inline-flex" aria-label="Wishlist">
-                <Heart size={18} />
+              <Link
+                href="/account/wishlist"
+                className="hidden sm:grid min-h-11 min-w-11 place-items-center"
+                aria-label="Wishlist"
+              >
+                <Heart size={19} />
               </Link>
               <button
                 type="button"
-                className={`p-2 relative ${pulse ? "cart-pulse" : ""}`}
-                aria-label="Cart"
+                className={`relative grid min-h-11 min-w-11 place-items-center ${pulse ? "cart-pulse" : ""}`}
+                aria-label={cartCount > 0 ? `Basket, ${cartCount} items` : "Basket"}
                 onClick={() => setCartOpen(true)}
               >
-                <ShoppingBag size={18} />
+                <ShoppingBag size={19} />
                 {cartCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 min-w-4 h-4 px-1 rounded-full bg-terracotta text-white text-[10px] flex items-center justify-center">
-                    {cartCount}
+                  <span className="absolute right-0.5 top-1 min-w-4 h-4 px-1 rounded-full bg-terracotta text-white text-[10px] leading-4 text-center">
+                    {cartCount > 99 ? "99+" : cartCount}
                   </span>
                 )}
               </button>
@@ -161,17 +205,36 @@ export function HeaderClient({
         {open && (
           <motion.div
             className="fixed inset-0 z-50 bg-cream md:hidden overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
             initial={reduce ? false : { clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             transition={{ duration: 0.55, ease: easeOut }}
           >
-            <div className="container-page py-4 flex justify-between items-center border-b border-line">
+            <div className="container-page py-3 flex justify-between items-center border-b border-line">
               <span className="font-serif text-2xl text-forest">{brand}</span>
-              <button onClick={() => setOpen(false)} aria-label="Close menu">
-                <X />
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Close menu"
+                className="grid min-h-11 min-w-11 place-items-center -mr-2"
+              >
+                <X size={22} />
               </button>
             </div>
-            <nav className="container-page py-8 flex flex-col gap-5 text-lg font-serif text-ink">
+            <nav className="container-page py-6 flex flex-col text-lg font-serif text-ink">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  setSearch(true);
+                }}
+                className="flex min-h-12 items-center gap-3 border-b border-line/60 py-2 text-left"
+              >
+                <Search size={19} className="text-ink-soft" />
+                Search the pantry
+              </button>
               {["Shop", ...categories.map((c) => c.name), "About", "Blog", "FAQ"].map((label, i) => {
                 const href =
                   label === "Shop"
@@ -189,18 +252,41 @@ export function HeaderClient({
                     initial={reduce ? false : { opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.45, delay: 0.06 * i, ease: easeOut }}
+                    className="border-b border-line/60"
                   >
-                    <Link href={href} onClick={() => setOpen(false)}>
+                    <Link href={href} onClick={() => setOpen(false)} className="flex min-h-12 items-center py-2">
                       {label}
                     </Link>
                   </motion.div>
                 );
               })}
-              <Link href={signedIn ? "/account" : "/login"} onClick={() => setOpen(false)}>
+              <Link
+                href={signedIn ? "/account/orders" : "/login?next=/account/orders"}
+                onClick={() => setOpen(false)}
+                className="flex min-h-12 items-center border-b border-line/60 py-2"
+              >
+                Orders
+              </Link>
+              <Link
+                href="/account/wishlist"
+                onClick={() => setOpen(false)}
+                className="flex min-h-12 items-center border-b border-line/60 py-2"
+              >
+                Wishlist
+              </Link>
+              <Link
+                href={signedIn ? "/account" : "/login"}
+                onClick={() => setOpen(false)}
+                className="flex min-h-12 items-center border-b border-line/60 py-2"
+              >
                 {signedIn ? "Account" : "Sign in"}
               </Link>
               {isAdmin && (
-                <Link href="/admin" onClick={() => setOpen(false)}>
+                <Link
+                  href="/admin"
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-12 items-center py-2 text-earth"
+                >
                   Admin
                 </Link>
               )}
@@ -211,7 +297,7 @@ export function HeaderClient({
         {search && <SearchDialog onClose={() => setSearch(false)} />}
       </header>
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} items={cartItems} subtotal={cartSubtotal} />
-      <BottomNav signedIn={signedIn} onSearch={() => setSearch(true)} />
+      <BottomNav signedIn={signedIn} cartCount={cartCount} onSearch={() => setSearch(true)} />
     </>
   );
 }

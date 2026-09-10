@@ -17,7 +17,7 @@ export default async function AdminCustomerPage({ params }: { params: Promise<{ 
 
   return (
     <div>
-      <h1 className="font-serif text-4xl">{profile?.full_name}</h1>
+      <h1 className="font-serif text-3xl md:text-4xl">{profile?.full_name}</h1>
       <p className="mt-2 text-sm">{profile?.email}</p>
       <p className="text-sm">{profile?.phone}</p>
       <h2 className="font-serif text-2xl mt-10">Addresses</h2>

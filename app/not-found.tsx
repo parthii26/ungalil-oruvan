@@ -5,7 +5,7 @@ export default function NotFound() {
     <div className="min-h-screen grid place-items-center p-8 text-center">
       <div>
         <p className="label">404</p>
-        <h1 className="font-serif text-5xl mt-2">That page is not here.</h1>
+        <h1 className="font-serif text-4xl md:text-5xl mt-2">That page is not here.</h1>
         <Link href="/" className="btn btn-primary mt-8">
           Home
         </Link>

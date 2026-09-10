@@ -18,7 +18,6 @@ describe("admin catalog", () => {
       short_description: "A draft that must not list publicly.",
       description: "Longer description for the draft product.",
       ingredients: null,
-      origin: null,
       storage_instructions: null,
       shelf_life: null,
       status: "draft",
@@ -50,7 +49,6 @@ describe("admin catalog", () => {
       short_description: "Needs a variant before publish.",
       description: "Needs a variant before this can go live.",
       ingredients: null,
-      origin: null,
       storage_instructions: null,
       shelf_life: null,
       status: "draft",
@@ -75,7 +73,6 @@ describe("admin catalog", () => {
       short_description: "A published honey for the shop.",
       description: "Published honey used to prove storefront wiring.",
       ingredients: "Honey",
-      origin: "Nilgiris, Tamil Nadu",
       storage_instructions: null,
       shelf_life: null,
       status: "draft",
@@ -121,5 +118,34 @@ describe("admin catalog", () => {
 
   it("blocks category delete when products remain", () => {
     expect(adminCatalog.countProductsInCategory("cat-honey")).toBeGreaterThan(0);
+  });
+
+  it("validates product photo uploads", () => {
+    expect(adminCatalog.assertImageFile({ name: "rice.jpg", type: "image/jpeg", size: 1000 })).toBe("jpg");
+    expect(adminCatalog.assertImageFile({ name: "RICE.WEBP", type: "image/webp", size: 1000 })).toBe("webp");
+    expect(() => adminCatalog.assertImageFile({ name: "doc.pdf", type: "application/pdf", size: 1000 })).toThrow(
+      "JPG, PNG, or WebP",
+    );
+    expect(() => adminCatalog.assertImageFile({ name: "big.png", type: "image/png", size: 6 * 1024 * 1024 })).toThrow(
+      "under 5 MB",
+    );
+  });
+
+  it("generates unique variant SKUs", () => {
+    const first = adminCatalog.generateVariantSku("New Test Grain", 1000);
+    expect(first).toMatch(/^VZ-/);
+    productsRepo.insertVariant({
+      product_id: "prod-honey",
+      sku: first,
+      barcode: null,
+      title: "1 kg",
+      weight_grams: 1000,
+      price_paise: 19900,
+      compare_at_paise: null,
+      cost_paise: null,
+      status: "active",
+      position: 9,
+    });
+    expect(adminCatalog.generateVariantSku("New Test Grain", 1000)).toBe(`${first}-2`);
   });
 });

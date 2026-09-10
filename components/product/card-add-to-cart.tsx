@@ -12,7 +12,7 @@ export function CardAddToCart({ variantId }: { variantId: string }) {
     <div className="mt-3 opacity-100 md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition duration-300">
       <button
         type="button"
-        className="btn btn-ghost ink !py-2 w-full"
+        className="btn btn-ghost ink w-full"
         disabled={pending}
         onClick={() =>
           start(async () => {

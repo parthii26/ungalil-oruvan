@@ -5,11 +5,15 @@ export const metadata = { title: "Contact" };
 export default function ContactPage() {
   const s = getSiteSettings();
   return (
-    <div className="container-page py-16 max-w-xl">
-      <h1 className="font-serif text-5xl">Contact</h1>
+    <div className="container-page py-10 md:py-16 max-w-xl">
+      <h1 className="font-serif text-4xl md:text-5xl">Contact</h1>
       <p className="mt-4 text-ink-soft">
-        {s.address}
-        <br />
+        {s.address && (
+          <>
+            {s.address}
+            <br />
+          </>
+        )}
         {s.contact_email}
         <br />
         {s.contact_phone}

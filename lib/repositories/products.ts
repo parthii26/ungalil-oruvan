@@ -65,7 +65,7 @@ export function insertProduct(input: Omit<Product, "created_at" | "updated_at" |
       ...input,
       search_text:
         input.search_text ??
-        [input.name, input.short_description, input.ingredients, input.origin].filter(Boolean).join(" ").toLowerCase(),
+        [input.name, input.short_description, input.ingredients].filter(Boolean).join(" ").toLowerCase(),
       created_at: now,
       updated_at: now,
     };
@@ -79,7 +79,7 @@ export function updateProduct(id: string, patch: Partial<Product>) {
     const row = db.products.find((p) => p.id === id);
     if (!row) return null;
     Object.assign(row, patch, { updated_at: nowIso() });
-    row.search_text = [row.name, row.short_description, row.ingredients, row.origin]
+    row.search_text = [row.name, row.short_description, row.ingredients]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();

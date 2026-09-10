@@ -15,6 +15,9 @@ export function PointerHint() {
       window.matchMedia("(pointer: fine)").matches &&
       window.matchMedia("(min-width: 768px)").matches;
     if (!ok) return;
+    // Intentional post-hydration enable: rendering the hint during SSR
+    // would mismatch (matchMedia needs window), so it mounts after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOn(true);
 
     const node = el.current;

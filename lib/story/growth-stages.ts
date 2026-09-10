@@ -1,12 +1,15 @@
 import { BIO_EDGES, BIO_HYSTERESIS } from "./growth-progress";
 
-/** Timeline labels for the one continuous plant. Photos do not drive stages. */
+/** Timeline labels for the scroll-driven story. Scroll drives stages; photos illustrate them. */
 export type GrowthStage = {
   id: "seed" | "germination" | "sprout" | "young" | "growth" | "paddy" | "harvest";
   number: string;
   title: string;
   tamil: string;
   caption: string;
+  /** Realistic field photograph illustrating this stage. */
+  photo: string;
+  alt: string;
 };
 
 export const GROWTH_STAGES: GrowthStage[] = [
@@ -16,6 +19,8 @@ export const GROWTH_STAGES: GrowthStage[] = [
     title: "Seed",
     tamil: "விதை",
     caption: "A single grain carries the beginning of the crop.",
+    photo: "/images/growth/rice-01-seed.webp",
+    alt: "Ungalil Oruvan rice seed resting in dark soil",
   },
   {
     id: "germination",
@@ -23,6 +28,8 @@ export const GROWTH_STAGES: GrowthStage[] = [
     title: "Germination",
     tamil: "முளை",
     caption: "The seed opens. A root finds the dark.",
+    photo: "/images/growth/rice-02-germination.webp",
+    alt: "Rice seed germinating, a white root reaching into moist earth",
   },
   {
     id: "sprout",
@@ -30,6 +37,8 @@ export const GROWTH_STAGES: GrowthStage[] = [
     title: "Sprout",
     tamil: "தளிர்",
     caption: "A pale shoot reaches for the light.",
+    photo: "/images/growth/rice-03-sprout.webp",
+    alt: "A tiny green rice sprout rising in the paddy",
   },
   {
     id: "young",
@@ -37,6 +46,8 @@ export const GROWTH_STAGES: GrowthStage[] = [
     title: "Young plant",
     tamil: "இளம் பயிர்",
     caption: "Leaves unfold from the stem, one node at a time.",
+    photo: "/images/growth/rice-05-developing.webp",
+    alt: "Young rice transplants developing in a flooded paddy at dawn",
   },
   {
     id: "growth",
@@ -44,6 +55,8 @@ export const GROWTH_STAGES: GrowthStage[] = [
     title: "Growth",
     tamil: "வளர்ச்சி",
     caption: "The culm rises. The plant takes its height.",
+    photo: "/images/growth/rice-04-young.webp",
+    alt: "Young rice plant growing tall in a flooded green paddy",
   },
   {
     id: "paddy",
@@ -51,6 +64,8 @@ export const GROWTH_STAGES: GrowthStage[] = [
     title: "Paddy",
     tamil: "நெற்பயிர்",
     caption: "A panicle forms. Grain begins to fill.",
+    photo: "/images/growth/rice-06-paddy.webp",
+    alt: "Vast green paddy field under a bright sky",
   },
   {
     id: "harvest",
@@ -58,6 +73,8 @@ export const GROWTH_STAGES: GrowthStage[] = [
     title: "Harvest",
     tamil: "அறுவடை",
     caption: "Green gives way to gold. The crop is ready.",
+    photo: "/images/growth/rice-07-golden.webp",
+    alt: "Golden ripe paddy field ready for harvest",
   },
 ];
 

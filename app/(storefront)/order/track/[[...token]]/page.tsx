@@ -3,8 +3,8 @@ export const metadata = { title: "Track order" };
 export default async function TrackPage({ params }: { params: Promise<{ token?: string[] }> }) {
   const { token } = await params;
   return (
-    <div className="container-page py-16 max-w-xl">
-      <h1 className="font-serif text-5xl">Track</h1>
+    <div className="container-page py-10 md:py-16 max-w-xl">
+      <h1 className="font-serif text-4xl md:text-5xl">Track</h1>
       <p className="mt-4 text-ink-soft">
         Public tracking tokens are a Stage 2 feature. Stage 1 shows status only on the signed-in order page.
       </p>

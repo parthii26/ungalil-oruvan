@@ -79,6 +79,36 @@ export function ProductForm({
           </div>
         </div>
       </section>
+      {!product && (
+        <section>
+          <h2 className="text-lg font-semibold">Product photo</h2>
+          <p className="mt-1 text-xs text-ink-soft">This photo becomes the thumbnail. More photos can be added after creation.</p>
+          <div className="mt-4 space-y-3">
+            <div>
+              <label className="label" htmlFor="photo">
+                Photo (JPG, PNG or WebP, max 5 MB)
+              </label>
+              <input id="photo" type="file" name="photo" accept="image/*" className="input" />
+              {fields.photo && <p className="text-xs text-danger mt-1">{fields.photo}</p>}
+            </div>
+            <Field name="photo_alt" label="Photo alt text" error={fields.photo_alt} />
+          </div>
+        </section>
+      )}
+      {!product && (
+        <section>
+          <h2 className="text-lg font-semibold">First pack</h2>
+          <p className="mt-1 text-xs text-ink-soft">
+            At least one pack is needed before publishing. Prices are integer paise. More packs can be added after creation.
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <Field name="variant_title" label="Pack title (e.g. 1 kg)" error={fields.variant_title} />
+            <Field name="variant_sku" label="SKU (optional — made for you if blank)" error={fields.variant_sku} />
+            <Field name="variant_weight_grams" label="Weight (grams)" error={fields.variant_weight_grams} />
+            <Field name="variant_price_paise" label="Price (paise)" error={fields.variant_price_paise} />
+          </div>
+        </section>
+      )}
       <section>
         <h2 className="text-lg font-semibold">Classification</h2>
         <div className="mt-4 space-y-3">
@@ -97,7 +127,7 @@ export function ProductForm({
           </div>
           <div className="flex flex-wrap gap-3">
             {tags.map((t) => (
-              <label key={t.id} className="text-sm flex gap-2">
+              <label key={t.id} className="text-sm flex min-h-11 items-center gap-2">
                 <input type="checkbox" name="dietary_tag_ids" value={t.id} defaultChecked={selectedTags.includes(t.id)} />
                 {t.name}
               </label>
@@ -109,7 +139,6 @@ export function ProductForm({
         <h2 className="text-lg font-semibold">Organic information</h2>
         <div className="mt-4 space-y-3">
           <Field name="ingredients" label="Ingredients" defaultValue={product?.ingredients ?? ""} />
-          <Field name="origin" label="Origin" defaultValue={product?.origin ?? ""} />
           <Field name="storage_instructions" label="Storage" defaultValue={product?.storage_instructions ?? ""} />
           <Field name="shelf_life" label="Shelf life" defaultValue={product?.shelf_life ?? ""} />
         </div>
@@ -138,24 +167,24 @@ export function ProductForm({
             <option value="archived">Archived</option>
           </select>
         </div>
-        <label className="flex gap-2 text-sm">
+        <label className="flex min-h-11 items-center gap-3 text-sm">
           <input type="checkbox" name="is_featured" defaultChecked={product?.is_featured} /> Featured
         </label>
-        <label className="flex gap-2 text-sm">
+        <label className="flex min-h-11 items-center gap-3 text-sm">
           <input type="checkbox" name="is_bestseller" defaultChecked={product?.is_bestseller} /> Bestseller
         </label>
       </section>
       {state && "error" in state && state.error && <p className="text-danger text-sm">{state.error}</p>}
       {state && "ok" in state && state.ok && <p className="text-sm text-ok">Saved.</p>}
-      <div className="flex flex-wrap gap-3">
-        <button className="btn btn-ghost ink" name="intent" value="draft" disabled={pending}>
+      <div className="grid gap-3 sm:flex sm:flex-wrap">
+        <button className="btn btn-ghost ink w-full sm:w-auto" name="intent" value="draft" disabled={pending}>
           Save draft
         </button>
-        <button className="btn btn-primary" name="intent" value="publish" disabled={pending}>
+        <button className="btn btn-primary w-full sm:w-auto" name="intent" value="publish" disabled={pending}>
           Publish
         </button>
         {product && (
-          <Link href={`/admin/products/${product.id}/preview`} className="btn btn-ghost ink">
+          <Link href={`/admin/products/${product.id}/preview`} className="btn btn-ghost ink w-full sm:w-auto">
             Preview
           </Link>
         )}

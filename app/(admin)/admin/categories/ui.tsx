@@ -24,7 +24,7 @@ export function CategoryForm({ categories = [] }: { categories?: Category[] }) {
       <input name="position" className="input" placeholder="Position" defaultValue={0} />
       {state && "error" in state && state.error && <p className="text-sm text-danger">{state.error}</p>}
       {state && "ok" in state && state.ok && <p className="text-sm">Saved.</p>}
-      <button className="btn btn-primary" disabled={pending}>
+      <button className="btn btn-primary w-full md:w-auto" disabled={pending}>
         Save category
       </button>
     </form>

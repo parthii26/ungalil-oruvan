@@ -14,6 +14,9 @@ export function CursorFollower() {
     const fine = window.matchMedia("(pointer: fine)").matches;
     const wide = window.matchMedia("(min-width: 768px)").matches;
     if (!fine || !wide || reduce) return;
+    // Intentional post-hydration enable: rendering the follower during SSR
+    // would mismatch (matchMedia needs window), so it mounts after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEnabled(true);
     document.documentElement.classList.add("has-cursor");
 

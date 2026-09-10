@@ -18,7 +18,7 @@ export default function AdminHome() {
 
   return (
     <div>
-      <h1 className="font-serif text-4xl">Dashboard</h1>
+      <h1 className="font-serif text-3xl md:text-4xl">Dashboard</h1>
       <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Stat label="Products" value={String(products.length)} />
         <Stat label="Published" value={String(published)} />
@@ -36,11 +36,11 @@ export default function AdminHome() {
         <Stat label="Expiry" value="—" muted />
         <Stat label="Payments" value="—" muted />
       </div>
-      <h2 className="font-serif text-2xl mt-12">Recent orders</h2>
-      <ul className="mt-4 divide-y divide-line">
+      <h2 className="font-serif text-2xl mt-10 md:mt-12">Recent orders</h2>
+      <ul className="mt-4 divide-y divide-line border-b border-line">
         {orders.slice(0, 8).map((o) => (
-          <li key={o.id} className="py-3 flex justify-between">
-            <Link href={`/admin/orders/${o.id}`}>{o.order_number}</Link>
+          <li key={o.id} className="py-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+            <Link href={`/admin/orders/${o.id}`} className="underline underline-offset-4">{o.order_number}</Link>
             <span className="text-sm">
               {o.status.replaceAll("_", " ")} · {formatPrice(o.grand_total_paise)}
             </span>

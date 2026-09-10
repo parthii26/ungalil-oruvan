@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -44,18 +44,39 @@ function Links({ onClick }: { onClick?: () => void }) {
 
 export function AdminNav({ mobile }: { mobile?: boolean }) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open ]);
+
   if (!mobile) return <Links />;
   return (
     <div className="md:hidden">
-      <button type="button" className="p-2" aria-label="Open menu" onClick={() => setOpen(true)}>
-        <Menu size={18} />
+      <button type="button" aria-label="Open menu" onClick={() => setOpen(true)}>
+        <Menu size={20} />
       </button>
       {open && (
-        <div className="fixed inset-0 z-50 bg-[#1c211d] text-[#E8E4DA]">
-          <div className="flex justify-between items-center px-4 h-14 border-b border-white/10">
+        <div
+          className="fixed inset-0 z-50 overflow-y-auto bg-[#1c211d] text-[#E8E4DA]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Admin menu"
+          style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+        >
+          <div className="flex justify-between items-center px-4 min-h-14 border-b border-white/10">
             <span className="text-sm tracking-widest uppercase">Menu</span>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close">
-              <X />
+              <X size={22} />
             </button>
           </div>
           <Links onClick={() => setOpen(false)} />

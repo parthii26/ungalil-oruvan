@@ -18,12 +18,12 @@ export default async function ProductPreviewPage({ params }: { params: Promise<{
       <p className="text-[0.7rem] tracking-widest uppercase text-earth">
         Admin preview · {product.status} · not a public publish
       </p>
-      <div className="mt-4 flex gap-3">
-        <Link href={`/admin/products/${id}`} className="btn btn-ghost ink">
+      <div className="mt-4 grid gap-3 sm:flex">
+        <Link href={`/admin/products/${id}`} className="btn btn-ghost ink w-full sm:w-auto">
           Back to editor
         </Link>
         {product.status === "published" && (
-          <Link href={`/product/${product.slug}`} className="btn btn-primary">
+          <Link href={`/product/${product.slug}`} className="btn btn-primary w-full sm:w-auto">
             Open live page
           </Link>
         )}

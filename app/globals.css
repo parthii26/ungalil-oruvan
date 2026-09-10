@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --bnav-h: 3.5rem;
   --forest: #243c2a;
   --paddy: #667b45;
   --earth: #76543a;
@@ -61,11 +62,25 @@ html,
 body {
   background: var(--paper);
   color: var(--ink);
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile-first touch behaviour: no tap delay / double-tap zoom on controls. */
+a,
+button,
+input,
+select,
+textarea,
+summary,
+label {
+  touch-action: manipulation;
 }
 
 body::before {
@@ -115,8 +130,28 @@ textarea:focus-visible {
   border: 1px solid var(--line);
   background: var(--warmwhite);
   padding: 0.7rem 0.85rem;
-  font-size: 0.95rem;
+  /* 16px minimum: smaller sizes trigger auto-zoom on iOS Safari focus. */
+  font-size: 1rem;
+  line-height: 1.45;
+  min-height: 3rem;
   color: var(--ink);
+}
+
+select.input {
+  padding-right: 2.25rem;
+}
+
+textarea.input {
+  min-height: 6rem;
+  field-sizing: content;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  accent-color: var(--forest);
 }
 
 .input:disabled {
@@ -138,10 +173,15 @@ textarea:focus-visible {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.85rem 1.35rem;
+  min-height: 2.75rem;
   font-size: 0.76rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   transition: transform 220ms ease, background 220ms ease, color 220ms ease, box-shadow 220ms ease;
+}
+
+.btn:disabled {
+  opacity: 0.6;
 }
 
 .btn:hover {
@@ -154,73 +194,6 @@ textarea:focus-visible {
 
 .input:focus {
   border-color: var(--earth);
-}
-
-.farm-seed,
-.farm-ring,
-.leaf-cursor,
-.fg-leaf {
-  display: none !important;
-}
-
-.gs-soil {
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
-}
-
-.gs-seed {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: seedLife 5.2s ease-in-out infinite;
-}
-
-@keyframes seedLife {
-  0%,
-  100% {
-    transform: scale(1) rotate(-1deg);
-  }
-  50% {
-    transform: scale(1.02) rotate(1deg);
-  }
-}
-
-.gs-breathe {
-  transform-box: fill-box;
-  transform-origin: 0px 28px;
-  animation-name: fieldBreathe;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes fieldBreathe {
-  0%,
-  100% {
-    transform: rotate(-0.55deg);
-  }
-  50% {
-    transform: rotate(0.65deg);
-  }
-}
-
-[data-active="0"] .gs-seed,
-[data-active="0"] .gs-breathe {
-  animation-play-state: paused;
-}
-
-.rice-sway {
-  transform-box: fill-box;
-  transform-origin: 200px 398px;
-  animation: riceSway 6.8s ease-in-out infinite;
-}
-
-@keyframes riceSway {
-  0%,
-  100% {
-    transform: rotate(-0.55deg);
-  }
-  50% {
-    transform: rotate(0.65deg);
-  }
 }
 
 .gt-track {
@@ -348,272 +321,31 @@ textarea:focus-visible {
   pointer-events: auto;
 }
 
-.rp-well {
-  background: #e8dcc4;
+/* Story: photographic growth plates. One plate per stage; the active plate
+   crossfades in (.is-on) while a slow Ken Burns drift keeps it alive. The
+   drift runs on the inner img so it composes with the plate transition. */
+.gt-plate img {
+  transform: scale(1.03);
 }
 
-.rp-svg {
-  --gold: 0;
-  --wind: 0;
-  display: block;
+.gt-plate.is-on img {
+  animation: plateDrift 9s ease-in-out infinite alternate;
 }
 
-.rp-svg [data-draw] {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-
-.rp-sky-tint {
-  fill: color-mix(in srgb, transparent calc((1 - var(--gold, 0)) * 100%), rgba(196, 154, 58, 0.2));
-}
-
-.rp-stem-stroke {
-  stroke: color-mix(in srgb, #4a682e calc((1 - var(--gold, 0)) * 100%), #c4a04a);
-  stroke-width: 5.4;
-}
-
-.rp-stem-shine {
-  stroke: rgba(236, 226, 170, 0.3);
-  stroke-width: 1.45;
-}
-
-.rp-coleoptile {
-  stroke: color-mix(in srgb, #c8c48a calc((1 - var(--gold, 0)) * 100%), #d4b45a);
-  stroke-width: 3.15;
-}
-
-.rp-leaf-fill {
-  fill: color-mix(in srgb, #4a6b30 calc((1 - var(--gold, 0)) * 100%), #c9a44c);
-}
-
-.rp-leaf-rib {
-  fill: none;
-  stroke: color-mix(in srgb, #2f4a22 calc((1 - var(--gold, 0)) * 100%), #8a6a28);
-  stroke-width: 0.9;
-  opacity: 0.5;
-}
-
-.rp-rachis {
-  stroke: color-mix(in srgb, #5a7836 calc((1 - var(--gold, 0)) * 100%), #c4a04a);
-  stroke-width: 2.1;
-}
-
-.rp-grain {
-  fill: color-mix(in srgb, #7a9a42 calc((1 - var(--gold, 0)) * 100%), #e4c56a);
-}
-
-.rp-root-main {
-  stroke: #6b4a30;
-  stroke-width: 3.3;
-}
-
-.rp-root-side {
-  stroke: #7a5640;
-  stroke-width: 2.15;
-}
-
-.rp-hair {
-  stroke: #8a6a50;
-  stroke-width: 0.95;
-}
-
-.rp-soil-lip {
-  fill: #4a3220;
-}
-
-.rp-leaf,
-.rp-seed,
-.rp-grains,
-.rp-panicle,
-.rp-field {
-  transform-box: fill-box;
-}
-
-.crop-root[data-active="0"] .rp-seed-life {
-  animation: seedLife 5.4s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: 0 0;
-}
-
-.rp-svg[data-wind="1"] .rp-sway-stem {
-  animation: rpSway 6.8s ease-in-out infinite;
-}
-
-.rp-svg[data-wind="1"] .rp-leaf-wind {
-  animation: rpLeafWind 5.6s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: 0 0;
-}
-
-.rp-svg[data-wind="1"] [data-leaf-wind="1"],
-.rp-svg[data-wind="1"] [data-leaf-wind="4"] {
-  animation-duration: 6.6s;
-  animation-delay: -1.4s;
-}
-
-.rp-svg[data-wind="1"] [data-leaf-wind="2"],
-.rp-svg[data-wind="1"] [data-leaf-wind="5"] {
-  animation-duration: 7.4s;
-  animation-delay: -2.1s;
-}
-
-.rp-svg[data-wind="1"] .rp-panicle-wind {
-  animation: rpPanicleWind 5s ease-in-out infinite;
-  transform-origin: 481px 62px;
-  transform-box: fill-box;
-}
-
-@keyframes rpSway {
-  0%,
-  100% {
-    transform: rotate(-0.7deg);
+@keyframes plateDrift {
+  from {
+    transform: scale(1.03) translate3d(0, 0, 0);
   }
-  50% {
-    transform: rotate(0.85deg);
+  to {
+    transform: scale(1.11) translate3d(-1.5%, -2%, 0);
   }
 }
 
-@keyframes rpLeafWind {
-  0%,
-  100% {
-    transform: rotate(-1.1deg);
-  }
-  50% {
-    transform: rotate(1.4deg);
-  }
-}
-
-@keyframes rpPanicleWind {
-  0%,
-  100% {
-    transform: rotate(-1.6deg);
-  }
-  50% {
-    transform: rotate(2.1deg);
-  }
-}
-
-@media (max-width: 767px) {
-  .rp-hair,
-  .rp-field {
-    display: none;
-  }
-}
-
-.crop-frame {
-  background: #d8cbb0;
-}
-
-.crop-strip {
-  transform: translate3d(0, 0, 0);
-}
-
-.crop-stage {
-  opacity: 0.48;
-  transform: translate3d(0, 0, 0) scale(0.97);
-  z-index: 1;
-}
-
-.crop-stage.is-live {
-  transition: opacity 180ms linear, transform 180ms linear;
-}
-
-.crop-stage.is-near {
-  opacity: 0.72;
-  transform: translate3d(0, 0, 0) scale(0.985);
-  z-index: 2;
-}
-
-.crop-stage.is-on {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-  z-index: 3;
-  will-change: transform, opacity;
-}
-
-.crop-stage-media {
-  contain: paint;
-  content-visibility: auto;
-}
-
-.crop-soil {
-  background: linear-gradient(to top, #3a2818 0%, rgba(90, 64, 40, 0.55) 46%, transparent 100%);
-}
-
-.crop-grade {
-  background: linear-gradient(
-    90deg,
-    rgba(58, 42, 28, 0.14) 0%,
-    transparent 45%,
-    rgba(196, 154, 58, 0.12) 100%
-  );
-  pointer-events: none;
-}
-
-.crop-copy,
-.crop-line,
-.crop-mline {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.crop-root[data-active="0"] [data-copy="0"],
-.crop-root[data-active="1"] [data-copy="1"],
-.crop-root[data-active="2"] [data-copy="2"],
-.crop-root[data-active="3"] [data-copy="3"],
-.crop-root[data-active="4"] [data-copy="4"],
-.crop-root[data-active="5"] [data-copy="5"],
-.crop-root[data-active="6"] [data-copy="6"],
-.crop-root[data-active="0"] [data-line="0"],
-.crop-root[data-active="1"] [data-line="1"],
-.crop-root[data-active="2"] [data-line="2"],
-.crop-root[data-active="3"] [data-line="3"],
-.crop-root[data-active="4"] [data-line="4"],
-.crop-root[data-active="5"] [data-line="5"],
-.crop-root[data-active="6"] [data-line="6"],
-.crop-root[data-active="0"] [data-mline="0"],
-.crop-root[data-active="1"] [data-mline="1"],
-.crop-root[data-active="2"] [data-mline="2"],
-.crop-root[data-active="3"] [data-mline="3"],
-.crop-root[data-active="4"] [data-mline="4"],
-.crop-root[data-active="5"] [data-mline="5"],
-.crop-root[data-active="6"] [data-mline="6"] {
-  opacity: 1;
-}
-
-.crop-dot {
-  background: var(--line);
-  transform: scale(1);
-}
-
-.crop-dot.is-on {
-  background: var(--earth);
-  transform: scale(1.5);
-}
-
-.crop-dot.is-done {
-  background: color-mix(in srgb, var(--earth) 45%, transparent);
-}
-
-.crop-seg {
-  background: var(--line);
-}
-
-.crop-seg.is-done {
-  background: color-mix(in srgb, var(--earth) 35%, transparent);
-}
-
-.crop-product {
-  opacity: 0;
-  transform: translate3d(0, 6px, 0);
-  pointer-events: none;
-  transition: opacity 400ms linear, transform 400ms linear;
-}
-
-.crop-product.is-on {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-  pointer-events: auto;
+/* Caption ink tuned for text sitting on photography. */
+.gt-card-photo {
+  text-shadow:
+    0 1px 3px rgb(16 22 19 / 60%),
+    0 2px 18px rgb(16 22 19 / 45%);
 }
 
 @keyframes sunDrift {
@@ -709,9 +441,11 @@ textarea:focus-visible {
   background: #1c3022;
 }
 
+/* Ghost defaults to the ink (light-background) treatment so text is always
+   legible. Use .on-dark only when the button sits on a dark surface. */
 .btn-ghost {
-  border: 1px solid color-mix(in srgb, var(--cream) 70%, transparent);
-  color: var(--cream);
+  border: 1px solid var(--forest);
+  color: var(--forest);
   background: transparent;
 }
 
@@ -720,13 +454,20 @@ textarea:focus-visible {
   color: var(--forest);
 }
 
+.btn-ghost:hover,
 .btn-ghost.ink:hover {
   background: var(--forest);
   color: var(--cream);
 }
 
-.btn-ghost:hover {
+.btn-ghost.on-dark {
+  border-color: color-mix(in srgb, var(--cream) 70%, transparent);
+  color: var(--cream);
+}
+
+.btn-ghost.on-dark:hover {
   background: color-mix(in srgb, var(--cream) 12%, transparent);
+  color: var(--cream);
 }
 
 .btn-accent {
@@ -783,10 +524,108 @@ textarea:focus-visible {
   color: #292722;
 }
 
+/* Admin action ergonomics: every inline action meets touch minimums. */
+.admin-shell button:not(.btn) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+}
+
+.admin-shell nav a {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+}
+
+.admin-shell td a:not(.btn),
+.admin-shell li a:not(.btn) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+/* Scroll-safe data tables on narrow screens. */
+.admin-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 768px) {
+  .admin-table-scroll {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+.admin-table-scroll table {
+  min-width: 620px;
+}
+
+.admin-table-scroll th,
+.admin-table-scroll td {
+  padding-right: 1rem;
+  vertical-align: top;
+}
+
+.admin-table-scroll th:last-child,
+.admin-table-scroll td:last-child {
+  padding-right: 0;
+}
+
 @media (max-width: 767px) {
   .has-bottom-nav {
-    padding-bottom: 5.5rem;
+    padding-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 1.5rem);
   }
+}
+
+/* Fixed commerce bars (sticky buy / cart checkout) float above the bottom nav. */
+.sticky-cta-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px));
+  z-index: 30;
+}
+
+/* Hide scrollbars on horizontal snap strips while keeping scrollability. */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Roomy, thumb-friendly disclosure rows. */
+details > summary {
+  min-height: 2.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  cursor: pointer;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary::after {
+  content: "+";
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 1.1em;
+  line-height: 1;
+  color: var(--earth);
+}
+
+details[open] > summary::after {
+  content: "–";
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,4 @@
-import { BusinessRuleError, ConflictError, NotFoundError } from "@/lib/errors";
+import { BusinessRuleError, ConflictError, NotFoundError, ValidationError } from "@/lib/errors";
 import * as productsRepo from "@/lib/repositories/products";
 import * as categoriesRepo from "@/lib/repositories/categories";
 import { slugify, uid } from "@/lib/utils";
@@ -26,6 +26,30 @@ export function assertSkuAvailable(sku: string, exceptId?: string) {
   const all = productsRepo.listAllProducts().flatMap((p) => productsRepo.getVariants(p.id));
   const hit = all.find((v) => v.sku.toLowerCase() === sku.toLowerCase() && v.id !== exceptId);
   if (hit) throw new ConflictError("That SKU is already used.");
+}
+
+export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+const IMAGE_EXTS = new Set(["jpg", "jpeg", "png", "webp"]);
+
+export function assertImageFile(file: { name: string; type: string; size: number }): string {
+  const ext = (file.name.split(".").pop() || "").toLowerCase();
+  if (!file.type.startsWith("image/") || !IMAGE_EXTS.has(ext)) {
+    throw new ValidationError("Photo must be a JPG, PNG, or WebP image.");
+  }
+  if (file.size > MAX_UPLOAD_BYTES) throw new ValidationError("Photo must be under 5 MB.");
+  return ext;
+}
+
+export function generateVariantSku(name: string, weightGrams: number): string {
+  const stem = slugify(name).replace(/-/g, "").slice(0, 8).toUpperCase() || "ITEM";
+  const base = `VZ-${stem}-${Math.max(0, Math.trunc(weightGrams)) || "NA"}`;
+  const taken = new Set(
+    productsRepo.listAllProducts().flatMap((p) => productsRepo.getVariants(p.id).map((v) => v.sku.toLowerCase())),
+  );
+  let sku = base;
+  let n = 2;
+  while (taken.has(sku.toLowerCase())) sku = `${base}-${n++}`;
+  return sku;
 }
 
 export function assertPublishable(productId: string) {

@@ -35,14 +35,22 @@ export default async function ShopPage({
   };
 
   return (
-    <div className="container-page py-12">
+    <div className="container-page py-8 md:py-12">
       <p className="font-tamil text-terracotta">நமது உணவு</p>
-      <h1 className="font-serif text-5xl mt-2 text-forest">Shop</h1>
+      <h1 className="font-serif text-4xl md:text-5xl mt-2 text-forest">Shop</h1>
       <p className="mt-3 text-ink-soft">{result.total} products</p>
 
-      <form className="mt-8 grid gap-3 md:grid-cols-4" action="/shop">
-        <input name="q" defaultValue={q} className="input" placeholder="Search name, notes, ingredients" />
-        <select name="category" defaultValue={category} className="input">
+      <form className="mt-6 md:mt-8 grid grid-cols-2 gap-3 md:grid-cols-4" action="/shop" role="search">
+        <input
+          name="q"
+          defaultValue={q}
+          className="input col-span-2 md:col-span-1"
+          placeholder="Search name, notes, ingredients"
+          aria-label="Search products"
+          autoComplete="off"
+          enterKeyHint="search"
+        />
+        <select name="category" defaultValue={category} className="input" aria-label="Category">
           <option value="">All categories</option>
           {categories.map((c) => (
             <option key={c.id} value={c.slug}>
@@ -50,7 +58,7 @@ export default async function ShopPage({
             </option>
           ))}
         </select>
-        <select name="tag" defaultValue={tag} className="input">
+        <select name="tag" defaultValue={tag} className="input" aria-label="Dietary">
           <option value="">Dietary</option>
           {tags.map((t) => (
             <option key={t.id} value={t.slug}>
@@ -58,18 +66,18 @@ export default async function ShopPage({
             </option>
           ))}
         </select>
-        <select name="sort" defaultValue={sort} className="input">
+        <select name="sort" defaultValue={sort} className="input" aria-label="Sort">
           <option value="featured">Featured</option>
           <option value="price-asc">Price low to high</option>
           <option value="price-desc">Price high to low</option>
           <option value="newest">Newest</option>
           <option value="rating">Best rated</option>
         </select>
-        <button className="btn btn-primary md:col-span-4 w-fit">Apply</button>
+        <button className="btn btn-primary col-span-2 md:col-span-1">Apply</button>
       </form>
 
       {result.items.length === 0 ? (
-        <div className="py-24 text-center">
+        <div className="py-16 md:py-24 text-center">
           <p className="font-serif text-3xl">Nothing matches.</p>
           <p className="mt-2 text-ink-soft">Try a broader word, or clear filters.</p>
           <Link href="/shop" className="btn btn-ghost ink mt-6">
@@ -77,7 +85,7 @@ export default async function ShopPage({
           </Link>
         </div>
       ) : (
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
           {result.items.map((c) => (
             <ProductCard key={c.product.id} card={c} />
           ))}
@@ -85,17 +93,20 @@ export default async function ShopPage({
       )}
 
       {result.pages > 1 && (
-        <div className="mt-12 flex gap-2">
+        <nav aria-label="Pages" className="mt-10 md:mt-12 flex flex-wrap gap-2">
           {Array.from({ length: result.pages }, (_, i) => i + 1).map((n) => (
             <Link
               key={n}
               href={href({ page: String(n) })}
-              className={`px-3 py-2 border border-line ${n === result.page ? "bg-ink text-paper" : ""}`}
+              aria-current={n === result.page ? "page" : undefined}
+              className={`inline-flex min-h-11 min-w-11 items-center justify-center border border-line px-3 ${
+                n === result.page ? "bg-ink text-paper" : "bg-warmwhite"
+              }`}
             >
               {n}
             </Link>
           ))}
-        </div>
+        </nav>
       )}
     </div>
   );

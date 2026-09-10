@@ -14,11 +14,26 @@ import * as adminCatalog from "@/lib/services/admin-catalog";
 import { slugify, uid } from "@/lib/utils";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import sharp from "sharp";
 
 async function requireAdmin() {
   const session = await getSession();
   if (session?.role !== "admin") throw new ForbiddenError("Admin access only.");
   return session;
+}
+
+async function storeUpload(file: File, prefix: string): Promise<string> {
+  adminCatalog.assertImageFile(file);
+  const input = Buffer.from(await file.arrayBuffer());
+  const name = `${prefix}-${Date.now()}.webp`;
+  const dir = path.join(process.cwd(), "public", "uploads");
+  await mkdir(dir, { recursive: true });
+  await sharp(input)
+    .rotate()
+    .resize({ width: 1600, height: 1600, fit: "inside", withoutEnlargement: true })
+    .webp({ quality: 80 })
+    .toFile(path.join(dir, name));
+  return `/uploads/${name}`;
 }
 
 export async function saveProductAction(_prev: unknown, formData: FormData) {
@@ -31,7 +46,6 @@ export async function saveProductAction(_prev: unknown, formData: FormData) {
       short_description: formData.get("short_description"),
       description: formData.get("description"),
       ingredients: formData.get("ingredients") || "",
-      origin: formData.get("origin") || "",
       storage_instructions: formData.get("storage_instructions") || "",
       shelf_life: formData.get("shelf_life") || "",
       category_id: formData.get("category_id"),
@@ -59,6 +73,56 @@ export async function saveProductAction(_prev: unknown, formData: FormData) {
     } catch (e) {
       return { ok: false as const, error: toUserMessage(e), fields: { slug: toUserMessage(e) } };
     }
+    const photoInput = id ? null : formData.get("photo");
+    const photo = photoInput instanceof File && photoInput.size > 0 ? photoInput : null;
+    if (photo) {
+      try {
+        adminCatalog.assertImageFile(photo);
+      } catch (e) {
+        return { ok: false as const, error: toUserMessage(e), fields: { photo: toUserMessage(e) } };
+      }
+    }
+    const vTitle = id ? "" : String(formData.get("variant_title") || "").trim();
+    const vSku = id ? "" : String(formData.get("variant_sku") || "").trim();
+    const vWeight = id ? "" : String(formData.get("variant_weight_grams") || "").trim();
+    const vPrice = id ? "" : String(formData.get("variant_price_paise") || "").trim();
+    const variantTouched = Boolean(vTitle || vSku || vWeight || vPrice);
+    let firstVariant: { sku: string; title: string; weight_grams: number; price_paise: number } | null = null;
+    if (variantTouched) {
+      const parsedVariant = variantSchema.safeParse({
+        sku: vSku || adminCatalog.generateVariantSku(parsed.data.name, Number(vWeight) || 0),
+        barcode: "",
+        title: vTitle,
+        weight_grams: vWeight,
+        price_paise: vPrice,
+        status: "active",
+      });
+      if (!parsedVariant.success) {
+        const map: Record<string, string> = {
+          title: "variant_title",
+          sku: "variant_sku",
+          weight_grams: "variant_weight_grams",
+          price_paise: "variant_price_paise",
+        };
+        const fields: Record<string, string> = {};
+        for (const issue of parsedVariant.error.issues) {
+          const key = map[String(issue.path[0] ?? "variant")] ?? "variant_title";
+          if (!fields[key]) fields[key] = issue.message;
+        }
+        return { ok: false as const, error: "Please check the first pack fields.", fields };
+      }
+      try {
+        adminCatalog.assertSkuAvailable(parsedVariant.data.sku);
+      } catch (e) {
+        return { ok: false as const, error: toUserMessage(e), fields: { variant_sku: toUserMessage(e) } };
+      }
+      firstVariant = {
+        sku: parsedVariant.data.sku,
+        title: parsedVariant.data.title,
+        weight_grams: parsedVariant.data.weight_grams,
+        price_paise: parsedVariant.data.price_paise,
+      };
+    }
     const intent = String(formData.get("intent") || "save");
     let status = parsed.data.status;
     if (intent === "draft") status = "draft";
@@ -70,7 +134,6 @@ export async function saveProductAction(_prev: unknown, formData: FormData) {
       short_description: parsed.data.short_description,
       description: parsed.data.description,
       ingredients: parsed.data.ingredients || null,
-      origin: parsed.data.origin || null,
       storage_instructions: parsed.data.storage_instructions || null,
       shelf_life: parsed.data.shelf_life || null,
       category_id: parsed.data.category_id,
@@ -103,6 +166,21 @@ export async function saveProductAction(_prev: unknown, formData: FormData) {
     }
     const created = productsRepo.insertProduct({ id: uid(), ...payload });
     productsRepo.setProductTags(created.id, tagIds);
+    if (photo) {
+      const stored = await storeUpload(photo, created.id);
+      productsRepo.addImage(created.id, stored, String(formData.get("photo_alt") || parsed.data.name));
+    }
+    if (firstVariant) {
+      productsRepo.insertVariant({
+        product_id: created.id,
+        barcode: null,
+        compare_at_paise: null,
+        cost_paise: null,
+        status: "active",
+        position: 0,
+        ...firstVariant,
+      });
+    }
     revalidatePath("/admin/products");
     redirect(`/admin/products/${created.id}`);
   } catch (e) {
@@ -185,13 +263,12 @@ export async function uploadProductImageAction(productId: string, formData: Form
   await requireAdmin();
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) return { error: "Choose an image." };
-  const bytes = Buffer.from(await file.arrayBuffer());
-  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-  const name = `${productId}-${Date.now()}.${ext}`;
-  const dir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(dir, { recursive: true });
-  await writeFile(path.join(dir, name), bytes);
-  productsRepo.addImage(productId, `/uploads/${name}`, String(formData.get("alt") || "Product image"));
+  try {
+    const stored = await storeUpload(file, productId);
+    productsRepo.addImage(productId, stored, String(formData.get("alt") || "Product image"));
+  } catch (e) {
+    return { error: toUserMessage(e) };
+  }
   revalidatePath(`/admin/products/${productId}`);
   return { ok: true };
 }

@@ -17,10 +17,10 @@ export function ProductCard({ card }: { card: Card }) {
   return (
     <article className="group">
       <Link href={`/product/${card.product.slug}`} className="block" data-hint="View product">
-        <ProductVisual src={card.image} alt={card.product.name} origin={card.product.origin} />
+        <ProductVisual src={card.image} alt={card.product.name} />
         <div className="mt-3 space-y-1 transition-transform duration-300 ease-out group-hover:translate-x-[3px]">
           <p className="text-[0.65rem] tracking-[0.16em] uppercase text-ink-soft">{card.categoryName}</p>
-          <h3 className="font-serif text-xl leading-snug">{card.product.name}</h3>
+          <h3 className="font-serif text-lg md:text-xl leading-snug text-balance">{card.product.name}</h3>
           {card.product.tamil_name && <p className="font-tamil text-sm text-terracotta">{card.product.tamil_name}</p>}
           <p className="text-sm text-ink-soft">{card.variant.title}</p>
           <p className="text-sm">
@@ -30,7 +30,7 @@ export function ProductCard({ card }: { card: Card }) {
             )}
           </p>
           {displayTags.length > 0 && (
-            <p className="flex flex-wrap gap-1 pt-1">
+            <p className="hidden sm:flex flex-wrap gap-1 pt-1">
               {displayTags.map((t) => (
                 <span key={t.slug} className="text-[0.6rem] tracking-widest uppercase border border-line px-1.5 py-0.5">
                   {t.name}

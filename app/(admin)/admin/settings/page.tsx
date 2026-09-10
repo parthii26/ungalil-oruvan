@@ -7,7 +7,7 @@ export default function SettingsPage() {
   const s = getSiteSettings();
   return (
     <div>
-      <h1 className="font-serif text-4xl">Settings</h1>
+      <h1 className="font-serif text-3xl md:text-4xl">Settings</h1>
       <SettingsForm settings={s} />
       <section className="mt-16 grid md:grid-cols-2 gap-6">
         {[
