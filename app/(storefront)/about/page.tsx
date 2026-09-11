@@ -6,8 +6,8 @@ export default function AboutPage() {
   const s = getSiteSettings();
   return (
     <div className="container-page py-10 md:py-16 max-w-3xl">
-      <h1 className="font-tamil text-4xl md:text-5xl font-bold text-forest">{s.tamil_tagline}</h1>
-      <p className="font-serif text-xl text-terracotta mt-1">{s.brand_name}</p>
+      <p className="font-tamil text-terracotta">{s.tamil_tagline}</p>
+      <h1 className="font-serif text-4xl md:text-5xl mt-2 text-forest">{s.brand_name}</h1>
       <p className="mt-6 text-lg leading-relaxed text-ink-soft">
         {s.english_tagline}. {s.footer_text}
       </p>
@@ -18,8 +18,8 @@ export default function AboutPage() {
         <img src="/images/soil-hands.jpg" alt="" loading="lazy" decoding="async" className="h-56 w-full object-cover" />
       </div>
       <section id="story" className="mt-12 md:mt-16 scroll-mt-24">
-        <h2 className="font-tamil text-3xl md:text-4xl font-bold text-forest">{s.story_tamil}</h2>
-        <p className="font-serif text-xl text-earth mt-1">{s.story_title}</p>
+        <p className="font-tamil text-earth">{s.story_tamil}</p>
+        <h2 className="font-serif text-3xl md:text-4xl">{s.story_title}</h2>
         <p className="mt-4 leading-relaxed">
           Traditional roots, modern commerce. The storefront carries honest soil in its details — millet names, farm lots, terracotta accents — without turning the shop into a costume. Words here are configuration-ready from
           Settings.

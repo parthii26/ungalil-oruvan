@@ -25,7 +25,7 @@ export function Journey() {
         {BEATS.map((b) => (
           <article key={b.k} className="min-w-[220px] md:min-w-[240px] snap-start">
             <ParallaxImage src={b.img} alt="" className="aspect-[3/4] bg-paper-deep" range={16} />
-            <p className="mt-3 font-tamil text-lg font-bold text-forest">{b.t}</p>
+            <p className="mt-3 font-tamil text-terracotta">{b.t}</p>
             <p className="text-[0.65rem] tracking-[0.2em] uppercase text-earth">{b.k}</p>
             <p className="text-sm text-ink-soft">{b.e}</p>
           </article>

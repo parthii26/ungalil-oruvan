@@ -33,7 +33,7 @@ export function HarvestPath() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={s.img} alt="" className="h-full w-full object-cover transition duration-500 hover:scale-[1.02]" />
               </div>
-              <p className="mt-3 font-tamil text-lg font-bold text-forest">{s.ta}</p>
+              <p className="mt-3 font-tamil text-terracotta">{s.ta}</p>
               <p className="text-[0.62rem] tracking-[0.2em] uppercase text-earth">{s.k}</p>
               <p className="text-sm text-ink-soft">{s.e}</p>
             </article>

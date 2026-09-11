@@ -19,37 +19,21 @@ export function StoryHeading({
   const reduce = useReducedMotion();
   return (
     <div>
+      {tamil && <p className={`font-tamil mb-1 ${light ? "text-turmeric" : "text-terracotta"}`}>{tamil}</p>}
       {kicker && (
-        <p className={`text-[0.65rem] tracking-[0.2em] uppercase mb-1 ${light ? "text-turmeric/80" : "text-earth"}`}>
+        <p className={`text-[0.65rem] tracking-[0.2em] uppercase ${light ? "text-turmeric/80" : "text-earth"}`}>
           {kicker}
         </p>
       )}
-      {tamil ? (
-        <>
-          <motion.h2
-            className={`font-tamil text-2xl md:text-5xl font-bold leading-tight ${light ? "text-cream" : "text-forest"}`}
-            initial={reduce ? false : { clipPath: "inset(0 0 100% 0)", opacity: 0.2 }}
-            whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: easeOut }}
-          >
-            {tamil}
-          </motion.h2>
-          <p className={`font-serif text-lg md:text-2xl mt-1 ${light ? "text-turmeric" : "text-terracotta"}`}>
-            {children}
-          </p>
-        </>
-      ) : (
-        <motion.h2
-          className={`font-serif text-[1.75rem] md:text-5xl leading-[1.08] ${light ? "text-cream" : "text-forest"}`}
-          initial={reduce ? false : { clipPath: "inset(0 0 100% 0)", opacity: 0.2 }}
-          whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: easeOut }}
-        >
-          {children}
-        </motion.h2>
-      )}
+      <motion.h2
+        className={`font-serif text-[1.75rem] md:text-5xl leading-[1.08] ${light ? "text-cream" : "text-forest"} ${kicker ? "mt-1" : ""}`}
+        initial={reduce ? false : { clipPath: "inset(0 0 100% 0)", opacity: 0.2 }}
+        whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7, ease: easeOut }}
+      >
+        {children}
+      </motion.h2>
     </div>
   );
 }
@@ -163,11 +147,12 @@ export function SoilType({ src = "/images/harvest-grain.jpg" }: { src?: string }
   const reduce = useReducedMotion();
   return (
     <section className="bg-charcoal py-20 md:py-28 overflow-hidden">
+      <p className="mb-4 text-center font-tamil text-turmeric/90 text-2xl md:text-3xl">நமது மண்</p>
       <motion.p
-        className="container-page text-center font-tamil leading-none text-transparent bg-clip-text bg-cover bg-center select-none font-bold"
+        className="container-page text-center font-serif leading-none text-transparent bg-clip-text bg-cover bg-center select-none"
         style={{
           backgroundImage: `url(${src})`,
-          fontSize: "clamp(3.4rem, 15vw, 10rem)",
+          fontSize: "clamp(3.4rem, 16vw, 11rem)",
           WebkitBackgroundClip: "text",
         }}
         initial={reduce ? false : { clipPath: "inset(0 40% 0 40%)", opacity: 0.4 }}
@@ -175,9 +160,8 @@ export function SoilType({ src = "/images/harvest-grain.jpg" }: { src?: string }
         viewport={{ once: true, margin: "-10%" }}
         transition={{ duration: 1.2, ease: easeOut }}
       >
-        நமது மண்
+        OUR SOIL
       </motion.p>
-      <p className="mt-4 text-center font-serif text-lg md:text-2xl uppercase tracking-[0.2em] text-turmeric/80">OUR SOIL</p>
     </section>
   );
 }
