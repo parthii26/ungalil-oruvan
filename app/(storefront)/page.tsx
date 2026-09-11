@@ -96,12 +96,11 @@ export default function HomePage() {
       <section className="grid md:grid-cols-2 items-stretch">
         <MaskImage src="/images/millet-foxtail.jpg" alt="Foxtail millet" className="min-h-[36vh] md:min-h-[420px]" hint="Explore" />
         <div className="flex flex-col justify-center px-6 md:px-16 py-12 md:py-16 bg-paper-deep">
-          <StoryHeading kicker="Traditional grain">
+          <StoryHeading kicker="Traditional grain" tamil="நம் பாரம்பரிய உணவு">
             Ancient food.
             <br />
             Modern table.
           </StoryHeading>
-          <p className="font-tamil text-xl text-terracotta mt-4">நம் பாரம்பரிய உணவு</p>
           <p className="mt-4 text-ink-soft max-w-md">Foxtail, little millet, ragi — everyday cooking, not a novelty aisle.</p>
           <Link href="/category/millets" className="link-grow mt-6 w-fit min-h-11 inline-flex items-center text-[0.72rem] tracking-[0.16em] uppercase">
             Shop millets

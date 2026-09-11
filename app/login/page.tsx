@@ -43,11 +43,11 @@ export default async function CustomerLoginPage({
       <div className="flex items-center justify-center px-4 py-10 md:py-16">
         <LoginStage>
           <div className="w-full max-w-md border border-line bg-warmwhite p-6 md:p-8">
+            <p className="font-tamil text-terracotta text-sm">{settings.tamil_tagline}</p>
             <Link href="/" className="inline-flex min-h-11 items-center font-serif text-3xl text-forest">
               {settings.brand_name}
             </Link>
-            <p className="mt-4 md:mt-6 font-tamil text-terracotta">{settings.tamil_tagline}</p>
-            <h1 className="mt-1 font-serif text-3xl md:text-4xl text-forest">{settings.login_headline}</h1>
+            <h1 className="mt-4 font-serif text-3xl md:text-4xl text-forest">{settings.login_headline}</h1>
             <p className="mt-3 text-sm text-ink-soft">{settings.login_subhead}</p>
             <CustomerLoginForm next={next && !next.startsWith("/admin") ? next : "/account"} error={error} />
             <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm">

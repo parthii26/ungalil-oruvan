@@ -121,8 +121,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
         <div>
+          {product.tamil_name && <p className="mb-2 font-tamil text-xl text-terracotta">{product.tamil_name}</p>}
           <h1 className="font-serif text-[1.9rem] leading-tight md:text-5xl text-forest text-balance">{product.name}</h1>
-          {product.tamil_name && <p className="mt-2 font-tamil text-xl text-terracotta">{product.tamil_name}</p>}
           {rating.count > 0 && (
             <p className="mt-2 text-sm text-ink-soft">
               {rating.average} / 5 · {rating.count} review{rating.count === 1 ? "" : "s"}

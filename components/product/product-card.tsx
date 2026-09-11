@@ -20,8 +20,8 @@ export function ProductCard({ card }: { card: Card }) {
         <ProductVisual src={card.image} alt={card.product.name} />
         <div className="mt-3 space-y-1 transition-transform duration-300 ease-out group-hover:translate-x-[3px]">
           <p className="text-[0.65rem] tracking-[0.16em] uppercase text-ink-soft">{card.categoryName}</p>
-          <h3 className="font-serif text-lg md:text-xl leading-snug text-balance">{card.product.name}</h3>
           {card.product.tamil_name && <p className="font-tamil text-sm text-terracotta">{card.product.tamil_name}</p>}
+          <h3 className="font-serif text-lg md:text-xl leading-snug text-balance">{card.product.name}</h3>
           <p className="text-sm text-ink-soft">{card.variant.title}</p>
           <p className="text-sm">
             {formatPrice(card.variant.price_paise)}
