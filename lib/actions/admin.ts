@@ -62,7 +62,14 @@ async function storeUpload(file: File, prefix: string): Promise<string> {
     }
   }
 
-  // 2. Fallback to local disk for local dev / offline testing
+  // 2. Serverless environment check: Vercel lambda filesystem is read-only, so Supabase Storage is required
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    throw new ValidationError(
+      "Supabase Storage is not configured on Vercel. Please add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to your Vercel Environment Variables to upload product photos.",
+    );
+  }
+
+  // 3. Fallback to local disk for local dev / offline testing
   const dir = path.join(process.cwd(), "public", "uploads");
   await mkdir(dir, { recursive: true });
   await sharp(optimizedBuffer).toFile(path.join(dir, name));
