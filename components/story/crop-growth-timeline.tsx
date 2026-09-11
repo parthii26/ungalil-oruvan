@@ -173,8 +173,8 @@ export function CropGrowthTimeline({ story, hero }: { story: GrowthStoryView; he
               {GROWTH_STAGES.map((stage, i) => (
                 <div key={stage.id} data-card={i} className={`gt-card gt-card-photo z-[2]${i === 0 ? " is-on" : ""}`}>
                   <p className="text-[0.62rem] tracking-[0.22em] uppercase text-turmeric">{stage.number}</p>
-                  <p className="mt-1 font-tamil text-lg text-turmeric/90">{stage.tamil}</p>
-                  <p className="mt-0.5 font-serif text-4xl text-cream">{stage.title}</p>
+                  <p className="mt-1 font-tamil text-3xl md:text-4xl font-bold text-cream">{stage.tamil}</p>
+                  <p className="mt-1 font-serif text-lg text-turmeric/90">{stage.title}</p>
                   <p className="mt-2 max-w-md text-sm text-cream/85">{stage.caption}</p>
                 </div>
               ))}
@@ -200,8 +200,8 @@ function TimelineTrack({ fillRef }: { fillRef: RefObject<HTMLDivElement | null> 
               <div data-node={i} className={`gt-node${i === 0 ? " is-on" : ""}`}>
                 <span className="gt-dot" />
                 <p className="mt-2 text-[0.58rem] tracking-[0.16em] uppercase text-ink-soft">{stage.number}</p>
-                <p className="hidden font-tamil text-xs text-terracotta md:block">{stage.tamil}</p>
-                <p className="hidden text-[0.62rem] tracking-[0.12em] uppercase text-earth md:block">{stage.title}</p>
+                <p className="hidden font-tamil text-sm font-semibold text-forest md:block">{stage.tamil}</p>
+                <p className="hidden text-[0.58rem] tracking-[0.12em] uppercase text-earth md:block">{stage.title}</p>
               </div>
             </li>
           ))}
@@ -229,8 +229,14 @@ function FinalProductTransition({ story }: { story: GrowthStoryView }) {
       </div>
       <div>
         <p className="text-[0.62rem] tracking-[0.22em] uppercase text-earth">From this crop</p>
-        {product?.tamil && <p className="mt-1 font-tamil text-terracotta">{product.tamil}</p>}
-        <p className="mt-0.5 font-serif text-3xl text-forest">{product?.name ?? story.tagline}</p>
+        {product?.tamil ? (
+          <>
+            <p className="mt-1 font-tamil text-2xl md:text-3xl font-bold text-forest">{product.tamil}</p>
+            <p className="mt-0.5 font-serif text-lg text-terracotta">{product.name}</p>
+          </>
+        ) : (
+          <p className="mt-1 font-serif text-3xl text-forest">{product?.name ?? story.tagline}</p>
+        )}
       </div>
       <Link href={story.href} className="link-grow w-fit text-[0.7rem] tracking-[0.18em] uppercase text-forest">
         {story.cta}
@@ -259,8 +265,8 @@ function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: Comp
         <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/60 to-forest/30" aria-hidden />
         <div className="container-page relative flex min-h-[68svh] flex-col justify-end pb-10 pt-16">
           <p className="text-[0.65rem] tracking-[0.28em] uppercase text-turmeric">From seed · {story.cropName}</p>
-          <p className="mt-2 font-tamil text-xl text-turmeric/90">{hero.tamil}</p>
-          <h1 className="mt-1 font-serif text-[2.6rem] leading-[1.02]">{hero.headline}</h1>
+          <h1 className="mt-2 font-tamil text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-cream">{hero.tamil}</h1>
+          <p className="mt-1 font-serif text-xl sm:text-2xl text-turmeric/90">{hero.headline}</p>
           <p className="mt-3 max-w-md text-[0.95rem] leading-relaxed text-cream/85">{hero.subhead}</p>
           <div className="mt-6 flex gap-3">
             <Link href="/shop" className="btn flex-1 bg-cream text-forest">
@@ -294,8 +300,8 @@ function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: Comp
               />
               <div className="p-5">
                 <p className="text-[0.62rem] tracking-[0.22em] uppercase text-earth">{stage.number}</p>
-                <p className="mt-1 font-tamil text-terracotta">{stage.tamil}</p>
-                <h3 className="mt-0.5 font-serif text-2xl text-forest">{stage.title}</h3>
+                <h3 className="mt-1 font-tamil text-2xl font-bold text-forest">{stage.tamil}</h3>
+                <p className="mt-0.5 font-serif text-base text-terracotta">{stage.title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">{stage.caption}</p>
               </div>
             </article>
@@ -313,8 +319,14 @@ function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: Comp
               className="aspect-[16/10] w-full object-cover"
             />
             <p className="mt-3 text-[0.62rem] tracking-[0.22em] uppercase text-turmeric">From this crop</p>
-            {product?.tamil && <p className="mt-1 font-tamil text-turmeric/90">{product.tamil}</p>}
-            <p className="mt-0.5 font-serif text-2xl leading-tight">{product?.name ?? story.tagline}</p>
+            {product?.tamil ? (
+              <>
+                <p className="mt-1 font-tamil text-2xl font-bold leading-tight">{product.tamil}</p>
+                <p className="mt-0.5 font-serif text-lg text-turmeric/90">{product.name}</p>
+              </>
+            ) : (
+              <p className="mt-1 font-serif text-2xl leading-tight">{story.tagline}</p>
+            )}
             {product && (
               <p className="mt-1 text-sm text-cream/80">
                 {product.price}

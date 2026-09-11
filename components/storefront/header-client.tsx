@@ -155,10 +155,10 @@ export function HeaderClient({
               href="/"
               className="text-center absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 max-w-[calc(100%-6rem)] px-2"
             >
-              <span className={`block font-tamil text-[0.7rem] sm:text-xs leading-none mb-0.5 ${overHero ? "text-turmeric" : "text-terracotta"}`}>
+              <span className={`block font-tamil text-[1.25rem] sm:text-[1.35rem] font-bold tracking-tight leading-none truncate md:text-[1.65rem] ${overHero ? "text-cream" : "text-forest"}`}>
                 {tamilTagline}
               </span>
-              <span className={`block font-serif text-[1.25rem] sm:text-[1.35rem] tracking-tight leading-none truncate md:text-[1.65rem] ${overHero ? "text-cream" : "text-forest"}`}>
+              <span className={`block font-serif text-[0.7rem] sm:text-[0.75rem] tracking-[0.14em] uppercase leading-none mt-1 ${overHero ? "text-turmeric" : "text-terracotta"}`}>
                 {brand}
               </span>
             </Link>

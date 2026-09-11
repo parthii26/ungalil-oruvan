@@ -39,8 +39,14 @@ export default async function ProductPreviewPage({ params }: { params: Promise<{
         </div>
         <div>
           <p className="text-xs uppercase tracking-widest text-ink-soft">{data.category?.name}</p>
-          {product.tamil_name && <p className="font-tamil text-terracotta mt-1">{product.tamil_name}</p>}
-          <h1 className="font-serif text-4xl text-forest">{product.name}</h1>
+          {product.tamil_name ? (
+            <>
+              <h1 className="font-tamil text-4xl font-bold text-forest mt-1">{product.tamil_name}</h1>
+              <p className="font-serif text-xl text-terracotta">{product.name}</p>
+            </>
+          ) : (
+            <h1 className="font-serif text-4xl text-forest">{product.name}</h1>
+          )}
           <p className="mt-3 text-ink-soft">{product.short_description}</p>
           {def && <p className="mt-4 text-2xl">{formatPrice(def.price_paise)}</p>}
           <ul className="mt-4 text-sm space-y-1">

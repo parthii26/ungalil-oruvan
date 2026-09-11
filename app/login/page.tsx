@@ -43,9 +43,9 @@ export default async function CustomerLoginPage({
       <div className="flex items-center justify-center px-4 py-10 md:py-16">
         <LoginStage>
           <div className="w-full max-w-md border border-line bg-warmwhite p-6 md:p-8">
-            <p className="font-tamil text-terracotta text-sm">{settings.tamil_tagline}</p>
-            <Link href="/" className="inline-flex min-h-11 items-center font-serif text-3xl text-forest">
-              {settings.brand_name}
+            <Link href="/" className="group block">
+              <p className="font-tamil text-2xl md:text-3xl font-bold text-forest group-hover:text-terracotta transition">{settings.tamil_tagline}</p>
+              <p className="font-serif text-sm text-terracotta tracking-[0.14em] uppercase mt-0.5">{settings.brand_name}</p>
             </Link>
             <h1 className="mt-4 font-serif text-3xl md:text-4xl text-forest">{settings.login_headline}</h1>
             <p className="mt-3 text-sm text-ink-soft">{settings.login_subhead}</p>

@@ -28,8 +28,8 @@ export async function StorefrontFooter() {
       </svg>
       <div className="container-page relative py-12 md:py-20 grid gap-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
-          <p className="font-tamil text-turmeric text-lg">{settings.tamil_tagline}</p>
-          <p className="mt-1 font-serif text-3xl">{settings.brand_name}</p>
+          <p className="font-tamil text-3xl font-bold text-cream">{settings.tamil_tagline}</p>
+          <p className="mt-1 text-sm tracking-[0.16em] uppercase text-turmeric">{settings.brand_name}</p>
           <p className="mt-1 text-[0.7rem] tracking-[0.16em] uppercase text-cream/60">{settings.english_tagline}</p>
           <p className="mt-4 text-sm text-cream/70 leading-relaxed">{settings.footer_text}</p>
         </div>
