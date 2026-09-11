@@ -151,8 +151,11 @@ export function HeaderClient({
               </Link>
             </nav>
 
-            <Link href="/" className="text-center absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-              <span className={`block font-serif text-[1.35rem] tracking-tight leading-none md:text-[1.65rem] ${overHero ? "text-cream" : "text-forest"}`}>
+            <Link
+              href="/"
+              className="text-center absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 max-w-[calc(100%-6rem)] px-2"
+            >
+              <span className={`block font-serif text-[1.25rem] sm:text-[1.35rem] tracking-tight leading-none truncate md:text-[1.65rem] ${overHero ? "text-cream" : "text-forest"}`}>
                 {brand}
               </span>
               <span className={`hidden md:block font-tamil text-[0.65rem] mt-0.5 ${overHero ? "text-turmeric" : "text-terracotta"}`}>
@@ -195,7 +198,7 @@ export function HeaderClient({
                   </span>
                 )}
               </button>
-              <Link href="/shop" className="btn btn-primary hidden lg:inline-flex ml-2 !py-2">
+              <Link href="/shop" className="btn btn-primary !hidden lg:!inline-flex ml-2 !py-2">
                 Shop Now
               </Link>
             </div>
