@@ -101,7 +101,7 @@ export function HeaderClient({
         className={`sticky top-0 z-40 border-b transition-[background,color,border] duration-500 ${
           overHero
             ? "border-transparent bg-transparent text-cream"
-            : "border-line bg-basil-deep/92 text-ink backdrop-blur-md"
+            : "border-line bg-cream/92 text-ink backdrop-blur-md"
         }`}
       >
         <div className="container-page">
@@ -128,7 +128,7 @@ export function HeaderClient({
                   Categories
                 </Link>
                 <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-0 top-full pt-3 transition">
-                  <div className="min-w-56 border border-line bg-basil-deep p-3 shadow-sm overflow-hidden [clip-path:inset(0_0_100%_0)] group-hover:[clip-path:inset(0)] transition-[clip-path] duration-500">
+                  <div className="min-w-56 border border-line bg-cream p-3 shadow-sm overflow-hidden [clip-path:inset(0_0_100%_0)] group-hover:[clip-path:inset(0)] transition-[clip-path] duration-500">
                     {categories.map((c) => (
                       <Link key={c.slug} href={`/category/${c.slug}`} className="block px-2 py-2 text-[0.7rem] text-ink hover:bg-paper-deep">
                         {c.name}
@@ -207,7 +207,7 @@ export function HeaderClient({
 
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 bg-basil-deep md:hidden overflow-y-auto"
+            className="fixed inset-0 z-50 bg-cream md:hidden overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Menu"

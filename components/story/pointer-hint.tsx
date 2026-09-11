@@ -45,7 +45,7 @@ export function PointerHint() {
     <div
       ref={el}
       data-show="0"
-      className="pointer-events-none fixed left-0 top-0 z-[85] hidden md:block text-[0.58rem] tracking-[0.2em] uppercase text-earth bg-basil-deep/90 px-2 py-1 opacity-0 data-[show='1']:opacity-100 transition-opacity duration-200"
+      className="pointer-events-none fixed left-0 top-0 z-[85] hidden md:block text-[0.58rem] tracking-[0.2em] uppercase text-earth bg-cream/90 px-2 py-1 opacity-0 data-[show='1']:opacity-100 transition-opacity duration-200"
       aria-hidden
     />
   );

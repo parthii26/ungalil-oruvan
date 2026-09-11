@@ -13,7 +13,7 @@ export function ProductVisual({
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative aspect-[4/5] overflow-hidden bg-paper-deep shadow-[0_10px_30px_-24px_rgba(41,39,34,0.7)] transition-colors duration-300 group-hover:bg-[#3d7237]">
+    <div className="relative aspect-[4/5] overflow-hidden bg-paper-deep shadow-[0_10px_30px_-24px_rgba(41,39,34,0.7)] transition-colors duration-300 group-hover:bg-[#e6dcc8]">
       {src ? (
         <Image
           src={src}

@@ -11,10 +11,10 @@ export default function RegisterPage() {
       <aside className="relative hidden md:block overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={settings.hero_image} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-basil-deep/55" />
+        <div className="absolute inset-0 bg-forest/55" />
       </aside>
       <div className="flex items-center justify-center p-4 md:p-8 py-10">
-        <div className="w-full max-w-sm border border-line bg-basil-deep/90 p-6 md:p-8">
+        <div className="w-full max-w-sm border border-line bg-cream/90 p-6 md:p-8">
           <Link href="/" className="inline-flex min-h-11 items-center font-serif text-3xl text-forest">
             {settings.brand_name}
           </Link>

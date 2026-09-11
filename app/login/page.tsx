@@ -22,7 +22,7 @@ export default async function CustomerLoginPage({
   const settings = getSiteSettings();
 
   return (
-    <div className="min-h-screen grid md:grid-cols-2 bg-basil-deep">
+    <div className="min-h-screen grid md:grid-cols-2 bg-cream">
       <aside className="relative hidden md:block overflow-hidden bg-charcoal">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

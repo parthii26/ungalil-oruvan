@@ -35,7 +35,7 @@ export function BottomNav({
   return (
     <nav
       aria-label="Primary"
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-line bg-basil-deep/95 backdrop-blur"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-line bg-cream/95 backdrop-blur"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <ul className="grid grid-cols-5 h-[var(--bnav-h)]">

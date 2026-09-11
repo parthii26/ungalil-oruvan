@@ -1,51 +1,34 @@
 @import "tailwindcss";
 
-/*
- * Basil theme. The page background is Basil #32612D, so this is a dark
- * palette: surfaces are darker than the page and text is light.
- *
- * Every foreground token below was solved to clear WCAG AA (>= 4.5:1) on all
- * three surfaces -- page #32612D, card #2f5a2a and deep #274e23 -- with hue and
- * saturation preserved (raised HSL lightness, not a wash toward white).
- * --line sits at 3.39:1, which clears the 3:1 bar for non-text UI (WCAG 1.4.11).
- */
 :root {
   --bnav-h: 3.5rem;
-  /* Basil surfaces */
-  --basil: #32612d;
-  --basil-deep: #274e23;
-  --basil-ink: #1e3a1a;
-  /* Foreground accents (light, for use on the dark surfaces) */
-  --forest: #b9d6a4;
-  --paddy: #c4d2ae;
-  --earth: #ddc9b9;
-  --terracotta: #e6c6b8;
-  --turmeric: #e1cb98;
+  --forest: #243c2a;
+  --paddy: #667b45;
+  --earth: #76543a;
+  --terracotta: #a85c3b;
+  --turmeric: #c49a3a;
   --cream: #f5f0e5;
-  --warmwhite: #2f5a2a;
+  --warmwhite: #fcfaf5;
   --charcoal: #292722;
-  --sage: #c9cfc2;
-  --paper: #32612d;
-  --paper-deep: #2b5226;
-  --offwhite: #f5f0e5;
-  --ink: #f5f0e5;
-  --ink-soft: #d2e0c6;
-  --line: #93bc84;
-  --accent: #e6c6b8;
-  --accent-deep: #d9ae99;
-  --moss: #b9d6a4;
-  --gold: #e1cb98;
-  --mustard: #e1cb98;
-  --danger: #ecc4bb;
-  --ok: #bcd4b0;
-  --warn: #e1cb98;
-  --info: #bfd1ce;
+  --sage: #89957a;
+  --paper: #f5f0e5;
+  --paper-deep: #ebe4d4;
+  --offwhite: #fcfaf5;
+  --ink: #292722;
+  --ink-soft: #5e574c;
+  --line: #d7cebe;
+  --accent: #a85c3b;
+  --accent-deep: #86462c;
+  --moss: #243c2a;
+  --gold: #c49a3a;
+  --mustard: #c49a3a;
+  --danger: #9a3f2c;
+  --ok: #4a6a3a;
+  --warn: #c49a3a;
+  --info: #4d6b66;
 }
 
 @theme inline {
-  --color-basil: var(--basil);
-  --color-basil-deep: var(--basil-deep);
-  --color-basil-ink: var(--basil-ink);
   --color-forest: var(--forest);
   --color-paddy: var(--paddy);
   --color-earth: var(--earth);
@@ -124,8 +107,8 @@ h3,
 }
 
 ::selection {
-  background: var(--gold);
-  color: var(--basil-ink);
+  background: #e4d3b8;
+  color: var(--ink);
 }
 
 a:focus-visible,
@@ -252,7 +235,7 @@ input[type="radio"] {
   height: 0.55rem;
   margin: 0 auto;
   border-radius: 999px;
-  background: var(--line);
+  background: #c4b89e;
   transform: scale(1);
 }
 
@@ -275,7 +258,7 @@ input[type="radio"] {
 }
 
 .gt-node.is-on .gt-dot {
-  background: var(--gold);
+  background: #667b45;
 }
 
 .gt-well {
@@ -452,12 +435,12 @@ input[type="radio"] {
 }
 
 .btn-primary {
-  background: var(--basil-deep);
+  background: var(--forest);
   color: var(--cream);
 }
 
 .btn-primary:hover {
-  background: var(--basil-ink);
+  background: #1c3022;
 }
 
 /* Ghost defaults to the ink (light-background) treatment so text is always
@@ -475,8 +458,8 @@ input[type="radio"] {
 
 .btn-ghost:hover,
 .btn-ghost.ink:hover {
-  background: var(--cream);
-  color: var(--basil-ink);
+  background: var(--forest);
+  color: var(--cream);
 }
 
 .btn-ghost.on-dark {
@@ -541,25 +524,6 @@ input[type="radio"] {
 .admin-shell {
   background: #f6f3ec;
   color: #292722;
-  /*
-   * The admin back-office stays on the original light palette. Scoping the
-   * variables here means the shared storefront tokens can be dark (Basil)
-   * without dragging the operations screens along with them.
-   */
-  --paper: #f5f0e5;
-  --paper-deep: #ebe4d4;
-  --warmwhite: #fcfaf5;
-  --ink: #292722;
-  --ink-soft: #5e574c;
-  --line: #d7cebe;
-  --forest: #243c2a;
-  --earth: #76543a;
-  --terracotta: #a85c3b;
-  --turmeric: #c49a3a;
-  --sage: #89957a;
-  --danger: #9a3f2c;
-  --ok: #4a6a3a;
-  --info: #4d6b66;
 }
 
 /* Admin action ergonomics: every inline action meets touch minimums. */
