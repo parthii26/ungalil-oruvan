@@ -12,21 +12,6 @@ begin
 end;
 $$;
 
-create or replace function public.is_admin()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1
-    from public.admin_users au
-    join public.profiles p on p.id = au.profile_id
-    where p.id = auth.uid()
-  );
-$$;
-
 create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   email text not null unique,
@@ -49,6 +34,23 @@ create table public.admin_users (
   profile_id uuid not null unique references public.profiles (id) on delete cascade,
   created_at timestamptz not null default now()
 );
+
+create or replace function public.is_admin()
+returns boolean
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+begin
+  return exists (
+    select 1
+    from public.admin_users au
+    join public.profiles p on p.id = au.profile_id
+    where p.id = auth.uid()
+  );
+end;
+$$;
 
 create table public.addresses (
   id uuid primary key default gen_random_uuid(),
