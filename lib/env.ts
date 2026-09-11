@@ -1,7 +1,8 @@
 import "server-only";
 
 function read(name: string, fallback = ""): string {
-  return process.env[name] ?? fallback;
+  const v = process.env[name];
+  return typeof v === "string" && v.trim().length > 0 ? v.trim() : fallback;
 }
 
 export const env = {

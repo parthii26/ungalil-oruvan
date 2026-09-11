@@ -19,7 +19,10 @@ export interface SessionUser {
 const encoder = new TextEncoder();
 
 function secret() {
-  return encoder.encode(env.authSecret);
+  const s = env.authSecret && env.authSecret.trim().length >= 16
+    ? env.authSecret.trim()
+    : "varizel-dev-auth-secret-change-in-production-32";
+  return encoder.encode(s);
 }
 
 export async function signSession(user: SessionUser): Promise<string> {
