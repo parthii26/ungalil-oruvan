@@ -77,7 +77,7 @@ export default async function CartPage() {
       )}
       {cart.items.length > 0 && (
         <div className="sticky-cta-bar md:hidden">
-          <div className="border-t border-line bg-basil-deep/95 backdrop-blur">
+          <div className="border-t border-line bg-cream/95 backdrop-blur">
             <div className="container-page flex items-center gap-3 py-3">
               <div className="min-w-0 flex-1">
                 <p className="font-serif text-xl leading-none">{formatPrice(cart.quote.grand_total_paise)}</p>

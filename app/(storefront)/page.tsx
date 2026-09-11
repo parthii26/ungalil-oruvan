@@ -49,7 +49,7 @@ export default function HomePage() {
 
       <section id="story" className="grid md:grid-cols-2 md:min-h-[70vh]">
         <MaskImage src="/images/soil-hands.jpg" alt="Soil in working hands" className="min-h-[36vh] md:min-h-[50vh]" hint="Explore" />
-        <div className="flex flex-col justify-center px-6 md:px-16 py-12 md:py-16 bg-basil-deep text-cream">
+        <div className="flex flex-col justify-center px-6 md:px-16 py-12 md:py-16 bg-forest text-cream">
           <StoryHeading kicker="Soil" tamil={settings.story_tamil} light>
             {settings.story_title}
           </StoryHeading>
@@ -60,7 +60,7 @@ export default function HomePage() {
       </section>
 
       <section className="grid md:grid-cols-2 md:min-h-[70vh]">
-        <div className="order-2 md:order-1 flex flex-col justify-center px-6 md:px-16 py-12 md:py-16 bg-basil-deep">
+        <div className="order-2 md:order-1 flex flex-col justify-center px-6 md:px-16 py-12 md:py-16 bg-cream">
           <StoryHeading kicker="The people behind the food">Hands that know the plot</StoryHeading>
           <p className="mt-4 text-ink-soft leading-relaxed max-w-md">
             Development photograph — environmental, not a campaign face. Crop, method, and harvest stay on the product when the data exists.
