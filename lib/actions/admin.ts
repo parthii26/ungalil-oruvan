@@ -26,13 +26,46 @@ async function storeUpload(file: File, prefix: string): Promise<string> {
   adminCatalog.assertImageFile(file);
   const input = Buffer.from(await file.arrayBuffer());
   const name = `${prefix}-${Date.now()}.webp`;
-  const dir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(dir, { recursive: true });
-  await sharp(input)
+
+  const optimizedBuffer = await sharp(input)
     .rotate()
     .resize({ width: 1600, height: 1600, fit: "inside", withoutEnlargement: true })
     .webp({ quality: 80 })
-    .toFile(path.join(dir, name));
+    .toBuffer();
+
+  // 1. Upload to Supabase Cloud Storage if configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (supabaseUrl && serviceRoleKey) {
+    try {
+      const { createClient } = await import("@supabase/supabase-js");
+      const supabase = createClient(supabaseUrl, serviceRoleKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+      const { data, error } = await supabase.storage
+        .from("product-images")
+        .upload(name, optimizedBuffer, {
+          contentType: "image/webp",
+          upsert: true,
+        });
+
+      if (!error && data) {
+        const { data: pub } = supabase.storage
+          .from("product-images")
+          .getPublicUrl(name);
+        if (pub?.publicUrl) return pub.publicUrl;
+      }
+      console.warn("Supabase storage upload returned error, falling back to local:", error);
+    } catch (err) {
+      console.warn("Supabase storage upload failed, falling back to local:", err);
+    }
+  }
+
+  // 2. Fallback to local disk for local dev / offline testing
+  const dir = path.join(process.cwd(), "public", "uploads");
+  await mkdir(dir, { recursive: true });
+  await sharp(optimizedBuffer).toFile(path.join(dir, name));
   return `/uploads/${name}`;
 }
 
@@ -85,7 +118,17 @@ export async function saveProductAction(_prev: unknown, formData: FormData) {
     const vTitle = id ? "" : String(formData.get("variant_title") || "").trim();
     const vSku = id ? "" : String(formData.get("variant_sku") || "").trim();
     const vWeight = id ? "" : String(formData.get("variant_weight_grams") || "").trim();
-    const vPrice = id ? "" : String(formData.get("variant_price_paise") || "").trim();
+    const vPriceInr = id ? "" : String(formData.get("variant_price_inr") || formData.get("variant_price") || "").trim();
+    const vPricePaiseRaw = id ? "" : String(formData.get("variant_price_paise") || "").trim();
+
+    let vPrice = "";
+    if (vPriceInr) {
+      const n = parseFloat(vPriceInr);
+      vPrice = !isNaN(n) ? String(Math.round(n * 100)) : "";
+    } else if (vPricePaiseRaw) {
+      vPrice = vPricePaiseRaw;
+    }
+
     const variantTouched = Boolean(vTitle || vSku || vWeight || vPrice);
     let firstVariant: { sku: string; title: string; weight_grams: number; price_paise: number } | null = null;
     if (variantTouched) {
@@ -102,7 +145,7 @@ export async function saveProductAction(_prev: unknown, formData: FormData) {
           title: "variant_title",
           sku: "variant_sku",
           weight_grams: "variant_weight_grams",
-          price_paise: "variant_price_paise",
+          price_paise: vPriceInr ? "variant_price_inr" : "variant_price_paise",
         };
         const fields: Record<string, string> = {};
         for (const issue of parsedVariant.error.issues) {
@@ -206,14 +249,41 @@ export async function duplicateProductAction(id: string) {
 export async function saveVariantAction(productId: string, formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") || "");
+
+  const toPaise = (val: FormDataEntryValue | null) => {
+    if (!val) return "";
+    const str = String(val).trim();
+    if (!str) return "";
+    const n = parseFloat(str);
+    return isNaN(n) ? "" : String(Math.round(n * 100));
+  };
+
+  const priceInr = formData.get("price_inr") ?? formData.get("price");
+  const compareAtInr = formData.get("compare_at_inr") ?? formData.get("compare_at");
+  const costInr = formData.get("cost_inr") ?? formData.get("cost");
+
+  const pricePaise = priceInr != null && String(priceInr).trim() !== ""
+    ? toPaise(priceInr)
+    : (formData.get("price_paise") || "");
+  const compareAtPaise = compareAtInr != null && String(compareAtInr).trim() !== ""
+    ? toPaise(compareAtInr)
+    : (formData.get("compare_at_paise") || "");
+  const costPaise = costInr != null && String(costInr).trim() !== ""
+    ? toPaise(costInr)
+    : (formData.get("cost_paise") || "");
+
+  const rawSku = String(formData.get("sku") || "").trim();
+  const prod = productsRepo.getProductById(productId);
+  const sku = rawSku || adminCatalog.generateVariantSku(prod?.name ?? "item", Number(formData.get("weight_grams")) || 0);
+
   const parsed = variantSchema.safeParse({
-    sku: formData.get("sku"),
+    sku,
     barcode: formData.get("barcode") || "",
     title: formData.get("title"),
     weight_grams: formData.get("weight_grams"),
-    price_paise: formData.get("price_paise"),
-    compare_at_paise: formData.get("compare_at_paise") || "",
-    cost_paise: formData.get("cost_paise") || "",
+    price_paise: pricePaise,
+    compare_at_paise: compareAtPaise,
+    cost_paise: costPaise,
     status: formData.get("status") || "active",
   });
   if (!parsed.success) return { error: "Check variant fields." };

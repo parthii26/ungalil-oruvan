@@ -99,13 +99,13 @@ export function ProductForm({
         <section>
           <h2 className="text-lg font-semibold">First pack</h2>
           <p className="mt-1 text-xs text-ink-soft">
-            At least one pack is needed before publishing. Prices are integer paise. More packs can be added after creation.
+            At least one pack is needed before publishing. Prices are in Indian Rupees (₹). More packs can be added after creation.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <Field name="variant_title" label="Pack title (e.g. 1 kg)" error={fields.variant_title} />
-            <Field name="variant_sku" label="SKU (optional — made for you if blank)" error={fields.variant_sku} />
+            <Field name="variant_title" label="Pack title (e.g. 500 g, 1 kg)" error={fields.variant_title} />
+            <Field name="variant_sku" label="SKU (optional — auto-generated if blank)" error={fields.variant_sku} />
             <Field name="variant_weight_grams" label="Weight (grams)" error={fields.variant_weight_grams} />
-            <Field name="variant_price_paise" label="Price (paise)" error={fields.variant_price_paise} />
+            <Field name="variant_price_inr" label="Price (₹)" error={fields.variant_price_inr || fields.variant_price_paise} />
           </div>
         </section>
       )}
