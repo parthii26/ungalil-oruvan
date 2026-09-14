@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth/session";
 import { getSiteSettings } from "@/lib/services/settings";
 import { listPublicCategories } from "@/lib/services/catalog";
+import { listPublicNavigation } from "@/lib/services/navigation";
 import { viewCart } from "@/lib/services/cart";
 import { getCartSessionId } from "@/lib/auth/session";
 import { HeaderClient } from "./header-client";
@@ -10,6 +11,7 @@ export async function StorefrontHeader() {
   const settings = getSiteSettings();
   const session = await getSession();
   const categories = listPublicCategories();
+  const navItems = listPublicNavigation();
   const sessionId = await getCartSessionId();
   const cart = viewCart({ customerId: session?.customerId ?? null, sessionId });
   const count = cart.items.reduce((s, i) => s + i.quantity, 0);
@@ -19,6 +21,11 @@ export async function StorefrontHeader() {
       brand={settings.brand_name}
       tamilTagline={settings.tamil_tagline}
       categories={categories.map((c) => ({ name: c.name, slug: c.slug }))}
+      navItems={navItems.map((n) => ({
+        id: n.id,
+        label: n.label,
+        url: n.url,
+      }))}
       signedIn={Boolean(session)}
       isAdmin={session?.role === "admin"}
       cartCount={count}

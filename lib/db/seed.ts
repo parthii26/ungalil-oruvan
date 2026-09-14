@@ -708,6 +708,14 @@ export function createSeed(): Database {
         created_at: T,
       },
     ],
+    navigation_items: [
+      { id: "nav-1", label: "SHOP", url: "/shop", is_active: true, display_order: 1, created_at: T, updated_at: T },
+      { id: "nav-2", label: "CATEGORIES", url: "/categories", is_active: true, display_order: 2, created_at: T, updated_at: T },
+      { id: "nav-3", label: "ABOUT", url: "/about", is_active: true, display_order: 3, created_at: T, updated_at: T },
+      { id: "nav-4", label: "OUR STORY", url: "/about#story", is_active: true, display_order: 4, created_at: T, updated_at: T },
+      { id: "nav-5", label: "BLOG", url: "/blog", is_active: true, display_order: 5, created_at: T, updated_at: T },
+      { id: "nav-6", label: "FAQ", url: "/faq", is_active: true, display_order: 6, created_at: T, updated_at: T },
+    ],
     webhook_events: [],
     outbox_events: [],
   };

@@ -14,6 +14,7 @@ export function HeaderClient({
   brand,
   tamilTagline,
   categories,
+  navItems,
   signedIn,
   isAdmin,
   cartCount,
@@ -23,6 +24,7 @@ export function HeaderClient({
   brand: string;
   tamilTagline: string;
   categories: { name: string; slug: string }[];
+  navItems?: { id: string; label: string; url: string }[];
   signedIn: boolean;
   isAdmin: boolean;
   cartCount: number;
@@ -38,6 +40,16 @@ export function HeaderClient({
 }) {
   const path = usePathname();
   const reduce = useReducedMotion();
+  const activeNav = navItems && navItems.length > 0
+    ? navItems
+    : [
+        { id: "1", label: "Shop", url: "/shop" },
+        { id: "2", label: "Categories", url: "/shop" },
+        { id: "3", label: "About", url: "/about" },
+        { id: "4", label: "Our Story", url: "/about#story" },
+        { id: "5", label: "Blog", url: "/blog" },
+        { id: "6", label: "FAQ", url: "/faq" },
+      ];
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -120,35 +132,33 @@ export function HeaderClient({
                 overHero ? "text-cream/80" : "text-ink-soft"
               }`}
             >
-              <Link href="/shop" className="hover:text-forest">
-                Shop
-              </Link>
-              <div className="relative group">
-                <Link href="/shop" className="hover:text-forest">
-                  Categories
-                </Link>
-                <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-0 top-full pt-3 transition">
-                  <div className="min-w-56 border border-line bg-cream p-3 shadow-sm overflow-hidden [clip-path:inset(0_0_100%_0)] group-hover:[clip-path:inset(0)] transition-[clip-path] duration-500">
-                    {categories.map((c) => (
-                      <Link key={c.slug} href={`/category/${c.slug}`} className="block px-2 py-2 text-[0.7rem] text-ink hover:bg-paper-deep">
-                        {c.name}
+              {activeNav.map((item) => {
+                const isCategories =
+                  item.label.toUpperCase() === "CATEGORIES" || item.url === "/categories";
+                if (isCategories && categories.length > 0) {
+                  return (
+                    <div key={item.id} className="relative group">
+                      <Link href={item.url} className="hover:text-forest">
+                        {item.label}
                       </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <Link href="/about" className="hover:text-forest">
-                About
-              </Link>
-              <Link href="/about#story" className="hover:text-forest">
-                Our Story
-              </Link>
-              <Link href="/blog" className="hover:text-forest">
-                Blog
-              </Link>
-              <Link href="/faq" className="hover:text-forest">
-                FAQ
-              </Link>
+                      <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-0 top-full pt-3 transition">
+                        <div className="min-w-56 border border-line bg-cream p-3 shadow-sm overflow-hidden [clip-path:inset(0_0_100%_0)] group-hover:[clip-path:inset(0)] transition-[clip-path] duration-500">
+                          {categories.map((c) => (
+                            <Link key={c.slug} href={`/category/${c.slug}`} className="block px-2 py-2 text-[0.7rem] text-ink hover:bg-paper-deep">
+                              {c.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <Link key={item.id} href={item.url} className="hover:text-forest">
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
 
             <Link
@@ -238,31 +248,19 @@ export function HeaderClient({
                 <Search size={19} className="text-ink-soft" />
                 Search the pantry
               </button>
-              {["Shop", ...categories.map((c) => c.name), "About", "Blog", "FAQ"].map((label, i) => {
-                const href =
-                  label === "Shop"
-                    ? "/shop"
-                    : label === "About"
-                      ? "/about"
-                      : label === "Blog"
-                        ? "/blog"
-                        : label === "FAQ"
-                          ? "/faq"
-                          : `/category/${categories.find((c) => c.name === label)?.slug ?? ""}`;
-                return (
-                  <motion.div
-                    key={label}
-                    initial={reduce ? false : { opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.06 * i, ease: easeOut }}
-                    className="border-b border-line/60"
-                  >
-                    <Link href={href} onClick={() => setOpen(false)} className="flex min-h-12 items-center py-2">
-                      {label}
-                    </Link>
-                  </motion.div>
-                );
-              })}
+              {activeNav.map((item, i) => (
+                <motion.div
+                  key={item.id}
+                  initial={reduce ? false : { opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.06 * i, ease: easeOut }}
+                  className="border-b border-line/60"
+                >
+                  <Link href={item.url} onClick={() => setOpen(false)} className="flex min-h-12 items-center py-2">
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
               <Link
                 href={signedIn ? "/account/orders" : "/login?next=/account/orders"}
                 onClick={() => setOpen(false)}

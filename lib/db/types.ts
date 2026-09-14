@@ -327,6 +327,16 @@ export interface Review {
   created_at: string;
 }
 
+export interface NavigationItem {
+  id: string;
+  label: string;
+  url: string;
+  is_active: boolean;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Database {
   profiles: Profile[];
   customers: Customer[];
@@ -355,6 +365,7 @@ export interface Database {
   faqs: Faq[];
   pages: Page[];
   reviews: Review[];
+  navigation_items: NavigationItem[];
   webhook_events: { id: string; source: string; payload: unknown; created_at: string }[];
   outbox_events: { id: string; type: string; payload: unknown; processed_at: string | null; created_at: string }[];
 }
