@@ -62,10 +62,10 @@ export default async function CheckoutPage() {
   return (
     <div className="container-page py-8 md:py-12 grid lg:grid-cols-[1fr_340px] gap-8 md:gap-12">
       <div className="min-w-0">
-        <p className="label">Stage 1</p>
+        <p className="label">Ungalil Oruvan</p>
         <h1 className="font-serif text-4xl md:text-5xl text-forest">Checkout</h1>
         <p className="mt-3 text-ink-soft max-w-xl">
-          Payment is not captured. Completing this form creates a pending-payment order. Razorpay is a Stage 2 integration.
+          Review your order details and complete the delivery form below to place your order.
         </p>
         {!session && (
           <p className="mt-4 text-sm">

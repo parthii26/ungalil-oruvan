@@ -13,10 +13,13 @@ const nav = [
   { href: "/admin/navigation", label: "Navigation" },
   { href: "/admin/about", label: "About Page" },
   { href: "/admin/orders", label: "Orders" },
+  { href: "/admin/coupons", label: "Coupons" },
   { href: "/admin/customers", label: "Customers" },
   { href: "/admin/inventory", label: "Inventory" },
   { href: "/admin/batches", label: "Batches" },
   { href: "/admin/reports", label: "Reports" },
+  { href: "/admin/messages", label: "Messages" },
+  { href: "/admin/pages", label: "Pages" },
   { href: "/admin/settings", label: "Settings" },
 ];
 

@@ -99,6 +99,7 @@ export function insertVariant(input: Omit<ProductVariant, "id" | "created_at" | 
     const now = nowIso();
     const row: ProductVariant = {
       ...input,
+      stock_qty: input.stock_qty ?? 50,
       id: input.id ?? uid(),
       created_at: now,
       updated_at: now,
@@ -237,5 +238,23 @@ export function updateImageAlt(id: string, alt: string) {
   mutate((db) => {
     const row = db.product_images.find((i) => i.id === id);
     if (row) row.alt = alt;
+  });
+}
+
+export function updateVariantStock(id: string, qty: number) {
+  return mutate((db) => {
+    const row = db.product_variants.find((v) => v.id === id);
+    if (!row) return null;
+    row.stock_qty = Math.max(0, qty);
+    row.updated_at = nowIso();
+    return row;
+  });
+}
+
+export function listAllVariantsWithProduct() {
+  const db = loadDb();
+  return db.product_variants.map((v) => {
+    const product = db.products.find((p) => p.id === v.product_id);
+    return { variant: { ...v, stock_qty: v.stock_qty ?? 50 }, product };
   });
 }

@@ -17,7 +17,7 @@ export default async function OrderSuccessPage({
       <p className="label">Confirmation</p>
       <h1 className="font-serif text-3xl md:text-5xl mt-2 text-balance">Order received — payment pending</h1>
       <p className="mt-4 text-ink-soft">
-        Payment was not captured. This is not a paid order. Stage 2 will connect Razorpay.
+        Thank you! Your order has been placed. Our team will verify and contact you with payment and delivery details.
       </p>
       {order ? (
         <div className="mt-8 border border-line bg-warmwhite p-5 md:p-6">

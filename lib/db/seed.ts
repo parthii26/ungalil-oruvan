@@ -386,6 +386,7 @@ export function createSeed(): Database {
         compare_at_paise: v.compare ?? null,
         cost_paise: Math.trunc(v.price * 0.55),
         status: "active",
+        stock_qty: 50,
         position: i,
         created_at: T,
         updated_at: T,
@@ -691,10 +692,34 @@ export function createSeed(): Database {
       { id: "faq-4", question: "Can I return opened food?", answer: "Return policy will be published with the legal pages once the client confirms terms.", position: 4, published: true },
     ],
     pages: [
-      { id: "pg-privacy", slug: "privacy", title: "Privacy policy", body: "Development placeholder. Customer data is isolated by account. Do not treat this as a legal policy.", published: true },
-      { id: "pg-terms", slug: "terms", title: "Terms of use", body: "Development placeholder terms for the Ungalil Oruvan Stage 1 storefront.", published: true },
-      { id: "pg-shipping", slug: "shipping", title: "Shipping", body: "Live shipping is a Stage 2 integration. Orders remain pending payment in Stage 1.", published: true },
-      { id: "pg-refunds", slug: "refunds", title: "Refunds", body: "Refunds are not processed in Stage 1 because payments are not captured.", published: true },
+      {
+        id: "pg-privacy",
+        slug: "privacy",
+        title: "Privacy Policy",
+        body: "Ungalil Oruvan ('we', 'us', 'our') respects your privacy and is committed to protecting your personal data.\n\nWhat we collect\nWe collect your name, email address, phone number, and delivery address when you create an account or place an order. We also collect browsing data such as pages visited and items added to cart.\n\nHow we use your data\nYour data is used solely to process your orders, send you updates about your orders, and improve our service. We do not sell your personal data to third parties.\n\nData retention\nOrder data is retained for legal and accounting purposes. You may request deletion of your account and associated data by contacting us at the email listed on our Contact page.\n\nCookies\nWe use session cookies to maintain your cart and login state. No third-party advertising cookies are used.\n\nContact\nFor any privacy concerns, please write to us at the email on our Contact page.",
+        published: true,
+      },
+      {
+        id: "pg-terms",
+        slug: "terms",
+        title: "Terms of Use",
+        body: "By using this website, you agree to these terms. Please read them carefully.\n\nProducts\nAll products listed are organic and sourced from verified farmers. Product descriptions, images, and weights are as accurate as possible. Slight variations in colour or weight may occur due to the natural origin of the products.\n\nOrders\nPlacing an order creates a record in our system. Your order is confirmed only after payment is received and verified by us. We reserve the right to cancel any order and issue a full refund.\n\nPricing\nAll prices are listed in Indian Rupees (INR) inclusive of applicable taxes where stated. We reserve the right to update prices at any time.\n\nUser accounts\nYou are responsible for maintaining the confidentiality of your account credentials. Please notify us immediately if you suspect unauthorised access.\n\nLimitation of liability\nWe are not liable for any indirect or consequential losses arising from the use of this website or our products.\n\nGoverning law\nThese terms are governed by the laws of India.",
+        published: true,
+      },
+      {
+        id: "pg-shipping",
+        slug: "shipping",
+        title: "Shipping Policy",
+        body: "We currently ship across India.\n\nProcessing time\nOrders are processed within 1-2 business days of payment confirmation.\n\nDelivery time\nTypical delivery times are 4-7 business days depending on your location. Remote areas may take longer.\n\nShipping charges\nShipping is free on orders above Rs. 499. A flat shipping fee applies to orders below this threshold. The exact shipping charge is shown at checkout.\n\nTracking\nOnce your order is shipped, you will receive a tracking number via email or SMS.\n\nDamaged or missing items\nIf your order arrives damaged or items are missing, please contact us within 48 hours of delivery with a photo of the package.",
+        published: true,
+      },
+      {
+        id: "pg-refunds",
+        slug: "refunds",
+        title: "Returns & Refunds",
+        body: "We want you to be completely satisfied with your purchase.\n\nReturn eligibility\nWe accept returns within 7 days of delivery for unopened, undamaged products in their original packaging.\n\nFood safety\nFor health and safety reasons, we cannot accept returns of opened food products unless they are defective or spoiled upon arrival.\n\nHow to return\nContact us at the email on our Contact page with your order number and the reason for the return. We will arrange pickup if the return is approved.\n\nRefund process\nApproved refunds are processed within 5-7 business days of us receiving the returned item. Refunds are credited to the original payment method.",
+        published: true,
+      },
     ],
     reviews: [
       {
@@ -716,6 +741,7 @@ export function createSeed(): Database {
       { id: "nav-5", label: "BLOG", url: "/blog", is_active: true, display_order: 5, created_at: T, updated_at: T },
       { id: "nav-6", label: "FAQ", url: "/faq", is_active: true, display_order: 6, created_at: T, updated_at: T },
     ],
+    contact_messages: [],
     webhook_events: [],
     outbox_events: [],
   };

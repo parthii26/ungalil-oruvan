@@ -101,6 +101,7 @@ export interface ProductVariant {
   compare_at_paise: Paise | null;
   cost_paise: Paise | null;
   status: VariantStatus;
+  stock_qty?: number;
   position: number;
   created_at: string;
   updated_at: string;
@@ -345,6 +346,15 @@ export interface NavigationItem {
   updated_at: string;
 }
 
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  read: boolean;
+  created_at: string;
+}
+
 export interface Database {
   profiles: Profile[];
   customers: Customer[];
@@ -374,6 +384,7 @@ export interface Database {
   pages: Page[];
   reviews: Review[];
   navigation_items: NavigationItem[];
+  contact_messages: ContactMessage[];
   webhook_events: { id: string; source: string; payload: unknown; created_at: string }[];
   outbox_events: { id: string; type: string; payload: unknown; processed_at: string | null; created_at: string }[];
 }

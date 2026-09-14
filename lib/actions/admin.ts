@@ -510,3 +510,124 @@ export async function saveSettingsAction(_prev: unknown, formData: FormData) {
     return { ok: false as const, error: toUserMessage(e) };
   }
 }
+
+export async function updateOrderStatusAction(_prev: unknown, formData: FormData) {
+  try {
+    await requireAdmin();
+    const id = String(formData.get("order_id") || "");
+    const status = String(formData.get("status") || "") as import("@/lib/db/types").OrderStatus;
+    const note = String(formData.get("note") || "").trim() || undefined;
+    const VALID: import("@/lib/db/types").OrderStatus[] = [
+      "pending_payment", "cancelled", "confirmed", "processing", "packed", "shipped", "out_for_delivery", "delivered",
+    ];
+    if (!VALID.includes(status)) return { ok: false, error: "Invalid status" };
+    const { updateOrderStatus } = await import("@/lib/repositories/orders");
+    const order = updateOrderStatus(id, status, note || undefined);
+    if (!order) return { ok: false, error: "Order not found" };
+    revalidatePath(`/admin/orders/${id}`);
+    revalidatePath("/admin/orders");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: toUserMessage(e) };
+  }
+}
+
+// ──────────────────────────────────────────────
+// COUPON ACTIONS
+// ──────────────────────────────────────────────
+
+export async function saveCouponAction(_prev: unknown, formData: FormData) {
+  try {
+    await requireAdmin();
+    const id = String(formData.get("id") || "");
+    const code = String(formData.get("code") || "").trim().toUpperCase();
+    if (!code) return { ok: false, error: "Code is required" };
+    const type = String(formData.get("type") || "") as import("@/lib/db/types").CouponType;
+    if (type !== "percentage" && type !== "fixed") return { ok: false, error: "Invalid type" };
+    const value = parseFloat(String(formData.get("value") || "0"));
+    const isFixed = type === "fixed";
+    const data = {
+      code,
+      type,
+      value: isFixed ? Math.round(value * 100) : value, // fixed: paise; percent: number
+      min_subtotal_paise: Math.round(parseFloat(String(formData.get("min_subtotal") || "0")) * 100),
+      max_discount_paise: formData.get("max_discount") ? Math.round(parseFloat(String(formData.get("max_discount"))) * 100) : null,
+      starts_at: String(formData.get("starts_at") || new Date().toISOString()),
+      ends_at: String(formData.get("ends_at") || new Date(Date.now() + 365 * 86400000).toISOString()),
+      usage_limit: formData.get("usage_limit") ? parseInt(String(formData.get("usage_limit"))) : null,
+      per_customer_limit: formData.get("per_customer_limit") ? parseInt(String(formData.get("per_customer_limit"))) : null,
+      product_ids: [] as string[],
+      category_ids: [] as string[],
+      is_active: formData.get("is_active") === "on",
+    };
+    const { createCoupon, updateCoupon, findCouponByCode } = await import("@/lib/repositories/coupons");
+    if (id) {
+      updateCoupon(id, data);
+    } else {
+      const existing = findCouponByCode(code);
+      if (existing) return { ok: false, error: "A coupon with this code already exists" };
+      createCoupon(data);
+    }
+    revalidatePath("/admin/coupons");
+    redirect("/admin/coupons");
+  } catch (e: unknown) {
+    if ((e as { digest?: string }).digest?.startsWith("NEXT_REDIRECT")) throw e;
+    return { ok: false, error: toUserMessage(e) };
+  }
+}
+
+export async function deleteCouponAction(id: string) {
+  try {
+    await requireAdmin();
+    const { deleteCoupon } = await import("@/lib/repositories/coupons");
+    deleteCoupon(id);
+    revalidatePath("/admin/coupons");
+    redirect("/admin/coupons");
+  } catch (e: unknown) {
+    if ((e as { digest?: string }).digest?.startsWith("NEXT_REDIRECT")) throw e;
+    return { ok: false, error: toUserMessage(e) };
+  }
+}
+
+// ──────────────────────────────────────────────
+// INVENTORY ACTIONS
+// ──────────────────────────────────────────────
+
+export async function updateStockAction(_prev: unknown, formData: FormData) {
+  try {
+    await requireAdmin();
+    const variantId = String(formData.get("variant_id") || "");
+    const qty = parseInt(String(formData.get("qty") || "0"));
+    if (!variantId) return { ok: false, error: "Missing variant" };
+    const { updateVariantStock } = await import("@/lib/repositories/products");
+    const v = updateVariantStock(variantId, qty);
+    if (!v) return { ok: false, error: "Variant not found" };
+    revalidatePath("/admin/inventory");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: toUserMessage(e) };
+  }
+}
+
+// ──────────────────────────────────────────────
+// PAGE ACTIONS
+// ──────────────────────────────────────────────
+
+export async function updatePageAction(_prev: unknown, formData: FormData) {
+  try {
+    await requireAdmin();
+    const id = String(formData.get("id") || "");
+    const title = String(formData.get("title") || "").trim();
+    const body = String(formData.get("body") || "").trim();
+    const published = formData.get("published") === "on";
+    if (!id) return { ok: false, error: "Missing page ID" };
+    const { updatePage } = await import("@/lib/repositories/pages");
+    const page = updatePage(id, { title, body, published });
+    if (!page) return { ok: false, error: "Page not found" };
+    revalidatePath(`/policies/${page.slug}`);
+    revalidatePath("/admin/pages");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: toUserMessage(e) };
+  }
+}

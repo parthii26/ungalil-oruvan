@@ -26,8 +26,28 @@ export function loadDb(): Database {
   if (existsSync(DB_PATH)) {
     try {
       const db = JSON.parse(readFileSync(DB_PATH, "utf8")) as Database;
+      let shouldPersist = false;
       if (!db.navigation_items || !Array.isArray(db.navigation_items)) {
         db.navigation_items = createSeed().navigation_items;
+        shouldPersist = true;
+      }
+      if (!db.contact_messages || !Array.isArray(db.contact_messages)) {
+        db.contact_messages = [];
+        shouldPersist = true;
+      }
+      if (db.product_variants) {
+        for (const v of db.product_variants) {
+          if (v.stock_qty === undefined) {
+            v.stock_qty = v.status === "active" ? 50 : 0;
+            shouldPersist = true;
+          }
+        }
+      }
+      if (db.pages && db.pages.some((p) => p.body.includes("Development placeholder"))) {
+        db.pages = createSeed().pages;
+        shouldPersist = true;
+      }
+      if (shouldPersist) {
         persist(db);
       }
       inMemoryFallback = db;

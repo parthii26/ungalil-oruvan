@@ -15,7 +15,9 @@ export default async function PolicyPage({ params }: { params: Promise<{ slug: s
   return (
     <div className="container-page py-10 md:py-16 max-w-2xl">
       <h1 className="font-serif text-4xl md:text-5xl">{page.title}</h1>
-      <p className="mt-8 leading-relaxed">{page.body}</p>
+      <p className="mt-8 leading-relaxed whitespace-pre-line" data-testid="policy-body">
+        {page.body}
+      </p>
     </div>
   );
 }

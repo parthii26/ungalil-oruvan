@@ -90,3 +90,21 @@ export function cancelPendingOrder(id: string) {
     return order;
   });
 }
+
+export function updateOrderStatus(id: string, status: import("@/lib/db/types").OrderStatus, note?: string) {
+  return mutate((db) => {
+    const order = db.orders.find((o) => o.id === id);
+    if (!order) return null;
+    const prev = order.status;
+    order.status = status;
+    order.updated_at = nowIso();
+    db.order_events.push({
+      id: uid(),
+      order_id: order.id,
+      type: "status_change",
+      message: note ?? `Status changed from ${prev.replaceAll("_", " ")} to ${status.replaceAll("_", " ")}.`,
+      created_at: nowIso(),
+    });
+    return order;
+  });
+}

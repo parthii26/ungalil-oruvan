@@ -1,4 +1,5 @@
 import { getSiteSettings } from "@/lib/services/settings";
+import { ContactForm } from "./form";
 
 export const metadata = { title: "Contact" };
 
@@ -7,26 +8,12 @@ export default function ContactPage() {
   return (
     <div className="container-page py-10 md:py-16 max-w-xl">
       <h1 className="font-serif text-4xl md:text-5xl">Contact</h1>
-      <p className="mt-4 text-ink-soft">
-        {s.address && (
-          <>
-            {s.address}
-            <br />
-          </>
-        )}
-        {s.contact_email}
-        <br />
-        {s.contact_phone}
-      </p>
-      <form className="mt-10 space-y-3">
-        <p className="text-sm text-ink-soft">The form is not wired to email (Resend is Stage 2).</p>
-        <input className="input" placeholder="Name" disabled />
-        <input className="input" placeholder="Email" disabled />
-        <textarea className="input min-h-28" placeholder="Message" disabled />
-        <button className="btn btn-primary" disabled type="button">
-          Send — not configured
-        </button>
-      </form>
+      <div className="mt-6 space-y-1 text-ink-soft">
+        {s.address && <p>{s.address}</p>}
+        {s.contact_email && <p>{s.contact_email}</p>}
+        {s.contact_phone && <p>{s.contact_phone}</p>}
+      </div>
+      <ContactForm />
     </div>
   );
 }

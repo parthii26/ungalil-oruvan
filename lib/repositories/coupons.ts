@@ -22,3 +22,39 @@ export function recordRedemption(couponId: string, customerId: string | null, or
     });
   });
 }
+
+export function listAllCoupons() {
+  return loadDb().coupons.sort((a, b) => a.code.localeCompare(b.code));
+}
+
+export function getCouponById(id: string) {
+  return loadDb().coupons.find((c) => c.id === id) ?? null;
+}
+
+export function createCoupon(input: Omit<import("@/lib/db/types").Coupon, "id" | "created_at">) {
+  return mutate((db) => {
+    const row: import("@/lib/db/types").Coupon = {
+      ...input,
+      id: uid(),
+      created_at: nowIso(),
+    };
+    db.coupons.push(row);
+    return row;
+  });
+}
+
+export function updateCoupon(id: string, patch: Partial<Omit<import("@/lib/db/types").Coupon, "id" | "created_at">>) {
+  return mutate((db) => {
+    const row = db.coupons.find((c) => c.id === id);
+    if (!row) return null;
+    Object.assign(row, patch);
+    return row;
+  });
+}
+
+export function deleteCoupon(id: string) {
+  mutate((db) => {
+    db.coupons = db.coupons.filter((c) => c.id !== id);
+  });
+}
+
