@@ -5,7 +5,7 @@ import { nowIso, uid } from "@/lib/utils";
 export function nextOrderNumber(db: { order_sequence: number }) {
   db.order_sequence += 1;
   const year = new Date().getUTCFullYear();
-  return `VZ-${year}-${String(db.order_sequence).padStart(6, "0")}`;
+  return `UO-${year}-${String(db.order_sequence).padStart(6, "0")}`;
 }
 
 export function findByIdempotency(key: string, customerId: string | null) {

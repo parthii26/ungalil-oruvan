@@ -468,7 +468,7 @@ export function createSeed(): Database {
   const orderId = "order-demo-1";
   const order = {
     id: orderId,
-    order_number: "VZ-2026-000001",
+    order_number: "UO-2026-000001",
     customer_id: custAId,
     email: DEV_ACCOUNTS.customerA.email,
     status: "pending_payment" as const,
