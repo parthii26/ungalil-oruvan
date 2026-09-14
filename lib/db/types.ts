@@ -281,6 +281,14 @@ export interface SiteSettings {
   login_subhead: string;
   story_title: string;
   story_tamil: string;
+  story_body?: string;
+  about_tamil_badge?: string;
+  about_title?: string;
+  about_intro?: string;
+  about_image_1?: string;
+  about_image_1_alt?: string;
+  about_image_2?: string;
+  about_image_2_alt?: string;
   gstin: string | null;
   fssai: string | null;
   seo_title: string;
