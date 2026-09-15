@@ -42,8 +42,8 @@ export default function HomePage() {
       <section className="container-page py-10 md:py-16">
         <div className="flex items-baseline justify-between mb-6 md:mb-8">
           <div>
-            <p className="font-tamil text-terracotta text-sm">மக்கள் விரும்பி வாங்குபவை</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-forest mt-1">Best Sellers</h2>
+            <h2 className="font-tamil text-2xl md:text-3xl font-semibold text-forest leading-snug">மக்கள் விரும்பி வாங்குபவை</h2>
+            <p className="font-serif text-2xl md:text-3xl font-normal text-ink leading-snug">Best Sellers</p>
           </div>
           <Link href="/shop" className="link-grow min-h-11 inline-flex items-center text-[0.72rem] tracking-[0.16em] uppercase">
             View All Products →
@@ -176,8 +176,8 @@ export default function HomePage() {
       <section className="container-page py-12 md:py-16">
         <div className="flex items-end justify-between mb-6 md:mb-8">
           <div>
-            <p className="font-tamil text-terracotta text-sm">களக் குறிப்புகள்</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-forest mt-1">Farm Journal</h2>
+            <h2 className="font-tamil text-2xl md:text-3xl font-semibold text-forest leading-snug">களக் குறிப்புகள்</h2>
+            <p className="font-serif text-2xl md:text-3xl font-normal text-ink leading-snug">From the Farm Journal</p>
           </div>
           <Link href="/blog" className="link-grow min-h-11 inline-flex items-center text-[0.7rem] tracking-[0.16em] uppercase">
             All Articles →

@@ -65,9 +65,11 @@ function Panel({
         <p className="text-[0.62rem] tracking-[0.28em] uppercase text-turmeric/80">
           {String(index + 1).padStart(2, "0")} / {String(BEATS.length).padStart(2, "0")}
         </p>
-        <p className="mt-3 font-tamil text-2xl md:text-3xl text-turmeric">{beat.ta}</p>
-        <h3 className="mt-1 font-serif text-[clamp(3rem,8vw,7rem)] leading-none text-cream">{beat.k}</h3>
-        <p className="mt-4 max-w-md text-cream/80">{beat.e}</p>
+        <div className="space-y-1 mt-3">
+          <h3 className="font-tamil text-3xl md:text-5xl font-semibold leading-tight text-turmeric">{beat.ta}</h3>
+          <p className="font-serif text-3xl md:text-5xl font-normal leading-tight text-cream">{beat.k}</p>
+        </div>
+        <p className="mt-4 max-w-md text-sm md:text-base text-cream/80">{beat.e}</p>
       </div>
       <svg className="pointer-events-none absolute inset-x-0 top-1/2 h-px w-full" aria-hidden>
         <line x1="0" y1="1" x2="100%" y2="1" stroke="#C49A3A" strokeOpacity="0.35" />

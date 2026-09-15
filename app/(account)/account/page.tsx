@@ -22,8 +22,10 @@ export default async function AccountPage() {
 
   return (
     <div>
-      <p className="font-tamil text-terracotta">வணக்கம்</p>
-      <h1 className="font-serif text-3xl md:text-4xl text-forest text-balance">Welcome, {session?.name}</h1>
+      <div className="space-y-0.5">
+        <h1 className="font-tamil text-2xl md:text-3xl font-semibold text-forest leading-tight">வணக்கம்</h1>
+        <p className="font-serif text-2xl md:text-3xl font-normal text-ink leading-tight">Welcome, {session?.name}</p>
+      </div>
       <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
         <Link href="/shop" className="btn btn-primary w-full sm:w-auto">
           Continue shopping

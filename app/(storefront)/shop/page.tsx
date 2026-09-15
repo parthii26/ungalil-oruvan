@@ -36,8 +36,10 @@ export default async function ShopPage({
 
   return (
     <div className="container-page py-8 md:py-12">
-      <p className="font-tamil text-terracotta">நமது உணவு</p>
-      <h1 className="font-serif text-4xl md:text-5xl mt-2 text-forest">Shop</h1>
+      <div className="space-y-0.5">
+        <h1 className="font-tamil text-3xl md:text-4xl font-semibold text-forest leading-tight">நமது உணவு</h1>
+        <p className="font-serif text-3xl md:text-4xl font-normal text-ink leading-tight">Pantry Collection</p>
+      </div>
       <p className="mt-3 text-ink-soft">{result.total} products</p>
 
       <form className="mt-6 md:mt-8 grid grid-cols-2 gap-3 md:grid-cols-4" action="/shop" role="search">

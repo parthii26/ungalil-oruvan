@@ -537,11 +537,11 @@ export function AboutEditor({ initialData }: { initialData: SiteSettings }) {
               <div className="p-6 md:p-8 space-y-6 max-h-[75vh] overflow-y-auto">
                 <div>
                   {formData.about_tamil_badge && (
-                    <p className="font-tamil text-terracotta text-sm">
+                    <p className="font-tamil text-2xl md:text-3xl font-semibold text-forest leading-tight">
                       {formData.about_tamil_badge}
                     </p>
                   )}
-                  <h1 className="font-serif text-3xl md:text-4xl mt-1 text-forest">
+                  <h1 className="font-serif text-2xl md:text-3xl text-ink leading-tight mt-0.5">
                     {formData.about_title}
                   </h1>
                   <p className="mt-4 text-sm leading-relaxed text-ink-soft whitespace-pre-line">
@@ -576,9 +576,9 @@ export function AboutEditor({ initialData }: { initialData: SiteSettings }) {
 
                 <section id="preview-story" className="pt-4 border-t border-line/40">
                   {formData.story_tamil && (
-                    <p className="font-tamil text-earth text-sm">{formData.story_tamil}</p>
+                    <p className="font-tamil text-xl md:text-2xl font-semibold text-forest leading-tight">{formData.story_tamil}</p>
                   )}
-                  <h2 className="font-serif text-2xl text-ink mt-0.5">
+                  <h2 className="font-serif text-xl md:text-2xl text-ink leading-tight mt-0.5">
                     {formData.story_title}
                   </h2>
                   <p className="mt-3 text-xs leading-relaxed text-ink/80 whitespace-pre-line">

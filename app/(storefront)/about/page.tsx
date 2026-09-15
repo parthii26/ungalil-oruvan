@@ -21,11 +21,11 @@ export default function AboutPage() {
   return (
     <div className="container-page py-10 md:py-16 max-w-3xl">
       {tamilBadge && (
-        <p data-testid="about-tamil-badge" className="font-tamil text-terracotta">
+        <p data-testid="about-tamil-badge" className="font-tamil text-3xl sm:text-4xl md:text-5xl font-semibold text-forest leading-tight">
           {tamilBadge}
         </p>
       )}
-      <h1 data-testid="about-title" className="font-serif text-4xl md:text-5xl mt-2 text-forest">
+      <h1 data-testid="about-title" className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-ink leading-tight mt-1">
         {title}
       </h1>
       <p data-testid="about-intro" className="mt-6 text-lg leading-relaxed text-ink-soft whitespace-pre-line">
@@ -53,11 +53,11 @@ export default function AboutPage() {
       </div>
       <section id="story" className="mt-12 md:mt-16 scroll-mt-24">
         {storyTamil && (
-          <p data-testid="story-tamil" className="font-tamil text-earth">
+          <p data-testid="story-tamil" className="font-tamil text-2xl sm:text-3xl md:text-4xl font-semibold text-forest leading-tight">
             {storyTamil}
           </p>
         )}
-        <h2 data-testid="story-title" className="font-serif text-3xl md:text-4xl">
+        <h2 data-testid="story-title" className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-ink leading-tight mt-1">
           {storyTitle}
         </h2>
         <p data-testid="story-body" className="mt-4 leading-relaxed whitespace-pre-line">

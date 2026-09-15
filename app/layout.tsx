@@ -21,7 +21,7 @@ const serif = Newsreader({
 const tamil = Noto_Sans_Tamil({
   variable: "--font-tamil",
   subsets: ["tamil"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const viewport: Viewport = {

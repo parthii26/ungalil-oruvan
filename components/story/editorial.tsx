@@ -19,14 +19,18 @@ export function StoryHeading({
   const reduce = useReducedMotion();
   return (
     <div>
-      {tamil && <p className={`font-tamil mb-1 ${light ? "text-turmeric" : "text-terracotta"}`}>{tamil}</p>}
+      {tamil && (
+        <p className={`font-tamil text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight mb-1 ${light ? "text-turmeric" : "text-forest"}`}>
+          {tamil}
+        </p>
+      )}
       {kicker && (
-        <p className={`text-[0.65rem] tracking-[0.2em] uppercase ${light ? "text-turmeric/80" : "text-earth"}`}>
+        <p className={`text-[0.65rem] tracking-[0.2em] uppercase mb-1 ${light ? "text-turmeric/80" : "text-earth"}`}>
           {kicker}
         </p>
       )}
       <motion.h2
-        className={`font-serif text-[1.75rem] md:text-5xl leading-[1.08] ${light ? "text-cream" : "text-forest"} ${kicker ? "mt-1" : ""}`}
+        className={`font-serif text-2xl sm:text-3xl md:text-4xl font-normal leading-tight ${light ? "text-cream" : "text-ink"} ${kicker ? "mt-1" : "mt-0.5"}`}
         initial={reduce ? false : { clipPath: "inset(0 0 100% 0)", opacity: 0.2 }}
         whileInView={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -147,7 +151,7 @@ export function SoilType({ src = "/images/harvest-grain.jpg" }: { src?: string }
   const reduce = useReducedMotion();
   return (
     <section className="bg-charcoal py-20 md:py-28 overflow-hidden">
-      <p className="mb-4 text-center font-tamil text-turmeric/90 text-2xl md:text-3xl">நமது மண்</p>
+      <p className="mb-4 text-center font-tamil text-turmeric font-bold text-3xl sm:text-4xl md:text-5xl">நமது மண்</p>
       <motion.p
         className="container-page text-center font-serif leading-none text-transparent bg-clip-text bg-cover bg-center select-none"
         style={{

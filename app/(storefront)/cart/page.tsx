@@ -22,9 +22,9 @@ export default async function CartPage() {
   return (
     <div className="container-page pt-8 pb-28 md:py-12">
       <div className="flex items-baseline justify-between border-b border-line pb-4">
-        <div>
-          <p className="font-tamil text-terracotta text-sm">உங்கள் கூடை</p>
-          <h1 className="font-serif text-3xl md:text-4xl text-forest mt-1">Shopping Basket</h1>
+        <div className="space-y-0.5">
+          <h1 className="font-tamil text-2xl md:text-3xl font-semibold text-forest leading-tight">உங்கள் கூடை</h1>
+          <p className="font-serif text-2xl md:text-3xl font-normal text-ink leading-tight">Shopping Basket</p>
         </div>
         {cart.items.length > 0 && (
           <p className="text-sm text-ink-soft">{cart.items.reduce((s, i) => s + i.quantity, 0)} items</p>

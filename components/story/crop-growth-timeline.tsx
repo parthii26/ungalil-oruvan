@@ -130,7 +130,7 @@ export function CropGrowthTimeline({ story, hero }: { story: GrowthStoryView; he
 
   return (
     <>
-      {hero && <CompactGrowthHero story={story} hero={hero} />}
+      {hero && <HomepageHero story={story} hero={hero} />}
       <section ref={sectionRef} id="seed-stage" data-hero-tone="light" className="relative hidden h-[300vh] bg-[#F5F0E5] md:block">
         <div ref={rootRef} className="crop-root sticky top-0 flex min-h-[100svh] flex-col justify-center py-14" data-active="0">
           <div className="container-page mb-5">
@@ -173,8 +173,8 @@ export function CropGrowthTimeline({ story, hero }: { story: GrowthStoryView; he
               {GROWTH_STAGES.map((stage, i) => (
                 <div key={stage.id} data-card={i} className={`gt-card gt-card-photo z-[2]${i === 0 ? " is-on" : ""}`}>
                   <p className="text-[0.62rem] tracking-[0.22em] uppercase text-turmeric">{stage.number}</p>
-                  <p className="mt-1 font-tamil text-lg text-turmeric/90">{stage.tamil}</p>
-                  <p className="mt-0.5 font-serif text-4xl text-cream">{stage.title}</p>
+                  <p className="mt-1 font-tamil text-xl md:text-2xl font-medium text-turmeric">{stage.tamil}</p>
+                  <p className="mt-0.5 font-serif text-xl md:text-2xl text-cream">{stage.title}</p>
                   <p className="mt-2 max-w-md text-sm text-cream/85">{stage.caption}</p>
                 </div>
               ))}
@@ -229,8 +229,8 @@ function FinalProductTransition({ story }: { story: GrowthStoryView }) {
       </div>
       <div>
         <p className="text-[0.62rem] tracking-[0.22em] uppercase text-earth">From this crop</p>
-        {product?.tamil && <p className="mt-1 font-tamil text-terracotta">{product.tamil}</p>}
-        <p className="mt-0.5 font-serif text-3xl text-forest">{product?.name ?? story.tagline}</p>
+        {product?.tamil && <p className="mt-1 font-tamil text-xl md:text-2xl font-semibold text-forest">{product.tamil}</p>}
+        <p className="mt-0.5 font-serif text-xl md:text-2xl text-ink">{product?.name ?? story.tagline}</p>
       </div>
       <Link href={story.href} className="link-grow w-fit text-[0.7rem] tracking-[0.18em] uppercase text-forest">
         {story.cta}
@@ -240,13 +240,14 @@ function FinalProductTransition({ story }: { story: GrowthStoryView }) {
 }
 
 /**
- * Mobile hero: one screen, one image, products one tap away. The same story
- * beats become a swipeable strip instead of a scroll-gated animation.
+ * Homepage Hero: Tamil-first dominant hierarchy across all viewports (360px up to 1440px+).
+ * Tamil is Large, Primary, Dominant (★★★★★).
+ * English is Smaller, Secondary, Supporting (★★★).
  */
-function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: CompactHeroCopy }) {
+function HomepageHero({ story, hero }: { story: GrowthStoryView; hero: CompactHeroCopy }) {
   const product = story.product;
   return (
-    <div className="md:hidden">
+    <>
       <section className="relative overflow-hidden bg-forest text-cream">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -254,79 +255,98 @@ function CompactGrowthHero({ story, hero }: { story: GrowthStoryView; hero: Comp
           alt=""
           fetchPriority="high"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
+          className="absolute inset-0 h-full w-full object-cover opacity-40 select-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/60 to-forest/30" aria-hidden />
-        <div className="container-page relative flex min-h-[68svh] flex-col justify-end pb-10 pt-16">
-          <p className="text-[0.65rem] tracking-[0.28em] uppercase text-turmeric">From seed · {story.cropName}</p>
-          <p className="mt-2 font-tamil text-xl text-turmeric/90">{hero.tamil}</p>
-          <h1 className="mt-1 font-serif text-[2.6rem] leading-[1.02]">{hero.headline}</h1>
-          <p className="mt-3 max-w-md text-[0.95rem] leading-relaxed text-cream/85">{hero.subhead}</p>
-          <div className="mt-6 flex gap-3">
-            <Link href="/shop" className="btn flex-1 bg-cream text-forest">
+        <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/65 to-forest/30" aria-hidden />
+        <div className="container-page relative flex min-h-[72svh] md:min-h-[82svh] flex-col justify-end pb-12 pt-20 md:pb-20 md:pt-28">
+          <p className="text-[0.68rem] md:text-xs tracking-[0.28em] uppercase text-turmeric font-medium">
+            From seed · {story.cropName}
+          </p>
+
+          {/* 1. TAMIL HEADLINE — Dominant (★★★★★) */}
+          <h1 className="mt-3 font-tamil text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-turmeric leading-[1.18] tracking-tight text-balance max-w-4xl">
+            {hero.tamil}
+          </h1>
+
+          {/* 2. ENGLISH TRANSLATION — Smaller (★★★) */}
+          <p className="mt-2 md:mt-3 font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-cream/90 font-normal leading-snug italic max-w-3xl">
+            {hero.headline}
+          </p>
+
+          {hero.subhead && (
+            <p className="mt-3 md:mt-4 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed text-cream/80">
+              {hero.subhead}
+            </p>
+          )}
+
+          <div className="mt-6 md:mt-8 flex flex-wrap gap-4">
+            <Link href="/shop" className="btn bg-cream text-forest hover:bg-warmwhite px-6 py-3 font-medium">
               Shop the pantry
             </Link>
-            <Link href="/about#story" className="btn btn-ghost on-dark flex-1">
+            <Link href="/about#story" className="btn btn-ghost on-dark px-6 py-3">
               Our story
             </Link>
           </div>
         </div>
       </section>
 
-      <section aria-label="A crop, in order" className="border-b border-line bg-paper py-8">
-        <div className="container-page flex items-baseline justify-between gap-3">
-          <h2 className="font-serif text-2xl text-forest">A crop, in order</h2>
-          <p className="text-[0.65rem] tracking-[0.2em] uppercase text-ink-soft">Swipe</p>
-        </div>
-        <div className="scrollbar-none mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1">
-          {GROWTH_STAGES.map((stage) => (
-            <article
-              key={stage.id}
-              className="w-[68%] shrink-0 snap-start overflow-hidden border border-line bg-warmwhite"
+      {/* Mobile-only swipeable strip for crop growth */}
+      <div className="md:hidden">
+        <section aria-label="A crop, in order" className="border-b border-line bg-paper py-8">
+          <div className="container-page flex items-baseline justify-between gap-3">
+            <h2 className="font-serif text-2xl text-forest">A crop, in order</h2>
+            <p className="text-[0.65rem] tracking-[0.2em] uppercase text-ink-soft">Swipe</p>
+          </div>
+          <div className="scrollbar-none mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1">
+            {GROWTH_STAGES.map((stage) => (
+              <article
+                key={stage.id}
+                className="w-[68%] shrink-0 snap-start overflow-hidden border border-line bg-warmwhite"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={stage.photo}
+                  alt={stage.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[16/10] w-full object-cover"
+                />
+                <div className="p-5 space-y-1">
+                  <p className="text-[0.62rem] tracking-[0.22em] uppercase text-earth">{stage.number}</p>
+                  <h3 className="font-tamil text-base font-medium text-forest leading-snug">{stage.tamil}</h3>
+                  <p className="font-serif text-base text-ink leading-snug">{stage.title}</p>
+                  <p className="pt-1 text-sm leading-relaxed text-ink-soft">{stage.caption}</p>
+                </div>
+              </article>
+            ))}
+            <Link
+              href={product ? `/product/${product.slug}` : story.href}
+              className="block w-[68%] shrink-0 snap-start border border-forest bg-forest p-5 text-cream"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={stage.photo}
-                alt={stage.alt}
+                src={product?.image ?? POST_HARVEST_GRAIN}
+                alt=""
                 loading="lazy"
                 decoding="async"
                 className="aspect-[16/10] w-full object-cover"
               />
-              <div className="p-5">
-                <p className="text-[0.62rem] tracking-[0.22em] uppercase text-earth">{stage.number}</p>
-                <p className="mt-1 font-tamil text-terracotta">{stage.tamil}</p>
-                <h3 className="mt-0.5 font-serif text-2xl text-forest">{stage.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{stage.caption}</p>
-              </div>
-            </article>
-          ))}
-          <Link
-            href={product ? `/product/${product.slug}` : story.href}
-            className="block w-[68%] shrink-0 snap-start border border-forest bg-forest p-5 text-cream"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={product?.image ?? POST_HARVEST_GRAIN}
-              alt=""
-              loading="lazy"
-              decoding="async"
-              className="aspect-[16/10] w-full object-cover"
-            />
-            <p className="mt-3 text-[0.62rem] tracking-[0.22em] uppercase text-turmeric">From this crop</p>
-            {product?.tamil && <p className="mt-1 font-tamil text-turmeric/90">{product.tamil}</p>}
-            <p className="mt-0.5 font-serif text-2xl leading-tight">{product?.name ?? story.tagline}</p>
-            {product && (
-              <p className="mt-1 text-sm text-cream/80">
-                {product.price}
+              <p className="mt-3 text-[0.62rem] tracking-[0.22em] uppercase text-turmeric">From this crop</p>
+              {product?.tamil && <h3 className="mt-1 font-tamil text-base font-semibold text-turmeric leading-snug">{product.tamil}</h3>}
+              <p className="font-serif text-base text-cream leading-snug">{product?.name ?? story.tagline}</p>
+              {product && (
+                <p className="mt-1 text-sm text-cream/80">
+                  {product.price}
+                </p>
+              )}
+              <p className="mt-3 text-[0.7rem] tracking-[0.18em] uppercase underline underline-offset-4">
+                {story.cta}
               </p>
-            )}
-            <p className="mt-3 text-[0.7rem] tracking-[0.18em] uppercase underline underline-offset-4">
-              {story.cta}
-            </p>
-          </Link>
-        </div>
-      </section>
-    </div>
+            </Link>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
 

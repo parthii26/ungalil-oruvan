@@ -104,6 +104,8 @@ h3,
 
 .font-tamil {
   font-family: var(--font-tamil), var(--font-sans), sans-serif;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
 }
 
 ::selection {

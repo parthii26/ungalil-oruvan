@@ -325,6 +325,7 @@ export function createSeed(): Database {
       id: "prod-sesame",
       category_id: "cat-oils",
       name: "Cold Pressed Sesame Oil",
+      tamil: "நல்லெண்ணெய்",
       slug: "cold-pressed-sesame-oil",
       short: "Gingelly oil with toasted depth. For tadka and pickles.",
       description:

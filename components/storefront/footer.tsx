@@ -28,10 +28,9 @@ export async function StorefrontFooter() {
         })}
       </svg>
       <div className="container-page relative py-12 md:py-18 grid gap-8 sm:grid-cols-2 md:grid-cols-5">
-        {/* Col 1: Brand & Philosophy */}
         <div className="md:col-span-1">
-          <p className="font-tamil text-turmeric text-lg">{settings.tamil_tagline}</p>
-          <p className="mt-1 font-serif text-2xl md:text-3xl">{settings.brand_name}</p>
+          <p className="font-tamil text-xl md:text-2xl font-semibold text-turmeric leading-snug">{settings.tamil_tagline}</p>
+          <p className="font-serif text-xl md:text-2xl font-normal text-cream leading-snug mt-0.5">{settings.brand_name}</p>
           <p className="mt-1 text-[0.7rem] tracking-[0.16em] uppercase text-cream/60">{settings.english_tagline}</p>
           <p className="mt-4 text-xs text-cream/70 leading-relaxed">{settings.footer_text}</p>
           {(settings.fssai || settings.gstin) && (

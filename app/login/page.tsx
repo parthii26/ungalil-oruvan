@@ -32,20 +32,24 @@ export default async function CustomerLoginPage({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent" />
         <div className="relative z-10 flex h-full flex-col justify-end p-12 text-cream">
-          <p className="font-tamil text-lg">{settings.tamil_tagline}</p>
-          <h2 className="mt-2 font-serif text-5xl leading-tight">
-            From our soil
-            <br />
-            to your table
+          <h2 className="font-tamil text-3xl sm:text-4xl font-semibold text-cream leading-snug">
+            {settings.tamil_tagline}
           </h2>
+          <p className="mt-1 font-serif text-3xl sm:text-4xl font-normal text-cream leading-snug">
+            From our soil to your table
+          </p>
         </div>
       </aside>
       <div className="flex items-center justify-center px-4 py-10 md:py-16">
         <LoginStage>
           <div className="w-full max-w-md border border-line bg-warmwhite p-6 md:p-8">
-            <p className="font-tamil text-terracotta text-sm">{settings.tamil_tagline}</p>
-            <Link href="/" className="inline-flex min-h-11 items-center font-serif text-3xl text-forest">
-              {settings.brand_name}
+            <Link href="/" className="block">
+              <span className="block font-tamil text-2xl font-semibold text-forest leading-tight">
+                {settings.tamil_tagline}
+              </span>
+              <span className="block font-serif text-2xl font-normal text-ink leading-tight mt-0.5">
+                {settings.brand_name}
+              </span>
             </Link>
             <h1 className="mt-4 font-serif text-3xl md:text-4xl text-forest">{settings.login_headline}</h1>
             <p className="mt-3 text-sm text-ink-soft">{settings.login_subhead}</p>
