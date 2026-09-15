@@ -337,6 +337,62 @@ describe("Stage 1 Features & Stage 2 Scaffold", () => {
       expect(typeof postData.processed).toBe("number");
     });
   });
+
+  describe("Stage 2 — Live Shipment, Payments, Invoice, and Report Services", () => {
+    it("operates live shipment booking and tracking", async () => {
+      const { shipmentService } = await import("@/lib/services/shipments");
+      expect(shipmentService.isConfigured()).toBe(true);
+
+      const targetOrder = listAllOrders()[0];
+      const res = shipmentService.create(targetOrder.id, "Blue Dart Express");
+      expect(res.created).toBe(true);
+      expect(res.shipment?.trackingNumber).toMatch(/^UO-TRK-/);
+      expect(res.shipment?.carrier).toBe("Blue Dart Express");
+
+      const tracking = shipmentService.track(targetOrder.id);
+      expect(tracking.found).toBe(true);
+      expect(tracking.milestones.length).toBeGreaterThan(0);
+    });
+
+    it("operates live payments service intents and captures", async () => {
+      const { paymentsService } = await import("@/lib/services/payments");
+      expect(paymentsService.isConfigured()).toBe(true);
+
+      const targetOrder = listAllOrders()[0];
+      const intent = await paymentsService.createIntent(targetOrder.id);
+      expect(intent.configured).toBe(true);
+      expect(intent.orderId).toBe(targetOrder.id);
+      expect(intent.amountPaise).toBeGreaterThan(0);
+
+      const capture = paymentsService.capture(targetOrder.id, "pay_test_capture_123");
+      expect(capture.success).toBe(true);
+      expect(capture.status).toBe("confirmed");
+    });
+
+    it("issues live tax invoices with complete details", async () => {
+      const { invoiceService } = await import("@/lib/services/invoices");
+      expect(invoiceService.isConfigured()).toBe(true);
+
+      const targetOrder = listAllOrders()[0];
+      const res = invoiceService.issue(targetOrder.id);
+      expect(res.issued).toBe(true);
+      expect(res.invoice?.invoiceNumber).toMatch(/^INV-UO-/);
+      expect(res.invoice?.items.length).toBeGreaterThan(0);
+    });
+
+    it("provides comprehensive store analytics and KPIs", async () => {
+      const { reportService } = await import("@/lib/services/reports");
+      expect(reportService.isConfigured()).toBe(true);
+
+      const summary = reportService.getSummary();
+      expect(typeof summary.totalOrders).toBe("number");
+      expect(typeof summary.totalRevenuePaise).toBe("number");
+      expect(typeof summary.totalStockUnits).toBe("number");
+      expect(typeof summary.totalCustomers).toBe("number");
+      expect(Array.isArray(summary.topProducts)).toBe(true);
+    });
+  });
 });
+
 
 

@@ -71,3 +71,22 @@ export async function logoutAdminAction() {
   await clearSessionCookie();
   redirect("/admin/login");
 }
+
+export async function resetPasswordRequestAction(_prev: unknown, formData: FormData) {
+  try {
+    const email = String(formData.get("email") || "").trim().toLowerCase();
+    if (!email || !email.includes("@")) {
+      return { ok: false, error: "Please enter a valid email address." };
+    }
+    const { notificationsService } = await import("@/lib/services/notifications");
+    await notificationsService.sendEmail(
+      email,
+      "Password Reset Request — Ungalil Oruvan",
+      `<p>Vanakkam,</p><p>We received a request to reset the password for your account at Ungalil Oruvan. If you made this request, please log in or contact support to finalize the update.</p>`,
+    );
+    return { ok: true, message: `If an account exists for ${email}, a reset link has been dispatched.` };
+  } catch (e) {
+    return { ok: false, error: toUserMessage(e) };
+  }
+}
+

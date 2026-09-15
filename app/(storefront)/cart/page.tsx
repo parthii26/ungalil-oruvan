@@ -60,8 +60,8 @@ export default async function CartPage() {
                 <dd>{formatPrice(cart.quote.shipping_paise)}</dd>
               </div>
               <div className="flex justify-between text-ink-soft">
-                <dt>Tax</dt>
-                <dd>Not configured</dd>
+                <dt>GST / Taxes</dt>
+                <dd>Included</dd>
               </div>
               <div className="flex justify-between border-t border-line pt-3 text-base">
                 <dt>Estimated total</dt>

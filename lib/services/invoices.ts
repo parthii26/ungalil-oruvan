@@ -1,12 +1,23 @@
-/** Stage 2 interface — PDF invoices are not generated. */
+import * as ordersRepo from "@/lib/repositories/orders";
+import { generateInvoiceData, type InvoiceData } from "./invoice";
+
+/** Stage 2 Tax Invoice Service */
 export class InvoiceService {
-  isConfigured() {
-    return false;
+  isConfigured(): boolean {
+    return true;
   }
 
-  issue(_orderId: string) {
-    return { issued: false, reason: "Invoice generation is a Stage 2 integration." };
+  issue(orderId: string): { issued: boolean; invoice?: InvoiceData; reason?: string } {
+    const order = ordersRepo.getOrderById(orderId);
+    if (!order) {
+      return { issued: false, reason: "Order not found." };
+    }
+
+    const items = ordersRepo.listOrderItems(order.id);
+    const invoice = generateInvoiceData(order, items);
+    return { issued: true, invoice };
   }
 }
 
 export const invoiceService = new InvoiceService();
+
