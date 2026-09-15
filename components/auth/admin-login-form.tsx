@@ -13,7 +13,6 @@ export function AdminLoginForm({ error }: { error?: string }) {
           type="email"
           required
           autoComplete="username"
-          defaultValue="admin@varizel.dev"
           className="w-full border border-white/15 bg-[#121410] px-3 py-2.5 text-sm text-white outline-none focus:border-[#C59A3D]"
         />
       </div>
@@ -27,7 +26,6 @@ export function AdminLoginForm({ error }: { error?: string }) {
           type="password"
           required
           autoComplete="current-password"
-          defaultValue="Admin123!Dev"
           className="w-full border border-white/15 bg-[#121410] px-3 py-2.5 text-sm text-white outline-none focus:border-[#C59A3D]"
         />
       </div>
@@ -42,7 +40,6 @@ export function AdminLoginForm({ error }: { error?: string }) {
       >
         Sign In
       </button>
-      <p className="text-[0.7rem] text-white/40">Development password: Admin123!Dev</p>
       <Link href="/auth/forgot-password" className="block text-center text-xs text-white/45">
         Forgot password
       </Link>

@@ -16,7 +16,7 @@ export default function AboutPage() {
   const storyTitle = s.story_title || "Rooted in Our Soil";
   const storyBody =
     s.story_body ||
-    "Traditional roots, modern commerce. The storefront carries honest soil in its details — millet names, farm lots, terracotta accents — without turning the shop into a costume. Words here are configuration-ready from Settings.";
+    "Traditional roots, modern commerce. The storefront carries honest soil in its details — millet names, farm lots, terracotta accents — bringing authentic native harvests directly from small family farms to your kitchen table.";
 
   return (
     <div className="container-page py-10 md:py-16 max-w-3xl">

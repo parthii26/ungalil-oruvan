@@ -13,6 +13,7 @@ import { getSiteSettings } from "@/lib/services/settings";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { getSiteUrl } from "@/lib/seo/site";
+import { formatCertificationBadge } from "@/lib/services/certification";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   try {
@@ -184,50 +185,117 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </dl>
             </div>
           )}
-          {certifications.length > 0 && (
-            <div className="mt-8">
-              <h3 className="label">Certification</h3>
-              <ul className="mt-2 space-y-2">
-                {certifications.map((c) => (
-                  <li key={c.id}>
-                    {c.name}
-                    {c.number ? ` · ${c.number}` : ""}
-                    {c.valid_until ? ` · until ${c.valid_until}` : ""}
-                  </li>
-                ))}
+          {certifications.length > 0 ? (
+            <div className="mt-8 border-t border-line pt-6">
+              <h3 className="label text-[0.7rem]">Certifications & Standards</h3>
+              <ul className="mt-3 space-y-3">
+                {certifications.map((c) => {
+                  const badge = formatCertificationBadge(c);
+                  return (
+                    <li key={c.id} className="p-3 bg-warmwhite border border-line text-xs">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="font-semibold text-sm text-forest">{badge.name}</span>
+                        <span className={`px-2 py-0.5 border text-[0.65rem] uppercase tracking-wider font-medium rounded-sm ${badge.statusColorClass}`}>
+                          {badge.statusLabel}
+                        </span>
+                      </div>
+                      {badge.number && (
+                        <p className="mt-1 font-mono text-[0.7rem] text-ink-soft">
+                          Cert No: {badge.number}
+                        </p>
+                      )}
+                      <p className="mt-1 text-[0.7rem] text-ink-soft">
+                        {badge.note}
+                      </p>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
+          ) : (
+            <div className="mt-8 border-t border-line pt-6">
+              <h3 className="label text-[0.7rem]">Quality & Traceability</h3>
+              <p className="mt-2 text-xs text-ink-soft leading-relaxed">
+                Cultivated through traditional natural farming practices without synthetic pesticides or artificial ripening agents. Individual harvest lot tests are inspected at packaging.
+              </p>
+            </div>
           )}
-          <div className="mt-8">
-            <h3 className="label">Shipping</h3>
-            <p className="text-sm text-ink-soft">Dispatched within 1–2 business days via standard courier. Free shipping across India on orders above ₹499.</p>
+
+          <div className="mt-8 border-t border-line pt-6">
+            <h3 className="label text-[0.7rem]">Shipping & Delivery</h3>
+            <p className="mt-2 text-xs text-ink-soft leading-relaxed">
+              Carefully packed and dispatched within 1–2 business days via express courier. Free shipping across India on orders above {formatPrice(settings.free_shipping_over_paise)}.
+            </p>
           </div>
         </section>
       </div>
 
       <section className="mt-12 md:mt-16">
-        <h2 className="font-serif text-2xl md:text-3xl">Questions</h2>
+        <h2 className="font-serif text-2xl md:text-3xl text-forest">Frequently Asked Questions</h2>
         <div className="mt-4 md:mt-6 divide-y divide-line border-b border-line">
           {faqs.map((f) => (
-            <details key={f.id} className="py-2">
-              <summary className="font-medium">{f.question}</summary>
-              <p className="mt-1 pb-3 text-ink-soft">{f.answer}</p>
+            <details key={f.id} className="py-3 group">
+              <summary className="font-medium text-sm md:text-base cursor-pointer hover:text-forest">
+                {f.question}
+              </summary>
+              <p className="mt-2 pb-2 text-sm text-ink-soft leading-relaxed">{f.answer}</p>
             </details>
           ))}
         </div>
       </section>
 
       <section className="mt-12 md:mt-16">
-        <h2 className="font-serif text-2xl md:text-3xl">Reviews</h2>
+        <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-line pb-4">
+          <div>
+            <h2 className="font-serif text-2xl md:text-3xl text-forest">Customer Reviews</h2>
+            {rating.count > 0 && (
+              <p className="mt-1 text-xs text-ink-soft">
+                ★ {rating.average.toFixed(1)} / 5 ({rating.count} {rating.count === 1 ? "review" : "reviews"})
+              </p>
+            )}
+          </div>
+          <Link
+            href={session?.customerId ? "/account/reviews" : `/login?next=/product/${product.slug}`}
+            className="btn btn-ghost text-xs"
+          >
+            Write a Review
+          </Link>
+        </div>
+
         {reviews.length === 0 ? (
-          <p className="mt-4 text-ink-soft">No published reviews yet.</p>
+          <div className="mt-6 p-6 sm:p-8 bg-warmwhite border border-line text-center sm:text-left sm:flex sm:items-center sm:justify-between gap-4">
+            <div>
+              <p className="font-serif text-xl">Be the first to review this product</p>
+              <p className="mt-1 text-xs text-ink-soft">
+                Have you received this harvest? Share your experience with aroma, flavor, and texture.
+              </p>
+            </div>
+            <Link
+              href={session?.customerId ? "/account/reviews" : `/login?next=/product/${product.slug}`}
+              className="btn btn-primary text-xs shrink-0 mt-4 sm:mt-0"
+            >
+              Share Review
+            </Link>
+          </div>
         ) : (
           <ul className="mt-6 space-y-6">
             {reviews.map((r) => (
-              <li key={r.id} className="border-t border-line pt-4">
-                <p className="text-sm">{r.rating} / 5</p>
-                <p className="font-serif text-2xl">{r.title}</p>
-                <p className="mt-2 text-ink-soft">{r.body}</p>
+              <li key={r.id} className="border-b border-line pb-6">
+                <div className="flex items-center gap-2">
+                  <div className="flex text-turmeric text-sm">
+                    {"★".repeat(r.rating)}{"☆".repeat(Math.max(0, 5 - r.rating))}
+                  </div>
+                  <span className="text-xs font-semibold">{r.title}</span>
+                  {r.verified_purchase && (
+                    <span className="ml-2 text-[0.65rem] bg-forest/10 text-forest px-1.5 py-0.5 rounded">
+                      Verified Purchase
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 text-sm text-ink leading-relaxed">{r.body}</p>
+                {r.customer_name && (
+                  <p className="mt-2 text-xs text-ink-soft">— {r.customer_name}</p>
+                )}
               </li>
             ))}
           </ul>

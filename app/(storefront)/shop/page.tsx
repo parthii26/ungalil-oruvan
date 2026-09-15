@@ -73,8 +73,31 @@ export default async function ShopPage({
           <option value="newest">Newest</option>
           <option value="rating">Best rated</option>
         </select>
-        <button className="btn btn-primary col-span-2 md:col-span-1">Apply</button>
+        <button className="btn btn-primary col-span-2 md:col-span-1">Search</button>
       </form>
+
+      {/* Quick category filter pills */}
+      <div className="mt-4 flex flex-wrap gap-2 overflow-x-auto py-1">
+        <Link
+          href={href({ category: undefined, page: "1" })}
+          className={`px-3 py-1.5 rounded-full text-xs transition-colors border ${
+            !category ? "bg-forest text-cream border-forest font-medium" : "bg-warmwhite text-ink-soft border-line hover:border-forest"
+          }`}
+        >
+          All Harvests
+        </Link>
+        {categories.map((c) => (
+          <Link
+            key={c.id}
+            href={href({ category: c.slug, page: "1" })}
+            className={`px-3 py-1.5 rounded-full text-xs transition-colors border whitespace-nowrap ${
+              category === c.slug ? "bg-forest text-cream border-forest font-medium" : "bg-warmwhite text-ink-soft border-line hover:border-forest"
+            }`}
+          >
+            {c.name}
+          </Link>
+        ))}
+      </div>
 
       {result.items.length === 0 ? (
         <div className="py-16 md:py-24 text-center">

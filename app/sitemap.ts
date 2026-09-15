@@ -5,7 +5,20 @@ import { loadDb } from "@/lib/db/store";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const statics = ["", "/shop", "/about", "/contact", "/faq", "/blog"].map((p) => ({
+  const statics = [
+    "",
+    "/shop",
+    "/about",
+    "/contact",
+    "/faq",
+    "/blog",
+    "/order/track",
+    "/policies/shipping",
+    "/policies/privacy",
+    "/policies/terms",
+    "/policies/refunds",
+    "/policies/cancellation",
+  ].map((p) => ({
     url: `${base}${p || "/"}`,
     lastModified: new Date(),
   }));

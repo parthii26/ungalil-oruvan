@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { easeOut } from "@/lib/motion";
 
@@ -170,46 +170,37 @@ export function CountUp({ value, label }: { value: number; label: string }) {
   const reduce = useReducedMotion();
   return (
     <div>
-      <motion.p
-        className="font-serif text-3xl md:text-5xl text-forest tabular-nums"
-        initial={reduce ? false : { opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
+      <p className="font-serif text-3xl md:text-5xl text-forest tabular-nums">
         <Ticker to={value} reduce={Boolean(reduce)} />
-      </motion.p>
+      </p>
       <p className="mt-1 text-[0.68rem] tracking-[0.18em] uppercase text-earth">{label}</p>
     </div>
   );
 }
 
 function Ticker({ to, reduce }: { to: number; reduce: boolean }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  return (
-    <motion.span
-      ref={ref}
-      initial={{ opacity: 1 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      onViewportEnter={() => {
-        const node = ref.current;
-        if (!node) return;
-        if (reduce) {
-          node.textContent = String(to);
-          return;
-        }
-        const start = performance.now();
-        const dur = 900;
-        const step = (now: number) => {
-          const t = Math.min(1, (now - start) / dur);
-          const eased = 1 - Math.pow(1 - t, 3);
-          node.textContent = String(Math.round(to * eased));
-          if (t < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      }}
-    >
-      0
-    </motion.span>
-  );
+  const [display, setDisplay] = useState(to);
+
+  useEffect(() => {
+    if (reduce || to === 0) {
+      setDisplay(to);
+      return;
+    }
+    let start: number | null = null;
+    const dur = 800;
+    let frameId: number;
+    const step = (now: number) => {
+      if (!start) start = now;
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(Math.round(to * eased));
+      if (t < 1) {
+        frameId = requestAnimationFrame(step);
+      }
+    };
+    frameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frameId);
+  }, [to, reduce]);
+
+  return <span>{display}</span>;
 }

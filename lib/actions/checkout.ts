@@ -58,7 +58,6 @@ export async function placeOrderAction(_prev: unknown, formData: FormData) {
 
     const paymentMethodRaw = String(formData.get("payment_method") || "online");
     const paymentMethod: "online" | "cod" = paymentMethodRaw === "cod" ? "cod" : "online";
-    const onlinePaid = formData.get("online_paid") === "true";
 
     const order = checkoutPending({
       customerId: session?.customerId ?? null,
@@ -69,7 +68,6 @@ export async function placeOrderAction(_prev: unknown, formData: FormData) {
       notes: String(formData.get("notes") || "") || null,
       idempotencyKey: String(formData.get("idempotency_key") || crypto.randomUUID()),
       paymentMethod,
-      onlinePaid,
     });
     redirect(`/order/success?order=${order.order_number}`);
   } catch (e) {

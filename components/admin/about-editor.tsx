@@ -40,7 +40,7 @@ export function AboutEditor({ initialData }: { initialData: SiteSettings }) {
     story_title: initialData.story_title || "Rooted in Our Soil",
     story_body:
       initialData.story_body ||
-      "Traditional roots, modern commerce. The storefront carries honest soil in its details — millet names, farm lots, terracotta accents — without turning the shop into a costume. Words here are configuration-ready from Settings.",
+      "Traditional roots, modern commerce. The storefront carries honest soil in its details — millet names, farm lots, terracotta accents — bringing authentic native harvests directly from small family farms to your kitchen table.",
   });
 
   const [savedData, setSavedData] = useState<AboutContentInput>(formData);

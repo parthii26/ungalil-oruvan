@@ -13,7 +13,6 @@ export function CustomerLoginForm({ next, error }: { next: string; error?: strin
           required
           className="input"
           autoComplete="email"
-          defaultValue="ananya@varizel.dev"
         />
       </div>
       <div>
@@ -27,7 +26,6 @@ export function CustomerLoginForm({ next, error }: { next: string; error?: strin
           required
           className="input"
           autoComplete="current-password"
-          defaultValue="Customer123!"
         />
       </div>
       {error && (
@@ -38,9 +36,6 @@ export function CustomerLoginForm({ next, error }: { next: string; error?: strin
       <button type="submit" className="btn btn-primary w-full">
         Login
       </button>
-      <p className="text-[0.7rem] text-ink-soft">
-        Development login is prefilled. Customer password: <code>Customer123!</code>
-      </p>
     </form>
   );
 }

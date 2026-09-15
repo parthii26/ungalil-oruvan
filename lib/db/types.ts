@@ -269,8 +269,10 @@ export interface SiteSettings {
   accent_color: string;
   contact_email: string;
   contact_phone: string;
+  whatsapp_number?: string;
+  support_hours?: string;
   address: string;
-  social: { instagram?: string; facebook?: string; youtube?: string };
+  social: { instagram?: string; facebook?: string; youtube?: string; whatsapp?: string };
   footer_text: string;
   hero_headline: string;
   hero_subhead: string;
@@ -329,10 +331,12 @@ export interface Review {
   id: string;
   product_id: string;
   customer_id: string;
+  customer_name?: string;
   rating: number;
   title: string;
   body: string;
   published: boolean;
+  verified_purchase?: boolean;
   created_at: string;
 }
 

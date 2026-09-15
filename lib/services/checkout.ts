@@ -18,7 +18,6 @@ export function checkoutPending(input: {
   notes?: string | null;
   idempotencyKey: string;
   paymentMethod?: "online" | "cod";
-  onlinePaid?: boolean;
 }) {
   if (input.idempotencyKey) {
     const existing = ordersRepo.findByIdempotency(input.idempotencyKey, input.customerId);
@@ -29,7 +28,13 @@ export function checkoutPending(input: {
   if (!cart.items.length) throw new BusinessRuleError("Your cart is empty.");
 
   for (const item of cart.items) {
-    assertPurchasable(item.variant_id);
+    const { variant } = assertPurchasable(item.variant_id);
+    const availableStock = variant.stock_qty ?? 0;
+    if (availableStock < item.quantity) {
+      throw new BusinessRuleError(
+        `Insufficient stock for ${item.product_name} (${item.variant_title}). Available: ${availableStock}, requested: ${item.quantity}.`
+      );
+    }
   }
 
   let coupon = null;
@@ -47,8 +52,7 @@ export function checkoutPending(input: {
   });
 
   const isCod = input.paymentMethod === "cod";
-  const isPaid = Boolean(input.onlinePaid);
-  const status: OrderStatus = isCod || isPaid ? "confirmed" : "pending_payment";
+  const status: OrderStatus = isCod ? "confirmed" : "pending_payment";
 
   const order = ordersRepo.insertOrder(
     {

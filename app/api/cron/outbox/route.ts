@@ -3,7 +3,13 @@ import { loadDb, mutate } from "@/lib/db/store";
 import { notificationsService } from "@/lib/services/notifications";
 import { nowIso } from "@/lib/utils";
 
-export async function POST() {
+export async function POST(request?: Request) {
+  const authHeader = request?.headers?.get("authorization");
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && authHeader !== `Bearer ${cronSecret}` && request?.headers?.get("x-cron-secret") !== cronSecret) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const db = loadDb();
   const pending = (db.outbox_events ?? []).filter((e) => !e.processed_at);
 

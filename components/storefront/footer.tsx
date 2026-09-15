@@ -27,58 +27,121 @@ export async function StorefrontFooter() {
           );
         })}
       </svg>
-      <div className="container-page relative py-12 md:py-20 grid gap-10 sm:grid-cols-2 md:grid-cols-4">
-        <div>
+      <div className="container-page relative py-12 md:py-18 grid gap-8 sm:grid-cols-2 md:grid-cols-5">
+        {/* Col 1: Brand & Philosophy */}
+        <div className="md:col-span-1">
           <p className="font-tamil text-turmeric text-lg">{settings.tamil_tagline}</p>
-          <p className="mt-1 font-serif text-3xl">{settings.brand_name}</p>
+          <p className="mt-1 font-serif text-2xl md:text-3xl">{settings.brand_name}</p>
           <p className="mt-1 text-[0.7rem] tracking-[0.16em] uppercase text-cream/60">{settings.english_tagline}</p>
-          <p className="mt-4 text-sm text-cream/70 leading-relaxed">{settings.footer_text}</p>
+          <p className="mt-4 text-xs text-cream/70 leading-relaxed">{settings.footer_text}</p>
+          {(settings.fssai || settings.gstin) && (
+            <div className="mt-4 pt-3 border-t border-cream/10 text-[0.68rem] text-cream/50 space-y-1">
+              {settings.fssai && <p>FSSAI Lic: {settings.fssai}</p>}
+              {settings.gstin && <p>GSTIN: {settings.gstin}</p>}
+            </div>
+          )}
         </div>
+
+        {/* Col 2: Shop Categories */}
         <nav aria-label="Footer shop">
-          <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50 mb-3">Shop</p>
-          <ul className="text-sm">
+          <p className="text-[0.68rem] tracking-[0.18em] uppercase text-turmeric/90 mb-3 font-medium">Pantry Shop</p>
+          <ul className="text-xs space-y-2">
             {cats.map((c) => (
               <li key={c.id}>
-                <Link href={`/category/${c.slug}`} className="flex min-h-11 items-center hover:text-turmeric">
+                <Link href={`/category/${c.slug}`} className="hover:text-turmeric transition-colors block py-0.5">
                   {c.name}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
-        <nav aria-label="Footer visit">
-          <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50 mb-3">Visit</p>
-          <ul className="text-sm">
-            {[
-              ["/about", "About"],
-              ["/blog", "Journal"],
-              ["/faq", "FAQ"],
-              ["/contact", "Contact"],
-              ["/policies/shipping", "Shipping"],
-              ["/policies/privacy", "Privacy"],
-              ["/policies/terms", "Terms"],
-            ].map(([href, label]) => (
-              <li key={href}>
-                <Link href={href} className="flex min-h-11 items-center hover:text-turmeric">
-                  {label}
-                </Link>
-              </li>
-            ))}
+
+        {/* Col 3: Company */}
+        <nav aria-label="Footer company">
+          <p className="text-[0.68rem] tracking-[0.18em] uppercase text-turmeric/90 mb-3 font-medium">Company</p>
+          <ul className="text-xs space-y-2">
+            <li>
+              <Link href="/about" className="hover:text-turmeric transition-colors block py-0.5">
+                About Our Harvests
+              </Link>
+            </li>
+            <li>
+              <Link href="/about#story" className="hover:text-turmeric transition-colors block py-0.5">
+                Our Farming Roots
+              </Link>
+            </li>
+            <li>
+              <Link href="/blog" className="hover:text-turmeric transition-colors block py-0.5">
+                Farm Journal
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" className="hover:text-turmeric transition-colors block py-0.5">
+                Frequently Asked Questions
+              </Link>
+            </li>
           </ul>
         </nav>
+
+        {/* Col 4: Customer Care & Legal */}
+        <nav aria-label="Footer legal">
+          <p className="text-[0.68rem] tracking-[0.18em] uppercase text-turmeric/90 mb-3 font-medium">Care & Legal</p>
+          <ul className="text-xs space-y-2">
+            <li>
+              <Link href="/order/track" className="hover:text-turmeric transition-colors block py-0.5 font-medium text-cream">
+                Track Order →
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:text-turmeric transition-colors block py-0.5">
+                Contact Customer Care
+              </Link>
+            </li>
+            <li>
+              <Link href="/policies/shipping" className="hover:text-turmeric transition-colors block py-0.5">
+                Shipping Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/policies/refunds" className="hover:text-turmeric transition-colors block py-0.5">
+                Returns & Refunds
+              </Link>
+            </li>
+            <li>
+              <Link href="/policies/cancellation" className="hover:text-turmeric transition-colors block py-0.5">
+                Cancellation & Claims
+              </Link>
+            </li>
+            <li>
+              <Link href="/policies/privacy" className="hover:text-turmeric transition-colors block py-0.5">
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/policies/terms" className="hover:text-turmeric transition-colors block py-0.5">
+                Terms of Use
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* Col 5: Contact & Newsletter */}
         <div>
-          <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50 mb-3">Studio</p>
+          <p className="text-[0.68rem] tracking-[0.18em] uppercase text-turmeric/90 mb-3 font-medium">Support</p>
           {settings.address && (
-            <p className="text-sm text-cream/70 leading-relaxed">{settings.address}</p>
+            <p className="text-xs text-cream/70 leading-relaxed mb-2">{settings.address}</p>
           )}
-          <a href={`mailto:${settings.contact_email}`} className="mt-1 flex min-h-11 items-center text-sm text-cream/70 hover:text-turmeric">
+          <a href={`mailto:${settings.contact_email}`} className="block text-xs text-cream/80 hover:text-turmeric transition-colors py-0.5">
             {settings.contact_email}
           </a>
-          <a href={`tel:${settings.contact_phone.replace(/\s+/g, "")}`} className="flex min-h-11 items-center text-sm text-cream/70 hover:text-turmeric">
+          <a href={`tel:${settings.contact_phone.replace(/\s+/g, "")}`} className="block text-xs text-cream/80 hover:text-turmeric transition-colors py-0.5">
             {settings.contact_phone}
           </a>
-          <div className="mt-4">
-            <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50">Harvest Newsletter</p>
+          {settings.support_hours && (
+            <p className="text-[0.7rem] text-cream/50 mt-1">{settings.support_hours}</p>
+          )}
+          <div className="mt-4 pt-3 border-t border-cream/10">
+            <p className="text-[0.68rem] tracking-[0.16em] uppercase text-cream/60 mb-2">Harvest Newsletter</p>
             <NewsletterForm />
           </div>
         </div>
