@@ -58,7 +58,7 @@ describe("admin create product with photo and first pack", () => {
     const variants = productsRepo.getVariants(created!.id);
     expect(variants).toHaveLength(1);
     expect(variants[0].price_paise).toBe(19900);
-    expect(variants[0].sku).toMatch(/^VZ-/);
+    expect(variants[0].sku).toMatch(/^UO-/);
     await unlink(`public${images[0].path}`);
   });
 

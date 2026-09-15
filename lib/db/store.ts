@@ -41,8 +41,20 @@ export function loadDb(): Database {
       }
       if (db.product_variants) {
         for (const v of db.product_variants) {
+          if (v.sku && v.sku.startsWith("VZ-")) {
+            v.sku = "UO-" + v.sku.slice(3);
+            shouldPersist = true;
+          }
           if (v.stock_qty === undefined) {
             v.stock_qty = v.status === "active" ? 50 : 0;
+            shouldPersist = true;
+          }
+        }
+      }
+      if (db.order_items) {
+        for (const item of db.order_items) {
+          if (item.sku && item.sku.startsWith("VZ-")) {
+            item.sku = "UO-" + item.sku.slice(3);
             shouldPersist = true;
           }
         }

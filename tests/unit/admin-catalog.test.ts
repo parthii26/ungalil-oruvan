@@ -87,7 +87,7 @@ describe("admin catalog", () => {
     });
     productsRepo.insertVariant({
       product_id: created.id,
-      sku: "VZ-NEW-250",
+      sku: "UO-NEW-250",
       barcode: null,
       title: "250 g",
       weight_grams: 250,
@@ -133,7 +133,7 @@ describe("admin catalog", () => {
 
   it("generates unique variant SKUs", () => {
     const first = adminCatalog.generateVariantSku("New Test Grain", 1000);
-    expect(first).toMatch(/^VZ-/);
+    expect(first).toMatch(/^UO-/);
     productsRepo.insertVariant({
       product_id: "prod-honey",
       sku: first,

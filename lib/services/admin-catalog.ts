@@ -42,7 +42,7 @@ export function assertImageFile(file: { name: string; type: string; size: number
 
 export function generateVariantSku(name: string, weightGrams: number): string {
   const stem = slugify(name).replace(/-/g, "").slice(0, 8).toUpperCase() || "ITEM";
-  const base = `VZ-${stem}-${Math.max(0, Math.trunc(weightGrams)) || "NA"}`;
+  const base = `UO-${stem}-${Math.max(0, Math.trunc(weightGrams)) || "NA"}`;
   const taken = new Set(
     productsRepo.listAllProducts().flatMap((p) => productsRepo.getVariants(p.id).map((v) => v.sku.toLowerCase())),
   );
