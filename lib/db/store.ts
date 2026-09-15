@@ -35,6 +35,10 @@ export function loadDb(): Database {
         db.contact_messages = [];
         shouldPersist = true;
       }
+      if (!db.batches || !Array.isArray(db.batches)) {
+        db.batches = createSeed().batches;
+        shouldPersist = true;
+      }
       if (db.product_variants) {
         for (const v of db.product_variants) {
           if (v.stock_qty === undefined) {
@@ -45,6 +49,10 @@ export function loadDb(): Database {
       }
       if (db.pages && db.pages.some((p) => p.body.includes("Development placeholder"))) {
         db.pages = createSeed().pages;
+        shouldPersist = true;
+      }
+      if (db.faqs && db.faqs.some((f) => f.answer.includes("Stage 1") || f.answer.includes("Stage 2"))) {
+        db.faqs = createSeed().faqs;
         shouldPersist = true;
       }
       if (shouldPersist) {

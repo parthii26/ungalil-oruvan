@@ -498,6 +498,8 @@ export async function saveSettingsAction(_prev: unknown, formData: FormData) {
       login_subhead: String(formData.get("login_subhead") || ""),
       story_title: String(formData.get("story_title") || ""),
       story_tamil: String(formData.get("story_tamil") || ""),
+      gstin: String(formData.get("gstin") || "").trim() || null,
+      fssai: String(formData.get("fssai") || "").trim() || null,
       social: {
         instagram: String(formData.get("instagram") || ""),
         facebook: String(formData.get("facebook") || ""),
@@ -629,5 +631,58 @@ export async function updatePageAction(_prev: unknown, formData: FormData) {
     return { ok: true };
   } catch (e) {
     return { ok: false, error: toUserMessage(e) };
+  }
+}
+
+// ──────────────────────────────────────────────
+// BATCH ACTIONS
+// ──────────────────────────────────────────────
+
+export async function createBatchAction(_prev: unknown, formData: FormData) {
+  try {
+    await requireAdmin();
+    const batch_number = String(formData.get("batch_number") || "").trim().toUpperCase();
+    const product_id = String(formData.get("product_id") || "").trim();
+    const packaging_date = String(formData.get("packaging_date") || "").trim();
+    const expiry_date = String(formData.get("expiry_date") || "").trim();
+    const initial_quantity = parseInt(String(formData.get("initial_quantity") || "0"), 10);
+    const harvest_date = String(formData.get("harvest_date") || "").trim() || null;
+    const notes = String(formData.get("notes") || "").trim() || null;
+
+    if (!batch_number) return { ok: false, error: "Batch number is required." };
+    if (!product_id) return { ok: false, error: "Product is required." };
+    if (!packaging_date) return { ok: false, error: "Packaging date is required." };
+    if (!expiry_date) return { ok: false, error: "Expiry date is required." };
+    if (isNaN(initial_quantity) || initial_quantity <= 0) {
+      return { ok: false, error: "Initial quantity must be greater than 0." };
+    }
+
+    const { createBatch } = await import("@/lib/repositories/batches");
+    createBatch({
+      batch_number,
+      product_id,
+      packaging_date,
+      expiry_date,
+      harvest_date,
+      initial_quantity,
+      remaining_quantity: initial_quantity,
+      notes,
+    });
+
+    revalidatePath("/admin/batches");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: toUserMessage(e) };
+  }
+}
+
+export async function deleteBatchAction(id: string) {
+  try {
+    await requireAdmin();
+    const { deleteBatch } = await import("@/lib/repositories/batches");
+    deleteBatch(id);
+    revalidatePath("/admin/batches");
+  } catch (e) {
+    console.error("deleteBatchAction error:", e);
   }
 }

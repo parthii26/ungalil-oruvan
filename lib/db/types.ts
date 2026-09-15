@@ -355,6 +355,21 @@ export interface ContactMessage {
   created_at: string;
 }
 
+export interface ProductBatch {
+  id: string;
+  batch_number: string;
+  product_id: string;
+  variant_id?: string | null;
+  harvest_date?: string | null;
+  packaging_date: string;
+  expiry_date: string;
+  initial_quantity: number;
+  remaining_quantity: number;
+  notes?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Database {
   profiles: Profile[];
   customers: Customer[];
@@ -385,6 +400,7 @@ export interface Database {
   reviews: Review[];
   navigation_items: NavigationItem[];
   contact_messages: ContactMessage[];
+  batches: ProductBatch[];
   webhook_events: { id: string; source: string; payload: unknown; created_at: string }[];
   outbox_events: { id: string; type: string; payload: unknown; processed_at: string | null; created_at: string }[];
 }

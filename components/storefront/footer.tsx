@@ -83,9 +83,9 @@ export async function StorefrontFooter() {
         className="container-page relative pt-6 border-t border-cream/10 text-xs text-cream/45 flex flex-wrap justify-between gap-2 pb-[calc(var(--bnav-h)+env(safe-area-inset-bottom,0px)+1.5rem)] md:pb-6"
       >
         <p>
-          © {new Date().getFullYear()} {settings.brand_name}. Stage 1 development store.
+          © {new Date().getFullYear()} {settings.brand_name}. {settings.english_tagline}
         </p>
-        <p>Payments, shipping, and invoices are not live.</p>
+        <p>Pure, organic, and ethically sourced from local farmers.</p>
       </div>
     </footer>
   );

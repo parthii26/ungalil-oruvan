@@ -124,4 +124,96 @@ test.describe("Stage 1 Admin Features & Contact Flow", () => {
     await page.goto("/policies/privacy");
     await expect(page.locator("h1:has-text('Privacy Policy - Ungalil Oruvan')")).toBeVisible();
   });
+
+  test("guest can look up order status on /order/track", async ({ page }) => {
+    await page.goto("/order/track");
+    await expect(page.locator("h1:has-text('Track Order')")).toBeVisible();
+
+    // Fill in seeded order
+    await page.locator("input[name='order']").fill("UO-2026-000001");
+    await page.locator("button:has-text('Track')").click();
+
+    await page.waitForURL(/\/order\/track/);
+    await expect(page.locator("p.font-serif:has-text('UO-2026-000001')")).toBeVisible();
+    await expect(page.locator("text=Fulfillment Progress")).toBeVisible();
+    await expect(page.locator("text=Activity Timeline")).toBeVisible();
+  });
+
+  test("customer can view invoice list and printable invoice receipt", async ({ page }) => {
+    // Login as customer
+    await page.goto("/login");
+    await page.locator("input[name='email']").fill("ananya@varizel.dev");
+    await page.locator("input[name='password']").fill("Customer123!");
+    await page.locator("button:has-text('Login')").click();
+    await page.waitForURL(/\/account/, { timeout: 15_000 });
+
+    // Navigate to invoices
+    await page.goto("/account/invoices");
+    await expect(page.locator("h1:has-text('Invoices')")).toBeVisible();
+    await expect(page.locator("td:has-text('INV-UO-2026-000001')")).toBeVisible();
+
+    // Click View Invoice
+    await page.locator("a:has-text('View Invoice ↗')").first().click();
+    await page.waitForURL(/\/account\/invoices\//);
+
+    await expect(page.locator("span:has-text('TAX INVOICE')")).toBeVisible();
+    await expect(page.locator("button:has-text('Print / Save as PDF')")).toBeVisible();
+  });
+
+  test("customer can write a product review", async ({ page }) => {
+    // Login as customer
+    await page.goto("/login");
+    await page.locator("input[name='email']").fill("ananya@varizel.dev");
+    await page.locator("input[name='password']").fill("Customer123!");
+    await page.locator("button:has-text('Login')").click();
+    await page.waitForURL(/\/account/, { timeout: 15_000 });
+
+    // Navigate to reviews
+    await page.goto("/account/reviews");
+    await expect(page.locator("h1:has-text('Product Reviews')")).toBeVisible();
+
+    // Click write review button
+    await page.locator("button:has-text('+ Write a Product Review')").click();
+
+    // Fill form
+    await page.locator("select[name='product_id']").selectOption({ index: 1 });
+    await page.locator("input[name='title']").fill("Superb natural aroma and freshness");
+    await page.locator("textarea[name='body']").fill("Authentic traditional grain, cooked easily and tasted great.");
+    await page.locator("button:has-text('Post Review')").click();
+
+    await expect(page.locator("text=✓ Review submitted!")).toBeVisible();
+  });
+
+  test("admin can manage batches and track expiry dates", async ({ page }) => {
+    await loginAsAdmin(page);
+    await page.goto("/admin/batches");
+    await expect(page.locator("h1:has-text('Batches & Expiry')")).toBeVisible();
+    await expect(page.locator("text=Total Batches")).toBeVisible();
+
+    // Click Record New Batch
+    await page.locator("button:has-text('+ Record New Batch')").click();
+
+    await page.locator("input[name='batch_number']").fill("HON-2026-TEST");
+    await page.locator("select[name='product_id']").selectOption({ index: 1 });
+    await page.locator("input[name='packaging_date']").fill("2026-02-01");
+    await page.locator("input[name='expiry_date']").fill("2027-02-01");
+    await page.locator("input[name='initial_quantity']").fill("75");
+    await page.locator("button:has-text('Save Batch')").click();
+
+    await expect(page.locator("text=✓ New batch lot created!")).toBeVisible();
+  });
+
+  test("admin can save GSTIN and FSSAI settings", async ({ page }) => {
+    await loginAsAdmin(page);
+    await page.goto("/admin/settings");
+    await expect(page.locator("h1:has-text('Settings')")).toBeVisible();
+
+    await page.locator("input[name='gstin']").fill("33AAAUO9999P1Z1");
+    await page.locator("input[name='fssai']").fill("12426999000999");
+    await page.locator("button:has-text('Save')").first().click();
+
+    await expect(page.locator("text=Saved.")).toBeVisible();
+    await expect(page.locator("input[name='gstin']")).toHaveValue("33AAAUO9999P1Z1");
+    await expect(page.locator("input[name='fssai']")).toHaveValue("12426999000999");
+  });
 });

@@ -200,7 +200,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           )}
           <div className="mt-8">
             <h3 className="label">Shipping</h3>
-            <p className="text-sm text-ink-soft">Courier booking is a Stage 2 integration. Stage 1 creates a pending-payment order only.</p>
+            <p className="text-sm text-ink-soft">Dispatched within 1–2 business days via standard courier. Free shipping across India on orders above ₹499.</p>
           </div>
         </section>
       </div>

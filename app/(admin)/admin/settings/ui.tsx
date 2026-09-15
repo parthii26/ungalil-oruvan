@@ -23,6 +23,8 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
         ["contact_email", "Contact email", settings.contact_email],
         ["contact_phone", "Phone", settings.contact_phone],
         ["address", "Address", settings.address],
+        ["gstin", "GSTIN (GST Identification Number)", settings.gstin ?? ""],
+        ["fssai", "FSSAI License Number", settings.fssai ?? ""],
         ["footer_text", "Footer text", settings.footer_text],
         ["instagram", "Instagram", settings.social.instagram ?? ""],
         ["facebook", "Facebook", settings.social.facebook ?? ""],

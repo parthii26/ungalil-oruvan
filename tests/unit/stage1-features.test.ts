@@ -171,4 +171,76 @@ describe("Stage 1 Features & Stage 2 Scaffold", () => {
       expect(invoice.customerEmail).toBe(order.email);
     });
   });
+
+  describe("Batches & Expiry Management", () => {
+    it("creates, retrieves, and deletes production lots", async () => {
+      const { listAllBatches, createBatch, getBatchById, deleteBatch } = await import(
+        "@/lib/repositories/batches"
+      );
+
+      const initialCount = listAllBatches().length;
+      const batch = createBatch({
+        batch_number: "TUR-2026-B01",
+        product_id: "prod-turmeric",
+        packaging_date: "2026-02-01",
+        expiry_date: "2027-02-01",
+        initial_quantity: 150,
+        remaining_quantity: 150,
+        notes: "Erode wild turmeric lot",
+      });
+
+      expect(batch.id).toBeDefined();
+      expect(listAllBatches().length).toBe(initialCount + 1);
+
+      const found = getBatchById(batch.id);
+      expect(found?.batch_number).toBe("TUR-2026-B01");
+      expect(found?.remaining_quantity).toBe(150);
+
+      deleteBatch(batch.id);
+      expect(getBatchById(batch.id)).toBeNull();
+    });
+  });
+
+  describe("Product Reviews", () => {
+    it("records, retrieves, and deletes customer reviews", async () => {
+      const { createReview, listReviewsForCustomer, listReviewsForProduct, deleteReview } =
+        await import("@/lib/repositories/reviews");
+
+      const created = createReview({
+        product_id: "prod-honey",
+        customer_id: "cust-test-1",
+        rating: 5,
+        title: "Very rich natural flavor",
+        body: "Best raw forest honey I have tasted. No artificial sweetness.",
+        published: true,
+      });
+
+      expect(created.id).toBeDefined();
+
+      const customerReviews = listReviewsForCustomer("cust-test-1");
+      expect(customerReviews.some((r) => r.id === created.id)).toBe(true);
+
+      const productReviews = listReviewsForProduct("prod-honey");
+      expect(productReviews.some((r) => r.id === created.id)).toBe(true);
+
+      deleteReview(created.id, "cust-test-1");
+      expect(listReviewsForCustomer("cust-test-1").some((r) => r.id === created.id)).toBe(false);
+    });
+  });
+
+  describe("Settings GSTIN & FSSAI", () => {
+    it("persists GSTIN and FSSAI license numbers", async () => {
+      const { getSettings, updateSettings } = await import("@/lib/repositories/settings");
+
+      updateSettings({
+        gstin: "33AABCV1234F1Z5",
+        fssai: "12426999000123",
+      });
+
+      const updated = getSettings();
+      expect(updated.gstin).toBe("33AABCV1234F1Z5");
+      expect(updated.fssai).toBe("12426999000123");
+    });
+  });
 });
+
