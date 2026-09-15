@@ -83,15 +83,15 @@ export function quote(input: {
   const afterDiscount = subtotal - discount;
   const tax = 0;
   let shipping = 0;
-  let shipping_note = "Shipping is estimated. Live rates are a Stage 2 integration.";
+  let shipping_note = "Standard doorstep delivery across India.";
   if (afterDiscount <= 0) {
     shipping = 0;
   } else if (afterDiscount >= settings.free_shipping_over_paise) {
     shipping = 0;
-    shipping_note = `Estimated free shipping over ${settings.free_shipping_over_paise / 100} rupees. Confirmed after payment.`;
+    shipping_note = `Free shipping applied on orders over ₹${settings.free_shipping_over_paise / 100}.`;
   } else {
     shipping = settings.flat_shipping_paise;
-    shipping_note = "Estimated flat shipping. Not charged until Stage 2 payment.";
+    shipping_note = `Flat rate shipping ₹${settings.flat_shipping_paise / 100}. Free over ₹${settings.free_shipping_over_paise / 100}.`;
   }
   return {
     lines,
@@ -102,6 +102,6 @@ export function quote(input: {
     grand_total_paise: addPaise(afterDiscount, tax, shipping),
     coupon_code: input.coupon?.code ?? null,
     shipping_note,
-    tax_note: "Tax breakdown is not configured. Stage 2 GST settings will apply.",
+    tax_note: "All prices inclusive of GST and local taxes.",
   };
 }

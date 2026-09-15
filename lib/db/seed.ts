@@ -770,6 +770,7 @@ export function createSeed(): Database {
         updated_at: T,
       },
     ],
+    newsletter_subscribers: [],
     webhook_events: [],
     outbox_events: [],
   };

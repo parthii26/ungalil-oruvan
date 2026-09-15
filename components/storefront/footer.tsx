@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/services/settings";
 import { listPublicCategories } from "@/lib/services/catalog";
+import { NewsletterForm } from "@/components/storefront/newsletter-form";
 
 export async function StorefrontFooter() {
   const settings = getSiteSettings();
@@ -76,7 +77,10 @@ export async function StorefrontFooter() {
           <a href={`tel:${settings.contact_phone.replace(/\s+/g, "")}`} className="flex min-h-11 items-center text-sm text-cream/70 hover:text-turmeric">
             {settings.contact_phone}
           </a>
-          <p className="mt-4 text-xs text-cream/45">Newsletter is a Stage 2 integration (Resend).</p>
+          <div className="mt-4">
+            <p className="text-[0.68rem] tracking-[0.18em] uppercase text-cream/50">Harvest Newsletter</p>
+            <NewsletterForm />
+          </div>
         </div>
       </div>
       <div

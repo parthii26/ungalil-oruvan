@@ -1,8 +1,9 @@
 import { BusinessRuleError } from "@/lib/errors";
-import type { AddressSnapshot } from "@/lib/db/types";
+import type { AddressSnapshot, OrderStatus } from "@/lib/db/types";
 import * as ordersRepo from "@/lib/repositories/orders";
 import * as couponsRepo from "@/lib/repositories/coupons";
 import * as cartsRepo from "@/lib/repositories/carts";
+import { inventoryService } from "./inventory";
 import { viewCart } from "./cart";
 import { validateCoupon } from "./coupons";
 import { quote } from "./pricing";
@@ -16,6 +17,8 @@ export function checkoutPending(input: {
   couponCode?: string | null;
   notes?: string | null;
   idempotencyKey: string;
+  paymentMethod?: "online" | "cod";
+  onlinePaid?: boolean;
 }) {
   if (input.idempotencyKey) {
     const existing = ordersRepo.findByIdempotency(input.idempotencyKey, input.customerId);
@@ -43,11 +46,15 @@ export function checkoutPending(input: {
     coupon,
   });
 
+  const isCod = input.paymentMethod === "cod";
+  const isPaid = Boolean(input.onlinePaid);
+  const status: OrderStatus = isCod || isPaid ? "confirmed" : "pending_payment";
+
   const order = ordersRepo.insertOrder(
     {
       customer_id: input.customerId,
       email: input.email,
-      status: "pending_payment",
+      status,
       coupon_code: priced.coupon_code,
       subtotal_paise: priced.subtotal_paise,
       discount_paise: priced.discount_paise,
@@ -56,7 +63,7 @@ export function checkoutPending(input: {
       grand_total_paise: priced.grand_total_paise,
       shipping_address: input.address,
       billing_address: input.address,
-      notes: input.notes ?? null,
+      notes: input.notes ? (isCod ? `[COD] ${input.notes}` : input.notes) : (isCod ? "[Cash on Delivery]" : null),
       idempotency_key: input.idempotencyKey,
     },
     priced.lines.map((l) => ({
@@ -71,6 +78,11 @@ export function checkoutPending(input: {
       line_total_paise: l.line_total_paise,
     })),
   );
+
+  // If order is confirmed (COD or paid), deduct stock immediately using FEFO
+  if (status === "confirmed") {
+    inventoryService.commit(order.id);
+  }
 
   if (coupon) {
     couponsRepo.recordRedemption(coupon.id, input.customerId, order.id);

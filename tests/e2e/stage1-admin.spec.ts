@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test.describe("Stage 1 Admin Features & Contact Flow", () => {
   test.beforeEach(async ({ request }) => {
     // Reset database to clean seed state before each test run
-    const res = await request.post("http://localhost:3000/api/dev/reset-nav");
+    const res = await request.post("http://127.0.0.1:3000/api/dev/reset-nav");
     expect(res.ok()).toBeTruthy();
   });
 
@@ -84,10 +84,10 @@ test.describe("Stage 1 Admin Features & Contact Flow", () => {
     await page.goto("/contact");
     await expect(page.locator("h1:has-text('Contact')")).toBeVisible();
 
-    await page.locator("input[name='name']").fill("Sundar Organic Farmer");
-    await page.locator("input[name='email']").fill("sundar@example.com");
-    await page.locator("textarea[name='message']").fill("Interested in supplying organic kodo millet to your store.");
-    await page.locator("button:has-text('Send message')").click();
+    await page.locator("main input[name='name']").fill("Sundar Organic Farmer");
+    await page.locator("main input[name='email']").fill("sundar@example.com");
+    await page.locator("main textarea[name='message']").fill("Interested in supplying organic kodo millet to your store.");
+    await page.locator("main button:has-text('Send message')").click();
 
     await expect(page.locator("text=Message sent!")).toBeVisible();
 
@@ -215,5 +215,14 @@ test.describe("Stage 1 Admin Features & Contact Flow", () => {
     await expect(page.locator("text=Saved.")).toBeVisible();
     await expect(page.locator("input[name='gstin']")).toHaveValue("33AAAUO9999P1Z1");
     await expect(page.locator("input[name='fssai']")).toHaveValue("12426999000999");
+  });
+
+  test("visitor can subscribe to newsletter in footer", async ({ page }) => {
+    await page.goto("/");
+    const emailInput = page.locator("footer input[name='email']");
+    await emailInput.scrollIntoViewIfNeeded();
+    await emailInput.fill("harvest-lover@example.com");
+    await page.locator("footer button:has-text('Join')").click();
+    await expect(page.locator("text=✓ Subscribed")).toBeVisible();
   });
 });

@@ -40,8 +40,8 @@ export function adminGet(orderId: string) {
 export function adminCancel(orderId: string) {
   const order = ordersRepo.getOrderById(orderId);
   if (!order) throw new NotFoundError("Order not found.");
-  if (order.status !== "pending_payment") {
-    throw new BusinessRuleError("Only pending-payment orders can be cancelled in Stage 1.");
+  if (order.status === "delivered" || order.status === "cancelled") {
+    throw new BusinessRuleError("Delivered or already cancelled orders cannot be cancelled.");
   }
-  return ordersRepo.cancelPendingOrder(orderId);
+  return ordersRepo.updateOrderStatus(orderId, "cancelled", "Order cancelled by admin.");
 }

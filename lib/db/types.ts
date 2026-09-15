@@ -370,6 +370,12 @@ export interface ProductBatch {
   updated_at: string;
 }
 
+export interface NewsletterSubscriber {
+  id: string;
+  email: string;
+  created_at: string;
+}
+
 export interface Database {
   profiles: Profile[];
   customers: Customer[];
@@ -401,6 +407,7 @@ export interface Database {
   navigation_items: NavigationItem[];
   contact_messages: ContactMessage[];
   batches: ProductBatch[];
+  newsletter_subscribers: NewsletterSubscriber[];
   webhook_events: { id: string; source: string; payload: unknown; created_at: string }[];
   outbox_events: { id: string; type: string; payload: unknown; processed_at: string | null; created_at: string }[];
 }

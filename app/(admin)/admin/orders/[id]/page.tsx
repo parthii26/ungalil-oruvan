@@ -33,9 +33,19 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
           <h1 className="font-serif text-3xl md:text-4xl">{order.order_number}</h1>
           <p className="mt-1 text-ink-soft">{order.email}</p>
         </div>
-        <span className="inline-block border border-line px-3 py-1 text-sm">
-          {order.status.replaceAll("_", " ")}
-        </span>
+        <div className="flex items-center gap-3">
+          <a
+            href={`/account/invoices/${order.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-ghost text-xs py-1 px-3"
+          >
+            Print Tax Invoice ↗
+          </a>
+          <span className="inline-block border border-line px-3 py-1 text-sm font-medium">
+            {order.status.replaceAll("_", " ")}
+          </span>
+        </div>
       </div>
 
       {/* Items */}

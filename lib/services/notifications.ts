@@ -91,3 +91,14 @@ export async function sendContactNotification(input: {
   `;
   return sendEmail(input.adminEmail, `Contact: message from ${input.fromName}`, html);
 }
+
+export { sendEmail };
+
+export const notificationsService = {
+  isConfigured: isNotificationsConfigured,
+  sendEmail,
+  sendOrderConfirmation,
+  sendOrderShipped,
+  sendContactNotification,
+};
+

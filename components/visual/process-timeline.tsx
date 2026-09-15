@@ -5,7 +5,7 @@ const STEPS = [
   { t: "Harvested", img: "/images/harvest-grain.jpg", d: "Cut when the grain is ready, not the calendar." },
   { t: "Processed", img: "/images/process-wood.jpg", d: "Stone, wood, and small lots." },
   { t: "Packed", img: "/images/table-spread.jpg", d: "Honest weights. Short lists." },
-  { t: "Delivered", img: "/images/soil-hands.jpg", d: "To the table. Shipping is Stage 2." },
+  { t: "Delivered", img: "/images/soil-hands.jpg", d: "Fresh doorstep delivery straight from our farms." },
 ];
 
 export function ProcessTimeline() {

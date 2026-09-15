@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo } from "react";
+import { useActionState, useMemo, useState } from "react";
 import { placeOrderAction } from "@/lib/actions/checkout";
 import type { Address } from "@/lib/db/types";
 
@@ -16,6 +16,8 @@ export function CheckoutForm({
 }) {
   const [state, action, pending] = useActionState(placeOrderAction, initial);
   const key = useMemo(() => crypto.randomUUID(), []);
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "online">("cod");
+  const [onlineSimulated, setOnlineSimulated] = useState(true);
 
   return (
     <form action={action} className="mt-8 md:mt-10 space-y-8">
@@ -131,12 +133,55 @@ export function CheckoutForm({
         <textarea id="notes" name="notes" className="input" enterKeyHint="done" />
       </section>
 
-      <section className="border border-dashed border-line p-5">
-        <h2 className="font-serif text-xl md:text-2xl">4 · Payment</h2>
-        <p className="mt-2 text-sm text-ink-soft">
-          Razorpay is not configured. Placing the order will <strong>not</strong> charge a card and will leave the order in{" "}
-          <em>payment pending</em>.
-        </p>
+      <section className="border border-line p-5 bg-warmwhite/50">
+        <h2 className="font-serif text-xl md:text-2xl">4 · Payment Method</h2>
+        <input type="hidden" name="payment_method" value={paymentMethod} />
+        {paymentMethod === "online" && (
+          <input type="hidden" name="online_paid" value={onlineSimulated ? "true" : "false"} />
+        )}
+        <div className="mt-4 space-y-3">
+          <label className={`flex items-start gap-3 p-4 border cursor-pointer transition-colors ${paymentMethod === "cod" ? "border-forest bg-cream" : "border-line bg-white"}`}>
+            <input
+              type="radio"
+              name="_pay_choice"
+              value="cod"
+              checked={paymentMethod === "cod"}
+              onChange={() => setPaymentMethod("cod")}
+              className="mt-1"
+            />
+            <div>
+              <span className="font-medium text-forest text-sm">Cash on Delivery (COD)</span>
+              <p className="text-xs text-ink-soft mt-0.5">Pay via cash or UPI QR at your doorstep upon delivery.</p>
+            </div>
+          </label>
+
+          <label className={`flex items-start gap-3 p-4 border cursor-pointer transition-colors ${paymentMethod === "online" ? "border-forest bg-cream" : "border-line bg-white"}`}>
+            <input
+              type="radio"
+              name="_pay_choice"
+              value="online"
+              checked={paymentMethod === "online"}
+              onChange={() => setPaymentMethod("online")}
+              className="mt-1"
+            />
+            <div className="flex-1">
+              <span className="font-medium text-forest text-sm">Online Payment (Razorpay / UPI / Cards)</span>
+              <p className="text-xs text-ink-soft mt-0.5">Instant checkout with UPI (Google Pay, PhonePe), NetBanking, or Credit/Debit Card.</p>
+              {paymentMethod === "online" && (
+                <div className="mt-3 pt-3 border-t border-line/60">
+                  <label className="flex items-center gap-2 text-xs text-forest cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={onlineSimulated}
+                      onChange={(e) => setOnlineSimulated(e.target.checked)}
+                    />
+                    <span>Authorize & confirm payment instantly (Sandbox / Test Mode)</span>
+                  </label>
+                </div>
+              )}
+            </div>
+          </label>
+        </div>
       </section>
 
       {state?.error && (
@@ -145,8 +190,14 @@ export function CheckoutForm({
         </p>
       )}
 
-      <button className="btn btn-primary w-full md:w-auto" disabled={pending}>
-        {pending ? "Creating order…" : "Place pending order"}
+      <button className="btn btn-primary w-full md:w-auto text-sm" disabled={pending}>
+        {pending
+          ? "Processing order…"
+          : paymentMethod === "cod"
+          ? "Place Order (Cash on Delivery)"
+          : onlineSimulated
+          ? "Pay & Confirm Order"
+          : "Proceed to Online Payment"}
       </button>
     </form>
   );

@@ -242,5 +242,101 @@ describe("Stage 1 Features & Stage 2 Scaffold", () => {
       expect(updated.fssai).toBe("12426999000123");
     });
   });
+
+  describe("Stage 2 — Newsletter Subscription", () => {
+    it("subscribes new emails and handles duplicates", async () => {
+      const { subscribeEmail, listSubscribers } = await import("@/lib/repositories/newsletter");
+      const invalid = subscribeEmail("invalid-email");
+      expect(invalid.ok).toBe(false);
+
+      const res1 = subscribeEmail("organic-fan@example.com");
+      expect(res1.ok).toBe(true);
+      expect(res1.subscriber?.email).toBe("organic-fan@example.com");
+
+      const resDuplicate = subscribeEmail("organic-fan@example.com");
+      expect(resDuplicate.ok).toBe(true);
+      expect(resDuplicate.message).toContain("already subscribed");
+
+      const subscribers = listSubscribers();
+      expect(subscribers.some((s) => s.email === "organic-fan@example.com")).toBe(true);
+    });
+  });
+
+  describe("Stage 2 — Inventory & FEFO Service", () => {
+    it("checks stock, reserves, and allocates batches by FEFO", async () => {
+      const { inventoryService } = await import("@/lib/services/inventory");
+      expect(inventoryService.isConfigured()).toBe(true);
+
+      const check = inventoryService.checkStock("prod-honey-v1", 2);
+      expect(check.available).toBe(true);
+      expect(check.currentStock).toBeGreaterThan(0);
+
+      const reserveOk = inventoryService.reserve("prod-honey-v1", 1);
+      expect(reserveOk.reserved).toBe(true);
+
+      const reserveFail = inventoryService.reserve("prod-honey-v1", 999999);
+      expect(reserveFail.reserved).toBe(false);
+
+      const fefoAllocations = inventoryService.allocateBatchFefo("prod-honey", 5);
+      expect(fefoAllocations.length).toBeGreaterThan(0);
+      expect(fefoAllocations[0].allocated).toBe(5);
+    });
+  });
+
+  describe("Stage 2 — Cash on Delivery (COD) & Stock Deduction", () => {
+    it("places a confirmed COD order and automatically deducts variant stock", async () => {
+      const { checkoutPending } = await import("@/lib/services/checkout");
+      const { getVariantById } = await import("@/lib/repositories/products");
+      const cartsRepo = await import("@/lib/repositories/carts");
+
+      const cart = cartsRepo.getOrCreateCart({ sessionId: "sess-cod-test" });
+      cartsRepo.clearCart(cart.id);
+      cartsRepo.addItem(cart.id, "prod-oil-v1", 2);
+
+      const initialVariant = getVariantById("prod-oil-v1")!;
+      const initialStock = initialVariant.stock_qty ?? 50;
+
+      const order = checkoutPending({
+        customerId: null,
+        sessionId: "sess-cod-test",
+        email: "cod-buyer@example.com",
+        address: {
+          name: "Ravi Kumar",
+          phone: "9840123456",
+          line1: "45 Anna Salai",
+          line2: null,
+          landmark: null,
+          city: "Chennai",
+          state: "Tamil Nadu",
+          postal_code: "600002",
+          country: "IN",
+        },
+        idempotencyKey: "cod-test-" + Date.now(),
+        paymentMethod: "cod",
+      });
+
+      expect(order.status).toBe("confirmed");
+      expect(order.notes).toContain("Cash on Delivery");
+
+      const afterVariant = getVariantById("prod-oil-v1")!;
+      expect(afterVariant.stock_qty).toBe(initialStock - 2);
+    });
+  });
+
+  describe("Stage 2 — Outbox Worker API", () => {
+    it("processes pending outbox notifications", async () => {
+      const { POST, GET } = await import("@/app/api/cron/outbox/route");
+      const getRes = await GET();
+      const getData = await getRes.json();
+      expect(getData).toHaveProperty("pending");
+      expect(getData).toHaveProperty("processed");
+
+      const postRes = await POST();
+      const postData = await postRes.json();
+      expect(postData.ok).toBe(true);
+      expect(typeof postData.processed).toBe("number");
+    });
+  });
 });
+
 

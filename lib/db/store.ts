@@ -67,6 +67,10 @@ export function loadDb(): Database {
         db.faqs = createSeed().faqs;
         shouldPersist = true;
       }
+      if (!db.newsletter_subscribers) {
+        db.newsletter_subscribers = [];
+        shouldPersist = true;
+      }
       if (shouldPersist) {
         persist(db);
       }

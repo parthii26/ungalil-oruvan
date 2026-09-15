@@ -66,7 +66,7 @@ export function insertOrder(order: Omit<Order, "id" | "order_number" | "created_
       id: uid(),
       order_id: row.id,
       type: "created",
-      message: "Order created. Payment pending.",
+      message: row.status === "confirmed" ? "Order placed and confirmed." : "Order created. Payment pending.",
       created_at: now,
     });
     return row;
