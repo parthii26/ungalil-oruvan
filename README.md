@@ -1,4 +1,4 @@
-# Ungalil Oruvan — Organic Commerce Platform (Stage 1)
+# Ungalil Oruvar — Organic Commerce Platform (Stage 1)
 
 Repository: [parthii26/ungalil-oruvan](https://github.com/parthii26/ungalil-oruvan)
 

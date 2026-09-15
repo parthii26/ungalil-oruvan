@@ -1,4 +1,4 @@
-# Supabase & Vercel Setup Guide — Ungalil Oruvan
+# Supabase & Vercel Setup Guide — Ungalil Oruvar
 
 This guide walks you through connecting **Supabase** (database & storage) and deploying to **Vercel**.
 

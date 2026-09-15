@@ -55,7 +55,7 @@ export async function sendOrderConfirmation(input: {
     .join("");
   const html = `
     <h1>Order Confirmed: ${input.orderNumber}</h1>
-    <p>Thank you for your order at <strong>Ungalil Oruvan</strong>.</p>
+    <p>Thank you for your order at <strong>Ungalil Oruvar</strong>.</p>
     <ul>${itemsHtml}</ul>
     <p><strong>Total: ${input.totalFormatted}</strong></p>
     <p>We will notify you when your order is shipped.</p>
@@ -70,7 +70,7 @@ export async function sendOrderShipped(input: {
 }): Promise<NotificationResult> {
   const html = `
     <h1>Your order has been shipped: ${input.orderNumber}</h1>
-    <p>Your order from <strong>Ungalil Oruvan</strong> is on its way!</p>
+    <p>Your order from <strong>Ungalil Oruvar</strong> is on its way!</p>
     ${input.trackingNote ? `<p>${input.trackingNote}</p>` : ""}
     <p>Thank you for shopping with us.</p>
   `;

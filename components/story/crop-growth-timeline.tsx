@@ -263,18 +263,23 @@ function HomepageHero({ story, hero }: { story: GrowthStoryView; hero: CompactHe
             From seed · {story.cropName}
           </p>
 
-          {/* 1. TAMIL HEADLINE — Dominant (★★★★★) */}
-          <h1 className="mt-3 font-tamil text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-turmeric leading-[1.18] tracking-tight text-balance max-w-4xl">
-            {hero.tamil}
+          {/* 1. TAMIL BRAND NAME — Large / Primary / Dominant (★★★★★) */}
+          <h1 className="mt-3 font-tamil text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-turmeric leading-[1.15] tracking-tight text-balance max-w-4xl">
+            {hero.tamil || "உங்களில் ஒருவர்"}
           </h1>
 
-          {/* 2. ENGLISH TRANSLATION — Smaller (★★★) */}
-          <p className="mt-2 md:mt-3 font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-cream/90 font-normal leading-snug italic max-w-3xl">
-            {hero.headline}
+          {/* 2. ENGLISH BRAND NAME — Smaller / Secondary (★★★) */}
+          <p className="mt-2 md:mt-3 font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-cream/90 font-normal leading-snug max-w-3xl">
+            {hero.headline || "Ungalil Oruvar"}
+          </p>
+
+          {/* 3. TAGLINE */}
+          <p className="mt-2 text-sm sm:text-base md:text-lg text-cream/85 font-medium tracking-wide">
+            Good Food. Naturally.
           </p>
 
           {hero.subhead && (
-            <p className="mt-3 md:mt-4 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed text-cream/80">
+            <p className="mt-2 md:mt-3 max-w-2xl text-xs sm:text-sm md:text-base leading-relaxed text-cream/70">
               {hero.subhead}
             </p>
           )}

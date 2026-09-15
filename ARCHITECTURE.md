@@ -1,4 +1,4 @@
-# Ungalil Oruvan architecture (Stage 1)
+# Ungalil Oruvar architecture (Stage 1)
 
 ```
 UI (App Router)

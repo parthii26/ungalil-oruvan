@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * E2E suite for Ungalil Oruvan. Run against a local dev server:
+ * E2E suite for Ungalil Oruvar. Run against a local dev server:
  *   npm run dev          # in one terminal
  *   npm run test:e2e     # in another
  * First run needs browsers: npx playwright install chromium

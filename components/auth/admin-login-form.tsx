@@ -4,8 +4,8 @@ export function AdminLoginForm({ error }: { error?: string }) {
   return (
     <form action="/api/auth/admin" method="post" className="space-y-4">
       <div>
-        <label className="block text-[0.68rem] tracking-[0.16em] uppercase text-white/50 mb-2" htmlFor="admin-email">
-          Email
+        <label className="block text-xs uppercase tracking-wider text-white/70 mb-1.5" htmlFor="admin-email">
+          <span className="font-tamil font-medium">மின்னஞ்சல்</span> / Email
         </label>
         <input
           id="admin-email"
@@ -17,8 +17,8 @@ export function AdminLoginForm({ error }: { error?: string }) {
         />
       </div>
       <div>
-        <label className="block text-[0.68rem] tracking-[0.16em] uppercase text-white/50 mb-2" htmlFor="admin-password">
-          Password
+        <label className="block text-xs uppercase tracking-wider text-white/70 mb-1.5" htmlFor="admin-password">
+          <span className="font-tamil font-medium">கடவுச்சொல்</span> / Password
         </label>
         <input
           id="admin-password"
@@ -36,12 +36,12 @@ export function AdminLoginForm({ error }: { error?: string }) {
       )}
       <button
         type="submit"
-        className="w-full bg-[#234B35] hover:bg-[#1a3a28] py-3 text-[0.72rem] tracking-[0.2em] uppercase text-white"
+        className="w-full bg-[#234B35] hover:bg-[#1a3a28] py-3 text-xs tracking-wider uppercase text-white font-medium transition-colors"
       >
-        Sign In
+        <span className="font-tamil font-semibold">உள்நுழைய</span> / Sign In
       </button>
-      <Link href="/auth/forgot-password" className="block text-center text-xs text-white/45">
-        Forgot password
+      <Link href="/auth/forgot-password" className="block text-center text-xs text-white/55 hover:text-white/80 transition-colors pt-1">
+        <span className="font-tamil">கடவுச்சொல்லை மறந்துவிட்டீர்களா?</span> / Forgot password
       </Link>
     </form>
   );

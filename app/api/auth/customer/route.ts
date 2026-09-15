@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { loginCustomer } from "@/lib/services/auth";
+import { loginUnified } from "@/lib/services/auth";
 import { signSession } from "@/lib/auth/session";
 import { SESSION_COOKIE } from "@/lib/auth/cookies";
 import { redirectRel, requestIsHttps, safeInternalPath } from "@/lib/auth/cookie-options";
@@ -11,12 +11,13 @@ export async function POST(request: Request) {
   const https = requestIsHttps(request.headers);
   const cartCookie = (await cookies()).get("vz_cart")?.value ?? null;
   try {
-    const user = loginCustomer(
+    const user = loginUnified(
       { email: String(form.get("email") || ""), password: String(form.get("password") || "") },
       cartCookie,
     );
     const token = await signSession(user);
-    return redirectRel(next, https, { name: SESSION_COOKIE, value: token });
+    const destination = user.role === "admin" ? "/admin" : next;
+    return redirectRel(destination, https, { name: SESSION_COOKIE, value: token });
   } catch (e) {
     const params = new URLSearchParams({ error: toUserMessage(e) });
     if (next !== "/account") params.set("next", next);

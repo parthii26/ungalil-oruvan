@@ -10,8 +10,8 @@ describe("About Content Defaults, Schema & Settings Repository", () => {
   });
 
   it("DEFAULT_SITE_SETTINGS includes all required about page fields", () => {
-    expect(DEFAULT_SITE_SETTINGS.about_tamil_badge).toBe("உங்களில் ஒருவன்");
-    expect(DEFAULT_SITE_SETTINGS.about_title).toBe("Ungalil Oruvan");
+    expect(DEFAULT_SITE_SETTINGS.about_tamil_badge).toBe("உங்களில் ஒருவர்");
+    expect(DEFAULT_SITE_SETTINGS.about_title).toBe("Ungalil Oruvar");
     expect(DEFAULT_SITE_SETTINGS.about_intro).toContain("One among you");
     expect(DEFAULT_SITE_SETTINGS.about_image_1).toBe("/images/farm-dawn.jpg");
     expect(DEFAULT_SITE_SETTINGS.about_image_2).toBe("/images/soil-hands.jpg");
@@ -23,14 +23,14 @@ describe("About Content Defaults, Schema & Settings Repository", () => {
   it("withSettingsDefaults fills in missing about fields", () => {
     const partial = withSettingsDefaults({ brand_name: "Custom Farm" });
     expect(partial.brand_name).toBe("Custom Farm");
-    expect(partial.about_title).toBe("Ungalil Oruvan");
+    expect(partial.about_title).toBe("Ungalil Oruvar");
     expect(partial.about_image_1).toBe("/images/farm-dawn.jpg");
   });
 
   it("aboutContentSchema validates valid about page inputs", () => {
     const valid = {
-      about_tamil_badge: "உங்களில் ஒருவன்",
-      about_title: "Ungalil Oruvan",
+      about_tamil_badge: "உங்களில் ஒருவர்",
+      about_title: "Ungalil Oruvar",
       about_intro: "We grow honest millets and cold-pressed oils.",
       about_image_1: "/images/farm-dawn.jpg",
       about_image_1_alt: "Dawn over the farm",
@@ -44,7 +44,7 @@ describe("About Content Defaults, Schema & Settings Repository", () => {
     const parsed = aboutContentSchema.safeParse(valid);
     expect(parsed.success).toBe(true);
     if (parsed.success) {
-      expect(parsed.data.about_title).toBe("Ungalil Oruvan");
+      expect(parsed.data.about_title).toBe("Ungalil Oruvar");
       expect(parsed.data.story_title).toBe("Rooted in Our Soil");
     }
   });

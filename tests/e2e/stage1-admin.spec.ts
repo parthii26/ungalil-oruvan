@@ -116,13 +116,11 @@ test.describe("Stage 1 Admin Features & Contact Flow", () => {
     await privacyRow.locator("a:has-text('Edit')").click();
     await page.waitForURL(/\/admin\/pages\//);
 
-    await page.locator("input[name='title']").fill("Privacy Policy - Ungalil Oruvan");
+    await page.locator("input[name='title']").fill("Privacy Policy - Ungalil Oruvar");
     await page.locator("button:has-text('Save page')").click();
     await expect(page.locator("text=✓ Page saved successfully.")).toBeVisible();
-
-    // Verify on storefront
     await page.goto("/policies/privacy");
-    await expect(page.locator("h1:has-text('Privacy Policy - Ungalil Oruvan')")).toBeVisible();
+    await expect(page.locator("h1:has-text('Privacy Policy - Ungalil Oruvar')")).toBeVisible();
   });
 
   test("guest can look up order status on /order/track", async ({ page }) => {

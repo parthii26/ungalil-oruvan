@@ -4,7 +4,7 @@ export function CustomerLoginForm({ next, error }: { next: string; error?: strin
       <input type="hidden" name="next" value={next || "/account"} />
       <div>
         <label className="label" htmlFor="email">
-          Email
+          <span className="font-tamil font-medium">மின்னஞ்சல்</span> / Email
         </label>
         <input
           id="email"
@@ -17,7 +17,7 @@ export function CustomerLoginForm({ next, error }: { next: string; error?: strin
       </div>
       <div>
         <label className="label" htmlFor="password">
-          Password
+          <span className="font-tamil font-medium">கடவுச்சொல்</span> / Password
         </label>
         <input
           id="password"
@@ -34,7 +34,7 @@ export function CustomerLoginForm({ next, error }: { next: string; error?: strin
         </p>
       )}
       <button type="submit" className="btn btn-primary w-full">
-        Login
+        <span className="font-tamil font-semibold">உள்நுழைய</span> / Login
       </button>
     </form>
   );

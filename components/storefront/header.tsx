@@ -46,8 +46,19 @@ export function StorefrontHeaderFallback() {
   return (
     <header className="border-b border-line bg-paper">
       <div className="container-page flex h-16 items-center justify-between">
-        <Link href="/" className="font-serif text-2xl">
-          Ungalil Oruvan
+        <Link href="/" aria-label="உங்களில் ஒருவர் — Home" className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/logo.png"
+            alt="உங்களில் ஒருவர் — Home"
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-full object-cover"
+          />
+          <div className="flex flex-col text-left">
+            <span className="font-tamil text-sm font-bold text-forest leading-none">உங்களில் ஒருவர்</span>
+            <span className="font-serif text-xs uppercase tracking-widest text-terracotta mt-0.5">Ungalil Oruvar</span>
+          </div>
         </Link>
       </div>
     </header>

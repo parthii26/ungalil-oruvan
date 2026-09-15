@@ -16,15 +16,21 @@ function safeNext(value: FormDataEntryValue | null, fallback: string, allowPrefi
 }
 
 export async function customerLoginAction(_prev: unknown, formData: FormData) {
+  let role = "customer";
   try {
     const sessionId = await getCartSessionId();
-    const user = loginCustomer(
+    const { loginUnified } = await import("@/lib/services/auth");
+    const user = loginUnified(
       { email: formData.get("email"), password: formData.get("password") },
       sessionId,
     );
+    role = user.role;
     await setSessionCookie(user);
   } catch (e) {
     return { error: toUserMessage(e) };
+  }
+  if (role === "admin") {
+    redirect("/admin");
   }
   redirect(safeNext(formData.get("next"), "/account"));
 }
@@ -81,8 +87,8 @@ export async function resetPasswordRequestAction(_prev: unknown, formData: FormD
     const { notificationsService } = await import("@/lib/services/notifications");
     await notificationsService.sendEmail(
       email,
-      "Password Reset Request — Ungalil Oruvan",
-      `<p>Vanakkam,</p><p>We received a request to reset the password for your account at Ungalil Oruvan. If you made this request, please log in or contact support to finalize the update.</p>`,
+      "Password Reset Request — Ungalil Oruvar",
+      `<p>Vanakkam,</p><p>We received a request to reset the password for your account at Ungalil Oruvar. If you made this request, please log in or contact support to finalize the update.</p>`,
     );
     return { ok: true, message: `If an account exists for ${email}, a reset link has been dispatched.` };
   } catch (e) {

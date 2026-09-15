@@ -1,6 +1,6 @@
-# Ungalil Oruvan — Consolidated Client Content Confirmation Sheet
+# Ungalil Oruvar — Consolidated Client Content Confirmation Sheet
 
-This document consolidates every piece of customer-facing business, legal, brand, and catalog content across the **Ungalil Oruvan** platform. Any item marked `[PENDING CLIENT CONFIRMATION]` must be confirmed or updated by the client before official production launch.
+This document consolidates every piece of customer-facing business, legal, brand, and catalog content across the **Ungalil Oruvar** platform. Any item marked `[PENDING CLIENT CONFIRMATION]` must be confirmed or updated by the client before official production launch.
 
 ---
 
@@ -8,8 +8,8 @@ This document consolidates every piece of customer-facing business, legal, brand
 
 | Parameter | Current System Value | Client Status | Client Approved / Updated Value |
 |---|---|---|---|
-| **Tamil Brand Name** | `உங்களில் ஒருவன்` | Confirmed | |
-| **English Brand Name** | `Ungalil Oruvan` | Confirmed | |
+| **Tamil Brand Name** | `உங்களில் ஒருவர்` | Confirmed | |
+| **English Brand Name** | `Ungalil Oruvar` | Confirmed | |
 | **English Tagline** | `One among you` | Confirmed | |
 | **Homepage Hero Tamil Headline** | `நமது மண்ணிலிருந்து உங்கள் மேசைக்கு` | Confirmed | |
 | **Homepage Hero English Line** | `From Our Soil to Your Table` | Confirmed | |
@@ -22,9 +22,9 @@ This document consolidates every piece of customer-facing business, legal, brand
 
 | Field | Current System Copy | Client Status | Client Approved / Updated Value |
 |---|---|---|---|
-| **Official Legal Entity Name** | `Ungalil Oruvan Organics` | `[PENDING CLIENT CONFIRMATION]` | |
+| **Official Legal Entity Name** | `Ungalil Oruvar Organics` | `[PENDING CLIENT CONFIRMATION]` | |
 | **About Us Title (Tamil)** | `நம் பாரம்பர்யம்` | Confirmed | |
-| **About Us Title (English)** | `Ungalil Oruvan Organic Farm` | Confirmed | |
+| **About Us Title (English)** | `Ungalil Oruvar Organic Farm` | Confirmed | |
 | **About Us Narrative** | `Traditional roots, modern commerce. The storefront carries honest soil in its details — millet names, farm lots, terracotta accents — bringing authentic native harvests directly from small family farms to your kitchen table.` | Confirmed | |
 | **Farm Sourcing Regions** | Madurai, Thanjavur, Erode, Western Ghats | Confirmed | |
 
@@ -34,13 +34,13 @@ This document consolidates every piece of customer-facing business, legal, brand
 
 | Channel | Current Value | Environment Override | Client Status | Client Approved Value |
 |---|---|---|---|---|
-| **Support Email** | `care@ungaliloruvan.com` | `CONTACT_EMAIL` | `[PENDING CLIENT CONFIRMATION]` | |
+| **Support Email** | `care@ungaliloruvar.com` | `CONTACT_EMAIL` | `[PENDING CLIENT CONFIRMATION]` | |
 | **Support Phone** | `+91 94430 12345` | `CONTACT_PHONE` | `[PENDING CLIENT CONFIRMATION]` | |
 | **Official WhatsApp** | `+91 94430 12345` | `WHATSAPP_NUMBER` | `[PENDING CLIENT CONFIRMATION]` | |
 | **Working Hours** | `Mon – Sat: 9:00 AM – 6:00 PM IST` | `SUPPORT_HOURS` | `[PENDING CLIENT CONFIRMATION]` | |
 | **Physical Address** | `Anna Nagar, Chennai, Tamil Nadu 600040` | `BUSINESS_ADDRESS` | `[PENDING CLIENT CONFIRMATION]` | |
-| **Instagram** | `https://instagram.com/ungaliloruvan` | Configurable | `[PENDING CLIENT CONFIRMATION]` | |
-| **Facebook** | `https://facebook.com/ungaliloruvan` | Configurable | `[PENDING CLIENT CONFIRMATION]` | |
+| **Instagram** | `https://instagram.com/ungaliloruvar` | Configurable | `[PENDING CLIENT CONFIRMATION]` | |
+| **Facebook** | `https://facebook.com/ungaliloruvar` | Configurable | `[PENDING CLIENT CONFIRMATION]` | |
 
 ---
 

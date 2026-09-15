@@ -23,7 +23,7 @@ export function generateSeedSql(): string {
   const db = createSeed();
   const lines: string[] = [];
 
-  lines.push("-- Ungalil Oruvan - Supabase Database Seed");
+  lines.push("-- Ungalil Oruvar - Supabase Database Seed");
   lines.push("-- Generated automatically from lib/db/seed.ts");
   lines.push("-- Run this script in the Supabase SQL Editor after 0001_stage1_schema.sql\n");
 

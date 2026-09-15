@@ -4,10 +4,12 @@ import { listAddresses } from "@/lib/repositories/addresses";
 import { formatPrice } from "@/lib/formatters";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 import Link from "next/link";
+import { getSiteSettings } from "@/lib/services/settings";
 
 export const metadata = { title: "Checkout" };
 
 export default async function CheckoutPage() {
+  const settings = getSiteSettings();
   const session = await getSession();
   const sessionId = await getCartSessionId();
   const cart = viewCart({ customerId: session?.customerId ?? null, sessionId });
@@ -62,7 +64,7 @@ export default async function CheckoutPage() {
   return (
     <div className="container-page py-8 md:py-12 grid lg:grid-cols-[1fr_340px] gap-8 md:gap-12">
       <div className="min-w-0">
-        <p className="label">Ungalil Oruvan</p>
+        <p className="label">{settings.brand_name}</p>
         <h1 className="font-serif text-4xl md:text-5xl text-forest">Checkout</h1>
         <p className="mt-3 text-ink-soft max-w-xl">
           Review your order details and complete the delivery form below to place your order.

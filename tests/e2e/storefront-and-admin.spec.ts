@@ -3,9 +3,9 @@ import { expect, test } from "@playwright/test";
 test.describe("Storefront Features", () => {
   test("homepage loads successfully with Tamil & English brand hero", async ({ page }) => {
     await page.goto("/");
-    await expect(page).toHaveTitle(/Ungalil Oruvan/i);
-    // Verify Tamil tagline / title exists
-    const tamilHeader = page.locator("text=உங்களில் ஒருவன்").first();
+    await expect(page).toHaveTitle(/Ungalil Oruvar/i);
+    // Verify Tamil tagline / title exists in hero
+    const tamilHeader = page.locator("h1:has-text('உங்களில் ஒருவர்')");
     await expect(tamilHeader).toBeVisible();
   });
 
@@ -49,7 +49,7 @@ test.describe("Storefront Features", () => {
 test.describe("Admin Operations", () => {
   test("admin can sign in and access product management", async ({ page }) => {
     await page.goto("/admin/login");
-    await expect(page.locator("text=Store Administration")).toBeVisible();
+    await expect(page.locator("text=நிர்வாக உள்நுழைவு")).toBeVisible();
 
     // Fill login credentials
     await page.locator("input[name='email']").fill("admin@varizel.dev");

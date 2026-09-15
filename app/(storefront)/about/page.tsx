@@ -5,8 +5,8 @@ export const metadata = { title: "About" };
 export default function AboutPage() {
   const s = getSiteSettings();
 
-  const tamilBadge = s.about_tamil_badge ?? s.tamil_tagline ?? "உங்களில் ஒருவன்";
-  const title = s.about_title || s.brand_name || "Ungalil Oruvan";
+  const tamilBadge = s.about_tamil_badge ?? s.tamil_tagline ?? "உங்களில் ஒருவர்";
+  const title = s.about_title || s.brand_name || "Ungalil Oruvar";
   const intro = s.about_intro || `${s.english_tagline}. ${s.footer_text}`;
   const image1 = s.about_image_1 || "/images/farm-dawn.jpg";
   const image1Alt = s.about_image_1_alt || "Farm at dawn";

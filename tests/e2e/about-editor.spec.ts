@@ -37,8 +37,8 @@ test.describe("About Page Editor & Dynamic Storefront", () => {
     const storyTitleInput = page.locator("[data-testid='story-title-input']");
     const storyBodyInput = page.locator("[data-testid='story-body-input']");
 
-    await expect(badgeInput).toHaveValue("உங்களில் ஒருவன்");
-    await expect(titleInput).toHaveValue("Ungalil Oruvan");
+    await expect(badgeInput).toHaveValue("உங்களில் ஒருவர்");
+    await expect(titleInput).toHaveValue("Ungalil Oruvar");
     await expect(introInput).toBeVisible();
     await expect(img1Input).toHaveValue("/images/farm-dawn.jpg");
     await expect(img2Input).toHaveValue("/images/soil-hands.jpg");
@@ -47,7 +47,7 @@ test.describe("About Page Editor & Dynamic Storefront", () => {
 
     // 3. Edit fields
     await badgeInput.fill("நம் பாரம்பர்யம்");
-    await titleInput.fill("Ungalil Oruvan Organic Farm");
+    await titleInput.fill("Ungalil Oruvar Organic Farm");
     await introInput.fill(
       "Handcrafted raw forest honey, cold-pressed wood ghani oils, and heirloom native grains.",
     );
@@ -75,7 +75,7 @@ test.describe("About Page Editor & Dynamic Storefront", () => {
 
     await expect(page.locator("[data-testid='about-tamil-badge']")).toHaveText("நம் பாரம்பர்யம்");
     await expect(page.locator("[data-testid='about-title']")).toHaveText(
-      "Ungalil Oruvan Organic Farm",
+      "Ungalil Oruvar Organic Farm",
     );
     await expect(page.locator("[data-testid='about-intro']")).toContainText(
       "Handcrafted raw forest honey, cold-pressed wood ghani oils, and heirloom native grains.",

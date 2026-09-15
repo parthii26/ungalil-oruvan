@@ -20,7 +20,7 @@ export const GROWTH_STAGES: GrowthStage[] = [
     tamil: "விதை",
     caption: "A single grain carries the beginning of the crop.",
     photo: "/images/growth/rice-01-seed.webp",
-    alt: "Ungalil Oruvan rice seed resting in dark soil",
+    alt: "Ungalil Oruvar rice seed resting in dark soil",
   },
   {
     id: "germination",

@@ -483,7 +483,7 @@ export async function saveSettingsAction(_prev: unknown, formData: FormData) {
   try {
     await requireAdmin();
     settingsRepo.updateSettings({
-      brand_name: String(formData.get("brand_name") || "Ungalil Oruvan"),
+      brand_name: String(formData.get("brand_name") || "Ungalil Oruvar"),
       accent_color: String(formData.get("accent_color") || "#9A4A2A"),
       contact_email: String(formData.get("contact_email") || ""),
       contact_phone: String(formData.get("contact_phone") || ""),

@@ -28,12 +28,25 @@ export function registerCustomer(input: unknown, sessionId: string | null): Sess
 
 function authenticate(input: unknown) {
   const parsed = loginSchema.safeParse(input);
-  if (!parsed.success) throw new ValidationError("Enter a valid email and password.");
+  if (!parsed.success) throw new ValidationError("Invalid email or password.");
   const profile = customersRepo.findProfileByEmail(parsed.data.email);
   if (!profile || !verifyPassword(parsed.data.password, profile.password_hash)) {
-    throw new UnauthorizedError("Those credentials do not match our records.");
+    throw new UnauthorizedError("Invalid email or password.");
   }
   return profile;
+}
+
+export function loginUnified(input: unknown, sessionId: string | null): SessionUser {
+  const profile = authenticate(input);
+  const customer = profile.role === "customer" ? customersRepo.getCustomerByProfileId(profile.id) : null;
+  if (sessionId && customer) mergeOnLogin(sessionId, customer.id);
+  return {
+    userId: profile.id,
+    customerId: customer?.id ?? null,
+    email: profile.email,
+    name: profile.full_name,
+    role: profile.role,
+  };
 }
 
 export function loginCustomer(input: unknown, sessionId: string | null): SessionUser {

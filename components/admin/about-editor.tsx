@@ -27,8 +27,8 @@ const PRESET_IMAGES = [
 
 export function AboutEditor({ initialData }: { initialData: SiteSettings }) {
   const [formData, setFormData] = useState<AboutContentInput>({
-    about_tamil_badge: initialData.about_tamil_badge ?? initialData.tamil_tagline ?? "உங்களில் ஒருவன்",
-    about_title: initialData.about_title || initialData.brand_name || "Ungalil Oruvan",
+    about_tamil_badge: initialData.about_tamil_badge ?? initialData.tamil_tagline ?? "உங்களில் ஒருவர்",
+    about_title: initialData.about_title || initialData.brand_name || "Ungalil Oruvar",
     about_intro:
       initialData.about_intro ||
       `${initialData.english_tagline || "One among you"}. ${initialData.footer_text || "Organic pantry goods from small farm lots."}`,
@@ -228,7 +228,7 @@ export function AboutEditor({ initialData }: { initialData: SiteSettings }) {
                 data-testid="about-tamil-badge-input"
                 value={formData.about_tamil_badge}
                 onChange={(e) => handleChange("about_tamil_badge", e.target.value)}
-                placeholder="e.g. உங்களில் ஒருவன்"
+                placeholder="e.g. உங்களில் ஒருவர்"
                 className="input !py-1.5 text-sm w-full font-tamil"
               />
               <span className="text-[0.7rem] text-ink-soft mt-0.5 block">
@@ -245,7 +245,7 @@ export function AboutEditor({ initialData }: { initialData: SiteSettings }) {
                 data-testid="about-title-input"
                 value={formData.about_title}
                 onChange={(e) => handleChange("about_title", e.target.value)}
-                placeholder="e.g. Ungalil Oruvan"
+                placeholder="e.g. Ungalil Oruvar"
                 className="input !py-1.5 text-sm w-full font-serif text-base"
               />
             </div>
