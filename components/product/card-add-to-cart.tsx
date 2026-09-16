@@ -3,30 +3,72 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addToCartAction } from "@/lib/actions/cart";
+import { ShoppingBag, Check } from "lucide-react";
 
-export function CardAddToCart({ variantId }: { variantId: string }) {
+export function CardAddToCart({
+  variantId,
+  isOutOfStock = false,
+}: {
+  variantId: string;
+  isOutOfStock?: boolean;
+}) {
   const [pending, start] = useTransition();
   const [added, setAdded] = useState(false);
   const router = useRouter();
+
+  if (isOutOfStock) {
+    return (
+      <div className="w-full" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          disabled
+          aria-disabled="true"
+          className="w-full py-2.5 px-4 rounded-xl border border-line bg-paper-deep text-ink-soft text-xs font-semibold tracking-wider uppercase cursor-not-allowed opacity-80 select-none"
+        >
+          Sold Out
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="mt-3 opacity-100 md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition duration-300">
+    <div className="w-full" onClick={(e) => e.stopPropagation()}>
       <button
         type="button"
-        className="btn btn-ghost ink w-full"
         disabled={pending}
-        onClick={() =>
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (pending) return;
           start(async () => {
             const res = await addToCartAction(variantId, 1);
             if (res.ok) {
               setAdded(true);
               window.dispatchEvent(new Event("vz:cart-add"));
               router.refresh();
-              window.setTimeout(() => setAdded(false), 1200);
+              setTimeout(() => setAdded(false), 1400);
             }
-          })
-        }
+          });
+        }}
+        className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-200 flex items-center justify-center gap-2 shadow-xs ${
+          added
+            ? "bg-forest-light text-white"
+            : "bg-forest text-cream hover:bg-forest-light active:scale-[0.98]"
+        }`}
       >
-        {pending ? "Adding…" : added ? "In the basket" : "Add to cart"}
+        {pending ? (
+          <span>Adding…</span>
+        ) : added ? (
+          <>
+            <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+            <span>Added</span>
+          </>
+        ) : (
+          <>
+            <ShoppingBag className="w-3.5 h-3.5" />
+            <span>Add to Cart</span>
+          </>
+        )}
       </button>
     </div>
   );

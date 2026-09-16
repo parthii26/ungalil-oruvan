@@ -16,7 +16,7 @@ test.describe("Storefront Features", () => {
     await expect(productCards.first()).toBeVisible();
 
     // Verify rupee symbol is displayed in price
-    const priceElement = page.locator("article").first().locator("text=₹");
+    const priceElement = page.locator("article").first().locator("text=₹").first();
     await expect(priceElement).toBeVisible();
   });
 

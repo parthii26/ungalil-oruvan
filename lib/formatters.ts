@@ -32,3 +32,22 @@ export function formatWeight(grams: number): string {
   if (grams >= 1000) return `${(grams / 1000).toFixed(2).replace(/0+$/, "").replace(/\.$/, "")} kg`;
   return `${grams} g`;
 }
+
+export function formatUnitPrice(
+  pricePaise: Paise,
+  weightGrams: number | undefined | null,
+  title?: string
+): string | null {
+  if (!weightGrams || weightGrams <= 0) return null;
+  const isLiquid = Boolean(title && /(ml|litre|liter|oil|நெய்|எண்ணெய்)/i.test(title));
+
+  if (weightGrams >= 1000 && weightGrams % 1000 === 0) {
+    const kgs = weightGrams / 1000;
+    const perKgPaise = Math.round(pricePaise / kgs);
+    return `${formatPrice(perKgPaise)} / ${isLiquid ? "litre" : "kg"}`;
+  }
+
+  const per100gPaise = Math.round((pricePaise / weightGrams) * 100);
+  return `${formatPrice(per100gPaise)} / ${isLiquid ? "100ml" : "100g"}`;
+}
+

@@ -131,11 +131,12 @@ export function featuredProducts(limit = 4) {
     .filter((c): c is ProductCard => Boolean(c));
 }
 
-export function bestSellers(limit = 4) {
-  return productsRepo
-    .listPublishedProducts()
-    .filter((p) => p.is_bestseller)
-    .slice(0, limit)
+export function bestSellers(limit = 8) {
+  const all = productsRepo.listPublishedProducts();
+  const marked = all.filter((p) => p.is_bestseller);
+  const others = all.filter((p) => !p.is_bestseller);
+  const combined = [...marked, ...others].slice(0, limit);
+  return combined
     .map(hydrateCard)
     .filter((c): c is ProductCard => Boolean(c));
 }

@@ -110,7 +110,7 @@ export default async function ShopPage({
           </Link>
         </div>
       ) : (
-        <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+        <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {result.items.map((c) => (
             <ProductCard key={c.product.id} card={c} />
           ))}

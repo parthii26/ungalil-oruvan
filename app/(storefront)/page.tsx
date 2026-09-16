@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSiteSettings } from "@/lib/services/settings";
 import { bestSellers, featuredProducts, listPublicCategories } from "@/lib/services/catalog";
 import { ProductCard } from "@/components/product/product-card";
+import { ProductCarousel } from "@/components/product/product-carousel";
 import { loadDb } from "@/lib/db/store";
 import { resolveHomepageStory } from "@/lib/services/story";
 import { GrowthStory } from "@/components/story/growth-story";
@@ -11,7 +12,7 @@ export default function HomePage() {
   const settings = getSiteSettings();
   const categories = listPublicCategories();
   const featured = featuredProducts(4);
-  const sellers = bestSellers(4);
+  const sellers = bestSellers(8);
   const posts = loadDb().blog_posts.filter((p) => p.published).slice(0, 3);
   const published = loadDb().products.filter((p) => p.status === "published");
   const story = resolveHomepageStory();
@@ -38,9 +39,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 1. Best Sellers — Immediate product reach */}
+      {/* 1. Best Sellers — Product Carousel */}
       <section className="container-page py-10 md:py-16">
-        <div className="flex items-baseline justify-between mb-6 md:mb-8">
+        <div className="flex items-baseline justify-between mb-6 md:mb-8 pr-0 sm:pr-28">
           <div>
             <h2 className="font-tamil text-2xl md:text-3xl font-semibold text-forest leading-snug">மக்கள் விரும்பி வாங்குபவை</h2>
             <p className="font-serif text-2xl md:text-3xl font-normal text-ink leading-snug">Best Sellers</p>
@@ -49,11 +50,7 @@ export default function HomePage() {
             View All Products →
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {sellers.map((c) => (
-            <ProductCard key={c.product.id} card={c} />
-          ))}
-        </div>
+        <ProductCarousel items={sellers} />
       </section>
 
       {/* 2. Pantry Counts & Scale */}
