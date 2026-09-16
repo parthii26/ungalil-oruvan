@@ -77,7 +77,7 @@ export default async function AccountPage() {
         </ul>
       )}
       <h2 className="font-serif text-2xl mt-10 md:mt-12">From the pantry</h2>
-      <div className="mt-6 grid grid-cols-2 gap-4 md:gap-6">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-6 max-w-md sm:max-w-none">
         {recent.map((c) => (
           <ProductCard key={c.product.id} card={c} />
         ))}

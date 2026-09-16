@@ -84,7 +84,7 @@ export function ProductCarousel({
           <div
             key={card.product.id}
             data-carousel-item
-            className="w-[260px] sm:w-[280px] md:w-[290px] flex-shrink-0 snap-start flex flex-col"
+            className="w-[84vw] max-w-[340px] sm:w-[280px] md:w-[290px] flex-shrink-0 snap-start flex flex-col"
           >
             <ProductCard card={card} />
           </div>

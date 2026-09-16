@@ -23,7 +23,7 @@ export function CardAddToCart({
           type="button"
           disabled
           aria-disabled="true"
-          className="w-full py-2.5 px-4 rounded-xl border border-line bg-paper-deep text-ink-soft text-xs font-semibold tracking-wider uppercase cursor-not-allowed opacity-80 select-none"
+          className="w-full min-h-[46px] py-3 px-5 rounded-xl border border-line bg-paper-deep text-ink-soft text-sm font-semibold tracking-wider uppercase cursor-not-allowed opacity-80 select-none"
         >
           Sold Out
         </button>
@@ -50,7 +50,7 @@ export function CardAddToCart({
             }
           });
         }}
-        className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-200 flex items-center justify-center gap-2 shadow-xs ${
+        className={`w-full min-h-[46px] py-3 px-5 rounded-xl text-sm font-semibold tracking-wider uppercase transition-all duration-200 flex items-center justify-center gap-2 shadow-xs select-none ${
           added
             ? "bg-forest-light text-white"
             : "bg-forest text-cream hover:bg-forest-light active:scale-[0.98]"
@@ -60,12 +60,12 @@ export function CardAddToCart({
           <span>Adding…</span>
         ) : added ? (
           <>
-            <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+            <Check className="w-4 h-4 stroke-[2.5]" />
             <span>Added</span>
           </>
         ) : (
           <>
-            <ShoppingBag className="w-3.5 h-3.5" />
+            <ShoppingBag className="w-4 h-4" />
             <span>Add to Cart</span>
           </>
         )}

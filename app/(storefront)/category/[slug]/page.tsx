@@ -37,7 +37,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         {result.items.length === 0 ? (
           <p className="text-ink-soft">No published products in this category yet.</p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 max-w-md md:max-w-none mx-auto md:mx-0">
             {result.items.map((c) => (
               <ProductCard key={c.product.id} card={c} />
             ))}

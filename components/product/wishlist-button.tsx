@@ -50,10 +50,10 @@ export function WishlistButton({
         onClick={handleToggle}
         disabled={pending}
         aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
-        className="flex items-center justify-center w-8 h-8 rounded-full text-ink-soft hover:text-terracotta hover:bg-paper/70 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-forest"
+        className="flex items-center justify-center w-10 h-10 min-w-[40px] min-h-[40px] rounded-full text-ink-soft hover:text-terracotta hover:bg-paper/70 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-forest"
       >
         <Heart
-          className={`w-4 h-4 transition-transform duration-200 active:scale-125 ${
+          className={`w-5 h-5 transition-transform duration-200 active:scale-125 ${
             wished
               ? "fill-terracotta stroke-terracotta text-terracotta"
               : "stroke-current"
